@@ -1,0 +1,13 @@
+<?php
+
+require_once __DIR__ . "/../koneksi.php";
+
+$id = $_GET['id'];
+
+mysqli_query($conn,"
+DELETE FROM jam_kuliah
+WHERE id_jam='$id'
+");
+
+header("Location:index.php");
+exit;
