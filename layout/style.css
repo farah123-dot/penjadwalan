@@ -211,3 +211,18 @@ body{
 .table-hover tbody tr:hover{
     background: #f5f9ff;
 }
+
+/* Perbaikan Tampilan Mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100% !important;
+        position: relative !important;
+        height: auto !important;
+    }
+    
+    .content {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding: 10px !important;
+    }
+}
