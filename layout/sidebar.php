@@ -12,7 +12,7 @@
 
     <div class="mt-3">
 
-        <a href="/penjadwalan-kuliah/">
+        <a href="/">
             <i class="bi bi-speedometer2"></i>
             Dashboard
         </a>
@@ -23,32 +23,32 @@
             MASTER DATA
         </small>
 
-        <a href="/penjadwalan-kuliah/dosen/">
+        <a href="/dosen/">
             <i class="bi bi-person-fill"></i>
             Data Dosen
         </a>
 
-        <a href="/penjadwalan-kuliah/mata_kuliah/">
+        <a href="/mata_kuliah/">
             <i class="bi bi-book-fill"></i>
             Mata Kuliah
         </a>
 
-        <a href="/penjadwalan-kuliah/kelas/">
+        <a href="/kelas/">
             <i class="bi bi-people-fill"></i>
             Kelas
         </a>
 
-        <a href="/penjadwalan-kuliah/ruangan/">
+        <a href="/ruangan/">
             <i class="bi bi-building"></i>
             Ruangan
         </a>
 
-        <a href="/penjadwalan-kuliah/jam/">
+        <a href="/jam/">
             <i class="bi bi-clock-history"></i>
             Jam Kuliah
         </a>
 
-        <a href="/penjadwalan-kuliah/dosen_mk/">
+        <a href="/dosen_mk/">
             <i class="bi bi-person-workspace"></i>
             Dosen Mengajar
         </a>
@@ -59,7 +59,7 @@
             PENJADWALAN
         </small>
 
-        <a href="/penjadwalan-kuliah/jadwal/">
+        <a href="/jadwal/">
             <i class="bi bi-calendar-week-fill"></i>
             Jadwal Kuliah
         </a>
@@ -87,7 +87,7 @@
                     (<?= ucfirst($_SESSION['role']); ?>)
                 </span>
 
-                <a href="/penjadwalan-kuliah/logout.php"
+                <a href="/logout.php"
                    class="btn btn-danger btn-sm">
                     <i class="bi bi-box-arrow-right"></i>
                     Logout
