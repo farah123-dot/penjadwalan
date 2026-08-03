@@ -4,8 +4,8 @@ session_start();
 
 if(!isset($_SESSION['login'])){
 
-header("Location:/penjadwalan-kuliah/login.php");
+    header("Location: login.php");
 
-exit;
+    exit;
 
 }
