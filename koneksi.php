@@ -1,11 +1,12 @@
 <?php
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "db_penjadwalan_kuliah";
+$host = getenv('DB_HOST');
+$user = getenv('DB_USER');
+$pass = getenv('DB_PASSWORD');
+$db   = getenv('DB_NAME');
+$port = getenv('DB_PORT');
 
-$conn = mysqli_connect($host, $user, $pass, $db);
+$conn = mysqli_connect($host, $user, $pass, $db, $port);
 
 if (!$conn) {
     die("Koneksi gagal : " . mysqli_connect_error());
