@@ -6,228 +6,307 @@ require_once "../auth/cek_login.php";
 include "../layout/header.php";
 include "../layout/sidebar.php";
 
-$hari = mysqli_query($conn,"
-SELECT *
-FROM hari
-ORDER BY id_hari
+
+/*
+==================================================
+AMBIL DATA DOSEN
+==================================================
+*/
+
+$dosen = mysqli_query($conn, "
+    SELECT *
+    FROM dosen
+    ORDER BY nama_dosen
 ");
 
-$jam = mysqli_query($conn,"
-SELECT *
-FROM jam_kuliah
-ORDER BY jam_mulai
+
+/*
+==================================================
+AMBIL KELAS YANG DIBUKA
+==================================================
+*/
+
+$kelas_dibuka = mysqli_query($conn, "
+
+    SELECT
+        kd.id_kelas_dibuka,
+        kd.nama_kelas,
+        mk.kode_mk,
+        mk.nama_mk,
+        mk.semester
+
+    FROM kelas_dibuka kd
+
+    JOIN mata_kuliah mk
+        ON kd.id_mk = mk.id_mk
+
+    ORDER BY
+        mk.semester,
+        kd.nama_kelas
+
 ");
 
-$ruangan = mysqli_query($conn,"
-SELECT *
-FROM ruangan
-ORDER BY nama_ruangan
+
+/*
+==================================================
+AMBIL HARI
+==================================================
+*/
+
+$hari = mysqli_query($conn, "
+
+    SELECT *
+    FROM hari
+    ORDER BY id_hari
+
 ");
 
-$dosen_mk = mysqli_query($conn,"
-SELECT
-dm.id,
-k.nama_kelas,
-mk.kode_mk,
-mk.nama_mk,
-d.nama_dosen
 
-FROM dosen_mk dm
+/*
+==================================================
+AMBIL SESI / JAM
+==================================================
+*/
 
-JOIN kelas k
-ON dm.id_kelas=k.id_kelas
+$jam = mysqli_query($conn, "
 
-JOIN mata_kuliah mk
-ON dm.id_mk=mk.id_mk
+    SELECT *
+    FROM jam_kuliah
+    ORDER BY jam_mulai
 
-JOIN dosen d
-ON dm.id_dosen=d.id_dosen
-
-ORDER BY
-k.nama_kelas,
-mk.nama_mk
 ");
 
 ?>
 
 <div class="container-fluid">
 
-<div class="card shadow">
+    <div class="card shadow">
 
-<div class="card-header bg-success text-white">
+        <div class="card-header bg-success text-white">
 
-<h4>
+            <h4>
 
-<i class="bi bi-plus-circle"></i>
+                <i class="bi bi-plus-circle"></i>
 
-Tambah Jadwal Kuliah
+                Tambah Preferensi Jadwal
 
-</h4>
+            </h4>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <form action="simpan.php" method="POST">
+
+
+                <!-- ==============================
+                     DOSEN
+                =============================== -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Dosen
+
+                    </label>
+
+                    <select
+                        name="id_dosen"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+
+                            -- Pilih Dosen --
+
+                        </option>
+
+                        <?php while($d=mysqli_fetch_assoc($dosen)){ ?>
+
+                            <option value="<?= $d['id_dosen']; ?>">
+
+                                <?= htmlspecialchars($d['nama_dosen']); ?>
+
+                            </option>
+
+                        <?php } ?>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ==============================
+                     KELAS YANG DIBUKA
+                =============================== -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Kelas / Mata Kuliah
+
+                    </label>
+
+                    <select
+                        name="id_kelas_dibuka"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+
+                            -- Pilih Kelas --
+
+                        </option>
+
+                        <?php while($kd=mysqli_fetch_assoc($kelas_dibuka)){ ?>
+
+                            <option
+                                value="<?= $kd['id_kelas_dibuka']; ?>">
+
+                                Semester <?= $kd['semester']; ?>
+
+                                -
+
+                                <?= htmlspecialchars($kd['nama_kelas']); ?>
+
+                                |
+
+                                <?= htmlspecialchars($kd['kode_mk']); ?>
+
+                                -
+
+                                <?= htmlspecialchars($kd['nama_mk']); ?>
+
+                            </option>
+
+                        <?php } ?>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ==============================
+                     HARI
+                =============================== -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Hari
+
+                    </label>
+
+                    <select
+                        name="id_hari"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+
+                            -- Pilih Hari --
+
+                        </option>
+
+                        <?php while($h=mysqli_fetch_assoc($hari)){ ?>
+
+                            <option value="<?= $h['id_hari']; ?>">
+
+                                <?= htmlspecialchars($h['nama_hari']); ?>
+
+                            </option>
+
+                        <?php } ?>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ==============================
+                     SESI
+                =============================== -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Sesi
+
+                    </label>
+
+                    <select
+                        name="id_jam"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+
+                            -- Pilih Sesi --
+
+                        </option>
+
+                        <?php while($j=mysqli_fetch_assoc($jam)){ ?>
+
+                            <option value="<?= $j['id_jam']; ?>">
+
+                                Sesi <?= $j['id_jam']; ?>
+
+                                -
+
+                                <?= substr($j['jam_mulai'],0,5); ?>
+
+                                -
+
+                                <?= substr($j['jam_selesai'],0,5); ?>
+
+                            </option>
+
+                        <?php } ?>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ==============================
+                     TOMBOL
+                =============================== -->
+
+                <button
+                    type="submit"
+                    class="btn btn-success">
+
+                    <i class="bi bi-save"></i>
+
+                    Simpan Preferensi
+
+                </button>
+
+
+                <a
+                    href="index.php"
+                    class="btn btn-secondary">
+
+                    Kembali
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </div>
 
-<div class="card-body">
-
-<form action="simpan.php" method="POST">
-
-<div class="mb-3">
-
-<label class="form-label">
-
-Hari
-
-</label>
-
-<select
-name="id_hari"
-class="form-select"
-required>
-
-<option value="">-- Pilih Hari --</option>
-
-<?php while($h=mysqli_fetch_assoc($hari)){ ?>
-
-<option value="<?= $h['id_hari']; ?>">
-
-<?= $h['nama_hari']; ?>
-
-</option>
-
-<?php } ?>
-
-</select>
-
-</div>
-
-<div class="mb-3">
-
-<label class="form-label">
-
-Jam Kuliah
-
-</label>
-
-<select
-name="id_jam"
-class="form-select"
-required>
-
-<option value="">-- Pilih Jam --</option>
-
-<?php while($j=mysqli_fetch_assoc($jam)){ ?>
-
-<option value="<?= $j['id_jam']; ?>">
-
-<?= substr($j['jam_mulai'],0,5); ?>
-
--
-
-<?= substr($j['jam_selesai'],0,5); ?>
-
-</option>
-
-<?php } ?>
-
-</select>
-
-</div>
-
-<div class="mb-3">
-
-<label class="form-label">
-
-Ruangan
-
-</label>
-
-<select
-name="id_ruangan"
-class="form-select"
-required>
-
-<option value="">-- Pilih Ruangan --</option>
-
-<?php while($r=mysqli_fetch_assoc($ruangan)){ ?>
-
-<option value="<?= $r['id_ruangan']; ?>">
-
-<?= $r['nama_ruangan']; ?>
-
-</option>
-
-<?php } ?>
-
-</select>
-
-</div>
-
-<div class="mb-3">
-
-<label class="form-label">
-
-Dosen Mengajar
-
-</label>
-
-<select
-name="id_dosen_mk"
-class="form-select"
-required>
-
-<option value="">-- Pilih Dosen Mengajar --</option>
-
-<?php while($dm=mysqli_fetch_assoc($dosen_mk)){ ?>
-
-<option value="<?= $dm['id']; ?>">
-
-<?= $dm['nama_kelas']; ?>
-
-|
-
-<?= $dm['kode_mk']; ?>
-
--
-
-<?= $dm['nama_mk']; ?>
-
-|
-
-<?= $dm['nama_dosen']; ?>
-
-</option>
-
-<?php } ?>
-
-</select>
-
-</div>
-
-<button
-type="submit"
-class="btn btn-success">
-
-<i class="bi bi-save"></i>
-
-Simpan
-
-</button>
-
-<a
-href="index.php"
-class="btn btn-secondary">
-
-Kembali
-
-</a>
-
-</form>
-
-</div>
-
-</div>
-
-</div>
 
 <?php
+
 include "../layout/footer.php";
+
 ?>
