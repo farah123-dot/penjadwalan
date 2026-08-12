@@ -2,60 +2,81 @@
 
 require_once __DIR__ . "/../koneksi.php";
 
-$id_hari      = $_POST['id_hari'];
-$id_jam       = $_POST['id_jam'];
-$id_ruangan   = $_POST['id_ruangan'];
-$id_dosen_mk  = $_POST['id_dosen_mk'];
-
 /*
 ==================================================
-AMBIL DATA DOSEN DAN KELAS
+AMBIL DATA DARI FORM
 ==================================================
 */
 
-$data = mysqli_fetch_assoc(mysqli_query($conn,"
-SELECT
-id_dosen,
-id_kelas
-FROM dosen_mk
-WHERE id='$id_dosen_mk'
+$id_dosen       = $_POST['id_dosen'];
+$id_kelas_dibuka = $_POST['id_kelas_dibuka'];
+$id_hari        = $_POST['id_hari'];
+$id_jam         = $_POST['id_jam'];
+
+
+/*
+==================================================
+VALIDASI DATA
+==================================================
+*/
+
+if (
+    empty($id_dosen) ||
+    empty($id_kelas_dibuka) ||
+    empty($id_hari) ||
+    empty($id_jam)
+) {
+
+    echo "
+    <script>
+        alert('Data preferensi belum lengkap!');
+        window.location='tambah.php';
+    </script>
+    ";
+
+    exit;
+}
+
+
+/*
+==================================================
+AMBIL DATA KELAS DAN SEMESTER
+==================================================
+*/
+
+$data_kelas = mysqli_fetch_assoc(mysqli_query($conn, "
+
+    SELECT
+        kd.id_kelas_dibuka,
+        kd.id_kelas,
+        kd.id_mk,
+        mk.semester
+
+    FROM kelas_dibuka kd
+
+    JOIN mata_kuliah mk
+        ON kd.id_mk = mk.id_mk
+
+    WHERE kd.id_kelas_dibuka = '$id_kelas_dibuka'
+
 "));
 
-$id_dosen = $data['id_dosen'];
-$id_kelas = $data['id_kelas'];
 
-/*
-==================================================
-CEK BENTROK RUANGAN
-==================================================
-*/
+if (!$data_kelas) {
 
-$cek_ruangan = mysqli_query($conn,"
-SELECT *
-FROM jadwal
-WHERE
-id_hari='$id_hari'
-AND id_jam='$id_jam'
-AND id_ruangan='$id_ruangan'
-");
+    echo "
+    <script>
+        alert('Kelas tidak ditemukan!');
+        window.location='tambah.php';
+    </script>
+    ";
 
-if(mysqli_num_rows($cek_ruangan)>0){
-
-echo "
-
-<script>
-
-alert('Ruangan sudah digunakan pada jam tersebut!');
-
-window.location='tambah.php';
-
-</script>
-
-";
-
-exit;
-
+    exit;
 }
+
+$semester = $data_kelas['semester'];
+$id_kelas = $data_kelas['id_kelas'];
+
 
 /*
 ==================================================
@@ -63,44 +84,32 @@ CEK BENTROK DOSEN
 ==================================================
 */
 
-$cek_dosen = mysqli_query($conn,"
-SELECT j.*
+$cek_dosen = mysqli_query($conn, "
 
-FROM jadwal j
+    SELECT pd.id_preferensi
 
-JOIN dosen_mk dm
-ON j.id_dosen_mk=dm.id
+    FROM preferensi_dosen pd
 
-WHERE
+    WHERE pd.id_dosen = '$id_dosen'
 
-j.id_hari='$id_hari'
+    AND pd.id_hari = '$id_hari'
 
-AND
+    AND pd.id_jam = '$id_jam'
 
-j.id_jam='$id_jam'
-
-AND
-
-dm.id_dosen='$id_dosen'
 ");
 
-if(mysqli_num_rows($cek_dosen)>0){
+if (mysqli_num_rows($cek_dosen) > 0) {
 
-echo "
+    echo "
+    <script>
+        alert('Dosen sudah memiliki preferensi pada hari dan sesi tersebut!');
+        window.location='tambah.php';
+    </script>
+    ";
 
-<script>
-
-alert('Dosen sudah memiliki jadwal pada jam tersebut!');
-
-window.location='tambah.php';
-
-</script>
-
-";
-
-exit;
-
+    exit;
 }
+
 
 /*
 ==================================================
@@ -108,95 +117,233 @@ CEK BENTROK KELAS
 ==================================================
 */
 
-$cek_kelas = mysqli_query($conn,"
-SELECT j.*
+$cek_kelas = mysqli_query($conn, "
 
-FROM jadwal j
+    SELECT pd.id_preferensi
 
-JOIN dosen_mk dm
-ON j.id_dosen_mk=dm.id
+    FROM preferensi_dosen pd
 
-WHERE
+    JOIN kelas_dibuka kd
+        ON pd.id_kelas_dibuka = kd.id_kelas_dibuka
 
-j.id_hari='$id_hari'
+    WHERE kd.id_kelas = '$id_kelas'
 
-AND
+    AND pd.id_hari = '$id_hari'
 
-j.id_jam='$id_jam'
+    AND pd.id_jam = '$id_jam'
 
-AND
-
-dm.id_kelas='$id_kelas'
 ");
 
-if(mysqli_num_rows($cek_kelas)>0){
+if (mysqli_num_rows($cek_kelas) > 0) {
 
-echo "
+    echo "
+    <script>
+        alert('Kelas sudah memiliki preferensi pada hari dan sesi tersebut!');
+        window.location='tambah.php';
+    </script>
+    ";
 
-<script>
-
-alert('Kelas sudah memiliki jadwal pada jam tersebut!');
-
-window.location='tambah.php';
-
-</script>
-
-";
-
-exit;
-
+    exit;
 }
+
 
 /*
 ==================================================
-SIMPAN DATA
+CEK BATAS 3 KELAS PER SEMESTER
 ==================================================
 */
 
-$sql = mysqli_query($conn,"
-INSERT INTO jadwal
-(
-id_hari,
-id_jam,
-id_ruangan,
-id_dosen_mk
-)
-VALUES
-(
-'$id_hari',
-'$id_jam',
-'$id_ruangan',
-'$id_dosen_mk'
-)
+$pengaturan = mysqli_fetch_assoc(mysqli_query($conn, "
+
+    SELECT max_kelas_per_semester
+
+    FROM pengaturan_kampus
+
+    LIMIT 1
+
+"));
+
+$max_kelas = $pengaturan['max_kelas_per_semester'];
+
+
+/*
+==================================================
+HITUNG JUMLAH KELAS PADA SEMESTER,
+HARI DAN SESI YANG SAMA
+==================================================
+*/
+
+$cek_semester = mysqli_query($conn, "
+
+    SELECT COUNT(*) AS jumlah
+
+    FROM preferensi_dosen pd
+
+    JOIN kelas_dibuka kd
+        ON pd.id_kelas_dibuka = kd.id_kelas_dibuka
+
+    JOIN mata_kuliah mk
+        ON kd.id_mk = mk.id_mk
+
+    WHERE mk.semester = '$semester'
+
+    AND pd.id_hari = '$id_hari'
+
+    AND pd.id_jam = '$id_jam'
+
 ");
 
-if($sql){
+$data_semester = mysqli_fetch_assoc($cek_semester);
 
-echo "
+$jumlah_semester = $data_semester['jumlah'];
 
-<script>
 
-alert('Jadwal berhasil disimpan.');
+/*
+==================================================
+JIKA KUOTA SEMESTER PENUH
+==================================================
+*/
 
-window.location='index.php';
+if ($jumlah_semester >= $max_kelas) {
 
-</script>
+    echo "
+    <script>
 
-";
+        alert(
+            'Sesi yang dipilih sudah penuh untuk semester tersebut. Silakan pilih sesi berikutnya.'
+        );
 
-}else{
+        window.location='tambah.php';
 
-echo "
+    </script>
+    ";
 
-<script>
+    exit;
+}
 
-alert('Gagal menyimpan jadwal!');
 
-window.location='tambah.php';
+/*
+==================================================
+CEK RUANGAN
+==================================================
+*/
 
-</script>
+$pengaturan_ruangan = mysqli_fetch_assoc(mysqli_query($conn, "
 
-";
+    SELECT total_ruangan
+
+    FROM pengaturan_kampus
+
+    LIMIT 1
+
+"));
+
+$total_ruangan = $pengaturan_ruangan['total_ruangan'];
+
+
+/*
+==================================================
+HITUNG JUMLAH KELAS PADA HARI DAN SESI
+==================================================
+*/
+
+$cek_ruangan = mysqli_query($conn, "
+
+    SELECT COUNT(*) AS jumlah
+
+    FROM preferensi_dosen pd
+
+    WHERE pd.id_hari = '$id_hari'
+
+    AND pd.id_jam = '$id_jam'
+
+");
+
+$data_ruangan = mysqli_fetch_assoc($cek_ruangan);
+
+$jumlah_ruangan = $data_ruangan['jumlah'];
+
+
+/*
+==================================================
+CEK KAPASITAS RUANGAN
+==================================================
+*/
+
+if ($jumlah_ruangan >= $total_ruangan) {
+
+    echo "
+    <script>
+
+        alert(
+            'Semua ruangan sudah digunakan pada hari dan sesi tersebut. Silakan pilih sesi lain.'
+        );
+
+        window.location='tambah.php';
+
+    </script>
+    ";
+
+    exit;
+}
+
+
+/*
+==================================================
+SIMPAN PREFERENSI DOSEN
+==================================================
+*/
+
+$sql = mysqli_query($conn, "
+
+    INSERT INTO preferensi_dosen
+    (
+        id_dosen,
+        id_kelas_dibuka,
+        id_hari,
+        id_jam
+    )
+
+    VALUES
+    (
+        '$id_dosen',
+        '$id_kelas_dibuka',
+        '$id_hari',
+        '$id_jam'
+    )
+
+");
+
+
+/*
+==================================================
+HASIL
+==================================================
+*/
+
+if ($sql) {
+
+    echo "
+    <script>
+
+        alert('Preferensi dosen berhasil disimpan.');
+
+        window.location='index.php';
+
+    </script>
+    ";
+
+} else {
+
+    echo "
+    <script>
+
+        alert('Gagal menyimpan preferensi dosen!');
+
+        window.location='tambah.php';
+
+    </script>
+    ";
 
 }
 
