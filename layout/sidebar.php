@@ -20,160 +20,57 @@
 
     <div class="mt-3">
 
-        <!-- DASHBOARD -->
-
         <a href="/">
             <i class="bi bi-speedometer2"></i>
             Dashboard
         </a>
 
-
         <hr>
-
-
-        <!-- MASTER DATA -->
 
         <small class="text-white-50 px-3">
             MASTER DATA
         </small>
-
 
         <a href="/dosen/">
             <i class="bi bi-person-fill"></i>
             Data Dosen
         </a>
 
-
         <a href="/mata_kuliah/">
             <i class="bi bi-book-fill"></i>
             Mata Kuliah
         </a>
-
 
         <a href="/kelas/">
             <i class="bi bi-people-fill"></i>
             Kelas
         </a>
 
-
         <a href="/ruangan/">
             <i class="bi bi-building"></i>
             Ruangan
         </a>
-
 
         <a href="/jam/">
             <i class="bi bi-clock-history"></i>
             Jam Kuliah
         </a>
 
-
         <a href="/dosen_mk/">
             <i class="bi bi-person-workspace"></i>
             Dosen Mengajar
         </a>
 
-
         <hr>
-
-
-        <!-- PENJADWALAN -->
 
         <small class="text-white-50 px-3">
             PENJADWALAN
         </small>
 
-
         <a href="/jadwal/">
             <i class="bi bi-calendar-week-fill"></i>
             Jadwal Kuliah
         </a>
-
-    </div>
-
-
-    <!-- USER -->
-
-    <div class="sidebar-user">
-
-        <div class="dropdown">
-
-            <button
-                class="btn sidebar-user-btn dropdown-toggle"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-            >
-
-                <i class="bi bi-person-circle fs-5"></i>
-
-                <span>
-
-                    <?= $_SESSION['nama']; ?>
-
-                    <small>
-                        <?= ucfirst($_SESSION['role']); ?>
-                    </small>
-
-                </span>
-
-            </button>
-
-
-            <!-- DROPDOWN -->
-
-            <ul class="dropdown-menu dropdown-menu-dark shadow">
-
-
-                <!-- INFORMASI USER -->
-
-                <li>
-
-                    <span class="dropdown-item-text">
-
-                        <i class="bi bi-person-circle"></i>
-
-                        <strong>
-                            <?= $_SESSION['nama']; ?>
-                        </strong>
-
-                        <br>
-
-                        <small class="text-white-50 ms-4">
-                            <?= ucfirst($_SESSION['role']); ?>
-                        </small>
-
-                    </span>
-
-                </li>
-
-
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-
-
-                <!-- LOGOUT -->
-
-                <li>
-
-                    <a
-                        href="/logout.php"
-                        class="dropdown-item text-danger"
-                    >
-
-                        <i class="bi bi-box-arrow-right"></i>
-
-                        Logout
-
-                    </a>
-
-                </li>
-
-
-            </ul>
-
-        </div>
 
     </div>
 
@@ -195,6 +92,74 @@
                 Sistem Penjadwalan Kuliah
 
             </h4>
+
+
+            <!-- USER DROPDOWN -->
+
+            <div class="dropdown ms-auto">
+
+                <button
+                    class="btn dropdown-toggle fw-semibold"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                >
+
+                    <i class="bi bi-person-circle"></i>
+
+                    <?= $_SESSION['nama']; ?>
+
+                    (<?= ucfirst($_SESSION['role']); ?>)
+
+                </button>
+
+
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+
+                    <li>
+
+                        <span class="dropdown-item-text">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <strong>
+                                <?= $_SESSION['nama']; ?>
+                            </strong>
+
+                            <br>
+
+                            <small class="text-muted ms-4">
+                                <?= ucfirst($_SESSION['role']); ?>
+                            </small>
+
+                        </span>
+
+                    </li>
+
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+
+                    <li>
+
+                        <a
+                            href="/logout.php"
+                            class="dropdown-item text-danger"
+                        >
+
+                            <i class="bi bi-box-arrow-right"></i>
+
+                            Logout
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
 
         </div>
 
