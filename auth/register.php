@@ -25,9 +25,15 @@ if (isset($_SESSION['login'])) {
 
 <title>Register Dosen - SIKULIAH</title>
 
+
+<!-- Bootstrap -->
+
 <link
 href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 rel="stylesheet">
+
+
+<!-- Bootstrap Icons -->
 
 <link
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
@@ -63,7 +69,7 @@ body {
 
 .register-card {
 
-    width: 500px;
+    width: 430px;
 
     background: #ffffff;
 
@@ -105,7 +111,7 @@ body {
 
 .register-subtitle {
 
-    margin-top: 10px;
+    margin-top: 8px;
 
     font-size: 16px;
 
@@ -120,11 +126,13 @@ body {
 
 .register-card .form-label {
 
-    font-size: 17px;
+    font-size: 16px;
 
     font-weight: 500;
 
     color: #212529;
+
+    margin-bottom: 6px;
 
 }
 
@@ -135,7 +143,7 @@ body {
 
 .register-card .form-control {
 
-    height: 48px;
+    height: 44px;
 
     border-radius: 8px;
 
@@ -162,7 +170,7 @@ body {
 
 .btn-register {
 
-    height: 48px;
+    height: 46px;
 
     border-radius: 8px;
 
@@ -172,7 +180,7 @@ body {
 
     color: #ffffff !important;
 
-    font-size: 17px;
+    font-size: 16px;
 
     font-weight: 500;
 
@@ -234,7 +242,7 @@ body {
 
 .btn-login {
 
-    height: 48px;
+    height: 46px;
 
     border-radius: 8px;
 
@@ -297,6 +305,13 @@ body {
 
 @media (max-width: 576px) {
 
+    body {
+
+        padding: 15px;
+
+    }
+
+
     .register-card {
 
         width: 100%;
@@ -310,6 +325,27 @@ body {
 
     }
 
+
+    .register-subtitle {
+
+        font-size: 15px;
+
+    }
+
+
+    .register-card .form-label {
+
+        font-size: 15px;
+
+    }
+
+
+    .register-card .form-control {
+
+        height: 44px;
+
+    }
+
 }
 
 </style>
@@ -320,187 +356,199 @@ body {
 <body>
 
 
+<!-- =========================
+     REGISTER CARD
+========================= -->
+
 <div class="register-card">
 
 
-<div class="card-body p-4">
+    <div class="card-body px-4 py-3">
 
 
-<!-- ===============================
-     LOGO
-================================ -->
+        <!-- =========================
+             LOGO
+        ========================= -->
 
-<div class="text-center mb-4">
+        <div class="text-center mb-4">
 
-    <div class="register-logo">
+            <div class="register-logo">
 
-        <i class="bi bi-mortarboard-fill"></i>
+                <i class="bi bi-mortarboard-fill"></i>
 
-        SIKULIAH
+                SIKULIAH
+
+            </div>
+
+
+            <div class="register-subtitle">
+
+                Registrasi Akun Dosen
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             FORM REGISTER
+        ========================= -->
+
+        <form
+            action="proses_register.php"
+            method="POST"
+            autocomplete="off"
+        >
+
+
+            <!-- NAMA DOSEN -->
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Nama Lengkap Dosen
+
+                </label>
+
+
+                <input
+                    type="text"
+                    name="nama_dosen"
+                    class="form-control"
+                    autocomplete="off"
+                    value=""
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- USERNAME -->
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Username
+
+                </label>
+
+
+                <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    autocomplete="off"
+                    value=""
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- PASSWORD -->
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Password
+
+                </label>
+
+
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    autocomplete="new-password"
+                    value=""
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- KONFIRMASI PASSWORD -->
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Konfirmasi Password
+
+                </label>
+
+
+                <input
+                    type="password"
+                    name="password_confirm"
+                    class="form-control"
+                    autocomplete="new-password"
+                    value=""
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- =========================
+                 REGISTER BUTTON
+            ========================= -->
+
+            <button
+                type="submit"
+                class="btn-register w-100"
+            >
+
+                <i class="bi bi-person-plus"></i>
+
+                Daftar sebagai Dosen
+
+            </button>
+
+
+        </form>
+
+
+
+        <!-- =========================
+             LOGIN
+        ========================= -->
+
+        <div class="text-center mt-4">
+
+
+            <div class="login-text">
+
+                Sudah mempunyai akun?
+
+            </div>
+
+
+            <a
+                href="login.php"
+                class="btn-login w-100"
+            >
+
+                <i class="bi bi-box-arrow-in-right"></i>
+
+                Login
+
+            </a>
+
+
+        </div>
+
 
     </div>
 
-    <div class="register-subtitle">
-
-        Registrasi Akun Dosen
-
-    </div>
-
-</div>
-
-
-
-<!-- ===============================
-     FORM REGISTER
-================================ -->
-
-<form
-    action="proses_register.php"
-    method="POST"
-    autocomplete="off"
->
-
-
-<!-- NAMA DOSEN -->
-
-<div class="mb-3">
-
-    <label class="form-label">
-
-        Nama Lengkap Dosen
-
-    </label>
-
-    <input
-        type="text"
-        name="nama_dosen"
-        class="form-control"
-        autocomplete="off"
-        value=""
-        required
-    >
-
-</div>
-
-
-
-<!-- USERNAME -->
-
-<div class="mb-3">
-
-    <label class="form-label">
-
-        Username
-
-    </label>
-
-    <input
-        type="text"
-        name="username"
-        class="form-control"
-        autocomplete="off"
-        value=""
-        required
-    >
-
-</div>
-
-
-
-<!-- PASSWORD -->
-
-<div class="mb-3">
-
-    <label class="form-label">
-
-        Password
-
-    </label>
-
-    <input
-        type="password"
-        name="password"
-        class="form-control"
-        autocomplete="new-password"
-        value=""
-        required
-    >
-
-</div>
-
-
-
-<!-- KONFIRMASI PASSWORD -->
-
-<div class="mb-3">
-
-    <label class="form-label">
-
-        Konfirmasi Password
-
-    </label>
-
-    <input
-        type="password"
-        name="password_confirm"
-        class="form-control"
-        autocomplete="new-password"
-        value=""
-        required
-    >
-
-</div>
-
-
-
-<!-- ===============================
-     BUTTON REGISTER
-================================ -->
-
-<button
-    type="submit"
-    class="btn-register w-100"
->
-
-    <i class="bi bi-person-plus"></i>
-
-    Daftar sebagai Dosen
-
-</button>
-
-
-</form>
-
-
-
-<!-- ===============================
-     LOGIN
-================================ -->
-
-<div class="text-center mt-4">
-
-    <div class="login-text">
-
-        Sudah mempunyai akun?
-
-    </div>
-
-
-    <a
-        href="login.php"
-        class="btn-login w-100"
-    >
-
-        <i class="bi bi-box-arrow-in-right"></i>
-
-        Login
-
-    </a>
-
-</div>
-
-
-</div>
 
 </div>
 
