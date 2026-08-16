@@ -1,4 +1,3 @@
-```php
 <?php
 
 session_start();
@@ -551,8 +550,6 @@ body {
 
 
 </div>
-
-
 </body>
 
 </html>
