@@ -1,3 +1,4 @@
+```php
 <?php
 
 session_start();
@@ -35,9 +36,15 @@ rel="stylesheet">
 
 <style>
 
+/* =========================
+   BODY
+========================= */
+
 body {
 
-    background: #0d6efd;
+    background: #ffffff;
+
+    min-height: 100vh;
 
     display: flex;
 
@@ -45,47 +52,263 @@ body {
 
     align-items: center;
 
-    min-height: 100vh;
-
     padding: 20px;
 
 }
 
 
-.card {
+/* =========================
+   REGISTER CARD
+========================= */
 
-    width: 450px;
+.register-card {
+
+    width: 500px;
+
+    background: #ffffff;
 
     border: none;
 
     border-radius: 15px;
 
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.15);
+
 }
 
 
-.card h2 {
+/* =========================
+   LOGO
+========================= */
+
+.register-logo {
+
+    font-size: 34px;
 
     font-weight: 700;
 
-}
-
-
-.form-control {
-
-    height: 48px;
-
-    border-radius: 8px;
+    color: #111827;
 
 }
 
 
-.btn {
+.register-logo i {
 
-    height: 48px;
+    margin-right: 8px;
 
-    border-radius: 8px;
+}
+
+
+/* =========================
+   SUBTITLE
+========================= */
+
+.register-subtitle {
+
+    margin-top: 10px;
+
+    font-size: 16px;
+
+    color: #6c757d;
+
+}
+
+
+/* =========================
+   LABEL
+========================= */
+
+.register-card .form-label {
+
+    font-size: 17px;
 
     font-weight: 500;
+
+    color: #212529;
+
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.register-card .form-control {
+
+    height: 48px;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    border: 1px solid #ced4da;
+
+}
+
+
+.register-card .form-control:focus {
+
+    border-color: #0d6efd;
+
+    box-shadow:
+        0 0 0 .2rem rgba(13,110,253,.15);
+
+}
+
+
+/* =========================
+   REGISTER BUTTON
+========================= */
+
+.btn-register {
+
+    height: 48px;
+
+    border-radius: 8px;
+
+    border: none;
+
+    background: #0d6efd;
+
+    color: #ffffff !important;
+
+    font-size: 17px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 0 #0a58ca,
+        0 7px 14px rgba(13,110,253,.25);
+
+    transition: all .15s ease;
+
+}
+
+
+.btn-register:hover {
+
+    background: #0b5ed7;
+
+    color: #ffffff !important;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 6px 0 #0a58ca,
+        0 9px 18px rgba(13,110,253,.30);
+
+}
+
+
+.btn-register:active {
+
+    transform: translateY(3px);
+
+    box-shadow:
+        0 1px 0 #0a58ca,
+        0 3px 6px rgba(13,110,253,.20);
+
+}
+
+
+/* =========================
+   LOGIN TEXT
+========================= */
+
+.login-text {
+
+    color: #6c757d;
+
+    font-size: 15px;
+
+    margin-bottom: 10px;
+
+}
+
+
+/* =========================
+   LOGIN BUTTON
+========================= */
+
+.btn-login {
+
+    height: 48px;
+
+    border-radius: 8px;
+
+    background: #0d6efd;
+
+    color: #ffffff !important;
+
+    text-decoration: none;
+
+    font-size: 16px;
+
+    font-weight: 500;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 8px;
+
+    box-shadow:
+        0 4px 0 #0a58ca,
+        0 7px 14px rgba(13,110,253,.25);
+
+    transition: all .15s ease;
+
+}
+
+
+.btn-login:hover {
+
+    background: #0b5ed7;
+
+    color: #ffffff !important;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 6px 0 #0a58ca,
+        0 9px 18px rgba(13,110,253,.30);
+
+}
+
+
+.btn-login:active {
+
+    transform: translateY(3px);
+
+    box-shadow:
+        0 1px 0 #0a58ca,
+        0 3px 6px rgba(13,110,253,.20);
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 576px) {
+
+    .register-card {
+
+        width: 100%;
+
+    }
+
+
+    .register-logo {
+
+        font-size: 30px;
+
+    }
 
 }
 
@@ -97,7 +320,7 @@ body {
 <body>
 
 
-<div class="card shadow">
+<div class="register-card">
 
 
 <div class="card-body p-4">
@@ -109,19 +332,19 @@ body {
 
 <div class="text-center mb-4">
 
-    <h2>
+    <div class="register-logo">
 
         <i class="bi bi-mortarboard-fill"></i>
 
         SIKULIAH
 
-    </h2>
+    </div>
 
-    <small class="text-muted">
+    <div class="register-subtitle">
 
         Registrasi Akun Dosen
 
-    </small>
+    </div>
 
 </div>
 
@@ -236,7 +459,7 @@ body {
 
 <button
     type="submit"
-    class="btn btn-primary w-100"
+    class="btn-register w-100"
 >
 
     <i class="bi bi-person-plus"></i>
@@ -256,16 +479,16 @@ body {
 
 <div class="text-center mt-4">
 
-    <small class="text-muted d-block mb-2">
+    <div class="login-text">
 
         Sudah mempunyai akun?
 
-    </small>
+    </div>
 
 
     <a
         href="login.php"
-        class="btn btn-primary w-100"
+        class="btn-login w-100"
     >
 
         <i class="bi bi-box-arrow-in-right"></i>
@@ -285,3 +508,4 @@ body {
 </body>
 
 </html>
+```
