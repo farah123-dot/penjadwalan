@@ -1,4 +1,3 @@
-```php
 <?php
 
 require_once "koneksi.php";
@@ -64,7 +63,7 @@ $query = mysqli_query($conn, "
 
 
 /* =========================================================
-   SIMPAN DATA JADWAL KE ARRAY
+   SIMPAN DATA JADWAL
 ========================================================= */
 
 $jadwal = [];
@@ -177,13 +176,11 @@ if ($queryRuangan) {
 
 $jadwalMap = [];
 
-
 foreach ($jadwal as $row) {
 
     $hariId    = $row['id_hari'];
     $jamId     = $row['id_jam'];
     $ruanganId = $row['id_ruangan'];
-
 
     $jadwalMap[$hariId][$jamId][$ruanganId] = $row;
 
@@ -218,7 +215,6 @@ $warnaIndex = 0;
 foreach ($jadwal as $row) {
 
     $idMk = $row['id_mk'];
-
 
     if (!isset($warnaMK[$idMk])) {
 
@@ -281,16 +277,71 @@ body {
 
 
 /* =========================================================
-   HEADER
+   NAVBAR
 ========================================================= */
 
-.page-header {
-
-    height: 58px;
+.navbar-custom {
 
     background: #ffffff;
 
     border-bottom: 1px solid #d0d0d0;
+
+    min-height: 58px;
+
+}
+
+
+.logo {
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color: #0d6efd !important;
+
+    text-decoration: none;
+
+}
+
+
+.logo i {
+
+    margin-right: 8px;
+
+}
+
+
+/* =========================================================
+   NAVBAR BUTTONS
+========================================================= */
+
+.navbar-buttons {
+
+    display: flex;
+
+    gap: 10px;
+
+}
+
+
+.navbar-buttons .btn {
+
+    border-radius: 8px;
+
+    padding: 8px 18px;
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-header {
 
     display: flex;
 
@@ -298,7 +349,9 @@ body {
 
     justify-content: space-between;
 
-    padding: 0 15px;
+    padding: 12px 15px;
+
+    border-bottom: 1px solid #e0e0e0;
 
 }
 
@@ -545,9 +598,25 @@ body {
 
 @media (max-width: 768px) {
 
-    .page-header {
+    .logo {
 
-        height: 55px;
+        font-size: 22px;
+
+    }
+
+
+    .navbar-buttons {
+
+        gap: 5px;
+
+    }
+
+
+    .navbar-buttons .btn {
+
+        padding: 7px 10px;
+
+        font-size: 13px;
 
     }
 
@@ -629,7 +698,75 @@ body {
 
 
 <!-- =========================================================
-     HEADER
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar navbar-custom">
+
+
+    <div class="container-fluid px-3">
+
+
+        <!-- LOGO -->
+
+        <a
+            class="logo"
+            href="./"
+        >
+
+            <i class="bi bi-mortarboard-fill"></i>
+
+            SIKULIAH
+
+        </a>
+
+
+
+        <!-- LOGIN REGISTER -->
+
+        <div class="navbar-buttons">
+
+
+            <!-- LOGIN -->
+
+            <a
+                href="auth/login.php"
+                class="btn btn-outline-primary"
+            >
+
+                <i class="bi bi-box-arrow-in-right"></i>
+
+                Login
+
+            </a>
+
+
+
+            <!-- REGISTER -->
+
+            <a
+                href="auth/register.php"
+                class="btn btn-primary"
+            >
+
+                <i class="bi bi-person-plus"></i>
+
+                Register
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     PAGE HEADER
 ========================================================= -->
 
 <div class="page-header">
@@ -667,10 +804,6 @@ body {
 <table class="schedule-table">
 
 
-<!-- =======================================================
-     HEADER
-======================================================= -->
-
 <thead>
 
 <tr>
@@ -693,7 +826,9 @@ body {
 
         <th>
 
-            <?= htmlspecialchars($r['nama_ruangan']); ?>
+            <?= htmlspecialchars(
+                $r['nama_ruangan']
+            ); ?>
 
         </th>
 
@@ -706,14 +841,13 @@ body {
 
 
 
-<!-- =======================================================
-     BODY
-======================================================= -->
-
 <tbody>
 
 
-<?php if (count($hari) > 0 && count($jam) > 0): ?>
+<?php if (
+    count($hari) > 0 &&
+    count($jam) > 0
+): ?>
 
 
     <?php foreach ($hari as $h): ?>
@@ -745,9 +879,7 @@ body {
             <tr>
 
 
-                <!-- =====================================
-                     HARI
-                ====================================== -->
+                <!-- HARI -->
 
                 <?php if ($jamKe == 1): ?>
 
@@ -756,7 +888,9 @@ body {
                         rowspan="<?= $jumlahJam; ?>"
                     >
 
-                        <?= htmlspecialchars($h['nama_hari']); ?>
+                        <?= htmlspecialchars(
+                            $h['nama_hari']
+                        ); ?>
 
                     </td>
 
@@ -764,34 +898,39 @@ body {
 
 
 
-                <!-- =====================================
-                     WAKTU
-                ====================================== -->
+                <!-- WAKTU -->
 
                 <td class="time-cell">
 
-                    <?= substr($j['jam_mulai'], 0, 5); ?>
+                    <?= substr(
+                        $j['jam_mulai'],
+                        0,
+                        5
+                    ); ?>
 
                     -
 
                     <br>
 
-                    <?= substr($j['jam_selesai'], 0, 5); ?>
+                    <?= substr(
+                        $j['jam_selesai'],
+                        0,
+                        5
+                    ); ?>
 
                 </td>
 
 
 
-                <!-- =====================================
-                     RUANGAN
-                ====================================== -->
+                <!-- RUANGAN -->
 
                 <?php foreach ($ruangan as $r): ?>
 
 
                     <?php
 
-                    $ruanganId = $r['id_ruangan'];
+                    $ruanganId =
+                        $r['id_ruangan'];
 
 
                     $data = null;
@@ -823,7 +962,9 @@ body {
                         <?php
 
                         $warnaCell =
-                            $warnaMK[$data['id_mk']]
+                            $warnaMK[
+                                $data['id_mk']
+                            ]
                             ?? '#0d6efd';
 
                         ?>
@@ -831,7 +972,10 @@ body {
 
                         <td
                             class="schedule-filled"
-                            style="background: <?= $warnaCell ?>;"
+                            style="
+                                background:
+                                <?= $warnaCell ?>;
+                            "
                         >
 
 
@@ -922,4 +1066,3 @@ body {
 </body>
 
 </html>
-```
