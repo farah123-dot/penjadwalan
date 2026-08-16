@@ -265,7 +265,7 @@ body {
 
     <a
         href="login.php"
-        class="btn btn-outline-primary w-100"
+        class="btn btn-primary w-100"
     >
 
         <i class="bi bi-box-arrow-in-right"></i>
