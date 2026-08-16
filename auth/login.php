@@ -35,8 +35,6 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.c
 rel="stylesheet">
 
 
-<!-- CSS KHUSUS LOGIN -->
-
 <link
 href="login.css"
 rel="stylesheet">
@@ -47,146 +45,136 @@ rel="stylesheet">
 <body>
 
 
-<div class="login-card shadow">
+<div class="login-card">
 
 
-<div class="card-body p-4 p-md-5">
+    <div class="card-body p-4 p-md-5">
 
 
-<!-- ===============================
-     LOGO
-================================ -->
+        <!-- LOGO -->
 
-<div class="text-center mb-4">
+        <div class="text-center mb-4">
 
-    <div class="login-logo">
+            <div class="login-logo">
 
-        <i class="bi bi-mortarboard-fill"></i>
+                <i class="bi bi-mortarboard-fill"></i>
 
-        SIKULIAH
+                SIKULIAH
+
+            </div>
+
+
+            <div class="login-subtitle">
+
+                Sistem Penjadwalan Kuliah
+
+            </div>
+
+        </div>
+
+
+
+        <!-- FORM LOGIN -->
+
+        <form
+            action="proses_login.php"
+            method="POST"
+            autocomplete="off"
+        >
+
+
+            <!-- USERNAME -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+
+                    Username
+
+                </label>
+
+
+                <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    autocomplete="off"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- PASSWORD -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+
+                    Password
+
+                </label>
+
+
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    autocomplete="new-password"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- LOGIN -->
+
+            <button
+                type="submit"
+                class="btn-login w-100"
+            >
+
+                <i class="bi bi-box-arrow-in-right"></i>
+
+                Login
+
+            </button>
+
+
+        </form>
+
+
+
+        <!-- REGISTER -->
+
+        <div class="text-center mt-4">
+
+
+            <div class="register-text">
+
+                Belum mempunyai akun?
+
+            </div>
+
+
+            <a
+                href="register.php"
+                class="btn-register w-100"
+            >
+
+                <i class="bi bi-person-plus"></i>
+
+                Daftar sebagai Dosen
+
+            </a>
+
+
+        </div>
+
 
     </div>
-
-
-    <div class="login-subtitle mt-3">
-
-        Sistem Penjadwalan Kuliah
-
-    </div>
-
-</div>
-
-
-
-<!-- ===============================
-     FORM LOGIN
-================================ -->
-
-<form
-    action="proses_login.php"
-    method="POST"
-    autocomplete="off"
->
-
-
-<!-- USERNAME -->
-
-<div class="mb-4">
-
-    <label class="form-label">
-
-        Username
-
-    </label>
-
-
-    <input
-        type="text"
-        name="username"
-        class="form-control"
-        autocomplete="off"
-        value=""
-        required
-    >
-
-</div>
-
-
-
-<!-- PASSWORD -->
-
-<div class="mb-4">
-
-    <label class="form-label">
-
-        Password
-
-    </label>
-
-
-    <input
-        type="password"
-        name="password"
-        class="form-control"
-        autocomplete="new-password"
-        value=""
-        required
-    >
-
-</div>
-
-
-
-<!-- ===============================
-     BUTTON LOGIN
-================================ -->
-
-<button
-    type="submit"
-    class="btn-login w-100"
->
-
-    <i class="bi bi-box-arrow-in-right"></i>
-
-    Login
-
-</button>
-
-
-</form>
-
-
-
-<!-- ===============================
-     REGISTER
-================================ -->
-
-<div class="text-center mt-4">
-
-
-<div class="register-text mb-2">
-
-    Belum mempunyai akun?
-
-</div>
-
-
-<a
-    href="register.php"
-    class="btn-register w-100"
->
-
-    <i class="bi bi-person-plus me-2"></i>
-
-    Daftar sebagai Dosen
-
-</a>
-
-
-</div>
-
-
-</div>
 
 </div>
 
