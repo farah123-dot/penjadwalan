@@ -1,10 +1,12 @@
 <?php
+
 session_start();
 
 if(isset($_SESSION['login'])){
     header("Location:index.php");
     exit;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +14,7 @@ if(isset($_SESSION['login'])){
 
 <head>
 
-<title>Login</title>
+<title>Login - SIKULIAH</title>
 
 <link
 href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -26,19 +28,25 @@ rel="stylesheet">
 
 body{
 
-background:#0d6efd;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+    background:#0d6efd;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:100vh;
 
 }
 
 .card{
 
-width:420px;
-border:none;
-border-radius:15px;
+    width:420px;
+
+    border:none;
+
+    border-radius:15px;
 
 }
 
@@ -50,52 +58,107 @@ border-radius:15px;
 
 <div class="card shadow">
 
-<div class="card-body p-4">
+    <div class="card-body p-4">
 
-<h2 class="text-center mb-4">
+        <h2 class="text-center mb-4">
 
-<i class="bi bi-mortarboard-fill"></i>
+            <i class="bi bi-mortarboard-fill"></i>
 
-SIKULIAH
+            SIKULIAH
 
-</h2>
+        </h2>
 
-<form action="proses_login.php" method="POST">
 
-<div class="mb-3">
+        <div class="text-center mb-4">
 
-<label>Username</label>
+            <small class="text-muted">
 
-<input
-type="text"
-name="username"
-class="form-control"
-required>
+                Sistem Penjadwalan Kuliah
 
-</div>
+            </small>
 
-<div class="mb-3">
+        </div>
 
-<label>Password</label>
 
-<input
-type="password"
-name="password"
-class="form-control"
-required>
+        <form action="proses_login.php" method="POST">
 
-</div>
 
-<button
-class="btn btn-primary w-100">
+            <div class="mb-3">
 
-Login
+                <label class="form-label">
 
-</button>
+                    Username
 
-</form>
+                </label>
 
-</div>
+                <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    placeholder="Masukkan username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Password
+
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Masukkan password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn btn-primary w-100">
+
+                <i class="bi bi-box-arrow-in-right"></i>
+
+                Login
+
+            </button>
+
+
+        </form>
+
+
+        <div class="text-center mt-4">
+
+            <small class="text-muted">
+
+                Belum mempunyai akun?
+
+            </small>
+
+            <br>
+
+            <a
+                href="register.php"
+                class="text-decoration-none fw-semibold">
+
+                <i class="bi bi-person-plus"></i>
+
+                Daftar sebagai Dosen
+
+            </a>
+
+        </div>
+
+
+    </div>
 
 </div>
 
