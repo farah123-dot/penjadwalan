@@ -85,6 +85,8 @@ body {
 
     border-radius: 8px;
 
+    font-weight: 500;
+
 }
 
 </style>
@@ -101,7 +103,9 @@ body {
 <div class="card-body p-4">
 
 
-<!-- LOGO -->
+<!-- ===============================
+     LOGO
+================================ -->
 
 <div class="text-center mb-4">
 
@@ -123,7 +127,9 @@ body {
 
 
 
-<!-- FORM -->
+<!-- ===============================
+     FORM REGISTER
+================================ -->
 
 <form
     action="proses_register.php"
@@ -147,6 +153,7 @@ body {
         name="nama_dosen"
         class="form-control"
         autocomplete="off"
+        value=""
         required
     >
 
@@ -223,7 +230,9 @@ body {
 
 
 
-<!-- BUTTON REGISTER -->
+<!-- ===============================
+     BUTTON REGISTER
+================================ -->
 
 <button
     type="submit"
@@ -241,21 +250,22 @@ body {
 
 
 
-<!-- LINK LOGIN -->
+<!-- ===============================
+     LOGIN
+================================ -->
 
 <div class="text-center mt-4">
 
-    <small class="text-muted">
+    <small class="text-muted d-block mb-2">
 
         Sudah mempunyai akun?
 
     </small>
 
-    <br>
 
     <a
         href="login.php"
-        class="text-decoration-none fw-semibold"
+        class="btn btn-outline-primary w-100"
     >
 
         <i class="bi bi-box-arrow-in-right"></i>
