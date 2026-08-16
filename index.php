@@ -1,3 +1,4 @@
+```php
 <?php
 
 require_once "koneksi.php";
@@ -176,11 +177,15 @@ if ($queryRuangan) {
 
 $jadwalMap = [];
 
+
 foreach ($jadwal as $row) {
 
     $hariId    = $row['id_hari'];
+
     $jamId     = $row['id_jam'];
+
     $ruanganId = $row['id_ruangan'];
+
 
     $jadwalMap[$hariId][$jamId][$ruanganId] = $row;
 
@@ -216,10 +221,13 @@ foreach ($jadwal as $row) {
 
     $idMk = $row['id_mk'];
 
+
     if (!isset($warnaMK[$idMk])) {
 
         $warnaMK[$idMk] =
-            $warna[$warnaIndex % count($warna)];
+            $warna[
+                $warnaIndex % count($warna)
+            ];
 
         $warnaIndex++;
 
@@ -230,6 +238,7 @@ foreach ($jadwal as $row) {
 ?>
 
 <!DOCTYPE html>
+
 <html lang="id">
 
 <head>
@@ -242,14 +251,18 @@ foreach ($jadwal as $row) {
 <title>SIKULIAH - Jadwal Perkuliahan</title>
 
 
-<!-- Bootstrap -->
+<!-- =====================================================
+     BOOTSTRAP
+===================================================== -->
 
 <link
 href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 rel="stylesheet">
 
 
-<!-- Bootstrap Icons -->
+<!-- =====================================================
+     BOOTSTRAP ICONS
+===================================================== -->
 
 <link
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
@@ -293,7 +306,7 @@ body {
 
 .logo {
 
-    font-size: 28px;
+    font-size: 27px;
 
     font-weight: 700;
 
@@ -306,20 +319,20 @@ body {
 
 .logo i {
 
-    margin-right: 8px;
+    margin-right: 7px;
 
 }
 
 
 /* =========================================================
-   NAVBAR BUTTONS
+   LOGIN & REGISTER
 ========================================================= */
 
 .navbar-buttons {
 
     display: flex;
 
-    gap: 10px;
+    gap: 8px;
 
 }
 
@@ -328,7 +341,7 @@ body {
 
     border-radius: 8px;
 
-    padding: 8px 18px;
+    padding: 7px 16px;
 
     font-size: 15px;
 
@@ -338,7 +351,7 @@ body {
 
 
 /* =========================================================
-   PAGE HEADER
+   HEADER JADWAL
 ========================================================= */
 
 .page-header {
@@ -349,7 +362,7 @@ body {
 
     justify-content: space-between;
 
-    padding: 12px 15px;
+    padding: 10px 15px;
 
     border-bottom: 1px solid #e0e0e0;
 
@@ -358,7 +371,7 @@ body {
 
 .page-title {
 
-    font-size: 25px;
+    font-size: 23px;
 
     font-weight: 500;
 
@@ -370,7 +383,7 @@ body {
 
 
 /* =========================================================
-   EXPORT BUTTON
+   EXPORT PDF
 ========================================================= */
 
 .btn-export {
@@ -383,11 +396,11 @@ body {
 
     border: none;
 
-    border-radius: 10px;
+    border-radius: 9px;
 
-    padding: 9px 13px;
+    padding: 8px 12px;
 
-    font-size: 16px;
+    font-size: 15px;
 
     transition: .2s ease;
 
@@ -404,12 +417,12 @@ body {
 
 
 /* =========================================================
-   TABLE WRAPPER
+   WRAPPER JADWAL
 ========================================================= */
 
 .schedule-wrapper {
 
-    padding: 20px 15px;
+    padding: 12px 15px;
 
     overflow-x: auto;
 
@@ -417,14 +430,14 @@ body {
 
 
 /* =========================================================
-   SCHEDULE TABLE
+   TABLE JADWAL
 ========================================================= */
 
 .schedule-table {
 
     width: 100%;
 
-    min-width: 950px;
+    min-width: 850px;
 
     border-collapse: collapse;
 
@@ -449,31 +462,31 @@ body {
 
     vertical-align: middle;
 
-    font-size: 19px;
+    font-size: 16px;
 
     font-weight: 700;
 
-    padding: 14px 8px;
+    padding: 10px 6px;
 
 }
 
 
 .schedule-table thead th:nth-child(1) {
 
-    width: 150px;
+    width: 120px;
 
 }
 
 
 .schedule-table thead th:nth-child(2) {
 
-    width: 150px;
+    width: 120px;
 
 }
 
 
 /* =========================================================
-   TABLE BODY
+   BODY TABLE
 ========================================================= */
 
 .schedule-table tbody td {
@@ -484,11 +497,11 @@ body {
 
     vertical-align: middle;
 
-    height: 80px;
+    height: 65px;
 
-    font-size: 17px;
+    font-size: 15px;
 
-    padding: 8px;
+    padding: 6px;
 
 }
 
@@ -499,7 +512,7 @@ body {
 
 .day-cell {
 
-    font-size: 18px !important;
+    font-size: 16px !important;
 
     font-weight: 700;
 
@@ -514,9 +527,9 @@ body {
 
 .time-cell {
 
-    font-size: 17px !important;
+    font-size: 15px !important;
 
-    line-height: 1.7;
+    line-height: 1.5;
 
     background: #ffffff;
 
@@ -533,7 +546,7 @@ body {
 
     font-weight: 500;
 
-    padding: 12px 8px !important;
+    padding: 8px 6px !important;
 
 }
 
@@ -544,11 +557,11 @@ body {
 
 .subject-name {
 
-    font-size: 18px;
+    font-size: 16px;
 
     font-weight: 700;
 
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 
 }
 
@@ -559,9 +572,9 @@ body {
 
 .lecturer-name {
 
-    font-size: 16px;
+    font-size: 14px;
 
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 
 }
 
@@ -572,13 +585,13 @@ body {
 
 .class-name {
 
-    font-size: 16px;
+    font-size: 14px;
 
 }
 
 
 /* =========================================================
-   KOSONG
+   SEL KOSONG
 ========================================================= */
 
 .empty-cell {
@@ -587,7 +600,7 @@ body {
 
     color: #222222;
 
-    font-size: 17px;
+    font-size: 15px;
 
 }
 
@@ -598,9 +611,10 @@ body {
 
 @media (max-width: 768px) {
 
+
     .logo {
 
-        font-size: 22px;
+        font-size: 21px;
 
     }
 
@@ -614,76 +628,85 @@ body {
 
     .navbar-buttons .btn {
 
-        padding: 7px 10px;
+        padding: 6px 9px;
 
         font-size: 13px;
 
     }
 
 
+    .page-header {
+
+        padding: 9px 10px;
+
+    }
+
+
     .page-title {
 
-        font-size: 20px;
+        font-size: 19px;
 
     }
 
 
     .btn-export {
 
-        font-size: 14px;
+        font-size: 13px;
 
-        padding: 7px 10px;
+        padding: 6px 9px;
 
     }
 
 
     .schedule-wrapper {
 
-        padding: 15px 10px;
+        padding: 10px;
 
     }
 
 
     .schedule-table {
 
-        min-width: 900px;
+        min-width: 850px;
 
     }
 
 
     .schedule-table thead th {
 
-        font-size: 16px;
+        font-size: 15px;
 
-        padding: 11px 6px;
+        padding: 9px 5px;
 
     }
 
 
     .schedule-table tbody td {
 
-        font-size: 15px;
+        font-size: 14px;
+
+        height: 60px;
 
     }
 
 
     .subject-name {
 
-        font-size: 16px;
+        font-size: 15px;
 
     }
 
 
     .lecturer-name {
 
-        font-size: 14px;
+        font-size: 13px;
 
     }
 
 
     .class-name {
 
-        font-size: 14px;
+        font-size: 13px;
 
     }
 
@@ -727,8 +750,6 @@ body {
         <div class="navbar-buttons">
 
 
-            <!-- LOGIN -->
-
             <a
                 href="auth/login.php"
                 class="btn btn-outline-primary"
@@ -740,9 +761,6 @@ body {
 
             </a>
 
-
-
-            <!-- REGISTER -->
 
             <a
                 href="auth/register.php"
@@ -766,7 +784,7 @@ body {
 
 
 <!-- =========================================================
-     PAGE HEADER
+     HEADER
 ========================================================= -->
 
 <div class="page-header">
@@ -795,7 +813,7 @@ body {
 
 
 <!-- =========================================================
-     JADWAL
+     TABEL JADWAL
 ========================================================= -->
 
 <div class="schedule-wrapper">
@@ -807,6 +825,7 @@ body {
 <thead>
 
 <tr>
+
 
     <th>
 
@@ -855,9 +874,11 @@ body {
 
         <?php
 
-        $hariId = $h['id_hari'];
+        $hariId =
+            $h['id_hari'];
 
-        $jumlahJam = count($jam);
+        $jumlahJam =
+            count($jam);
 
         $jamKe = 0;
 
@@ -869,7 +890,8 @@ body {
 
             <?php
 
-            $jamId = $j['id_jam'];
+            $jamId =
+                $j['id_jam'];
 
             $jamKe++;
 
@@ -879,7 +901,9 @@ body {
             <tr>
 
 
-                <!-- HARI -->
+                <!-- =====================================
+                     HARI
+                ====================================== -->
 
                 <?php if ($jamKe == 1): ?>
 
@@ -898,7 +922,9 @@ body {
 
 
 
-                <!-- WAKTU -->
+                <!-- =====================================
+                     WAKTU
+                ====================================== -->
 
                 <td class="time-cell">
 
@@ -922,7 +948,9 @@ body {
 
 
 
-                <!-- RUANGAN -->
+                <!-- =====================================
+                     RUANGAN
+                ====================================== -->
 
                 <?php foreach ($ruangan as $r): ?>
 
@@ -931,7 +959,6 @@ body {
 
                     $ruanganId =
                         $r['id_ruangan'];
-
 
                     $data = null;
 
@@ -1066,3 +1093,4 @@ body {
 </body>
 
 </html>
+```
