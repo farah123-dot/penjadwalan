@@ -3,8 +3,11 @@
 session_start();
 
 if (isset($_SESSION['login'])) {
+
     header("Location: ../index.php");
+
     exit;
+
 }
 
 ?>
@@ -29,6 +32,7 @@ rel="stylesheet">
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
 rel="stylesheet">
 
+
 <style>
 
 body {
@@ -47,6 +51,7 @@ body {
 
 }
 
+
 .card {
 
     width: 450px;
@@ -57,117 +62,177 @@ body {
 
 }
 
+
+.card h2 {
+
+    font-weight: 700;
+
+}
+
+
+.form-control {
+
+    height: 48px;
+
+    border-radius: 8px;
+
+}
+
+
+.btn {
+
+    height: 48px;
+
+    border-radius: 8px;
+
+}
+
 </style>
 
 </head>
 
+
 <body>
 
+
 <div class="card shadow">
+
 
 <div class="card-body p-4">
 
 
+<!-- LOGO -->
+
 <div class="text-center mb-4">
 
-<h2>
+    <h2>
 
-<i class="bi bi-mortarboard-fill"></i>
+        <i class="bi bi-mortarboard-fill"></i>
 
-SIKULIAH
+        SIKULIAH
 
-</h2>
+    </h2>
 
-<small class="text-muted">
+    <small class="text-muted">
 
-Registrasi Akun Dosen
+        Registrasi Akun Dosen
 
-</small>
+    </small>
 
 </div>
 
 
-<form action="proses_register.php" method="POST">
+
+<!-- FORM -->
+
+<form
+    action="proses_register.php"
+    method="POST"
+    autocomplete="off"
+>
 
 
 <!-- NAMA DOSEN -->
 
 <div class="mb-3">
 
-<label class="form-label">
-    Nama Lengkap Dosen
-</label>
+    <label class="form-label">
 
-<input
-    type="text"
-    name="nama_dosen"
-    class="form-control"
-    required
->
+        Nama Lengkap Dosen
+
+    </label>
+
+    <input
+        type="text"
+        name="nama_dosen"
+        class="form-control"
+        autocomplete="off"
+        required
+    >
 
 </div>
+
 
 
 <!-- USERNAME -->
 
 <div class="mb-3">
 
-<label class="form-label">
-    Username
-</label>
+    <label class="form-label">
 
-<input
-    type="text"
-    name="username"
-    class="form-control"
-    required
->
+        Username
+
+    </label>
+
+    <input
+        type="text"
+        name="username"
+        class="form-control"
+        autocomplete="off"
+        value=""
+        required
+    >
 
 </div>
+
 
 
 <!-- PASSWORD -->
 
 <div class="mb-3">
 
-<label class="form-label">
-    Password
-</label>
+    <label class="form-label">
 
-<input
-    type="password"
-    name="password"
-    class="form-control"
-    required
->
+        Password
+
+    </label>
+
+    <input
+        type="password"
+        name="password"
+        class="form-control"
+        autocomplete="new-password"
+        value=""
+        required
+    >
 
 </div>
+
 
 
 <!-- KONFIRMASI PASSWORD -->
 
 <div class="mb-3">
 
-<label class="form-label">
-    Konfirmasi Password
-</label>
+    <label class="form-label">
 
-<input
-    type="password"
-    name="password_confirm"
-    class="form-control"
-    required
->
+        Konfirmasi Password
+
+    </label>
+
+    <input
+        type="password"
+        name="password_confirm"
+        class="form-control"
+        autocomplete="new-password"
+        value=""
+        required
+    >
 
 </div>
 
+
+
+<!-- BUTTON REGISTER -->
+
 <button
-type="submit"
-class="btn btn-primary w-100">
+    type="submit"
+    class="btn btn-primary w-100"
+>
 
-<i class="bi bi-person-plus"></i>
+    <i class="bi bi-person-plus"></i>
 
-Daftar sebagai Dosen
+    Daftar sebagai Dosen
 
 </button>
 
@@ -175,32 +240,37 @@ Daftar sebagai Dosen
 </form>
 
 
+
+<!-- LINK LOGIN -->
+
 <div class="text-center mt-4">
 
-<small class="text-muted">
+    <small class="text-muted">
 
-Sudah mempunyai akun?
+        Sudah mempunyai akun?
 
-</small>
+    </small>
 
-<br>
+    <br>
 
-<a
-href="login.php"
-class="text-decoration-none fw-semibold">
+    <a
+        href="login.php"
+        class="text-decoration-none fw-semibold"
+    >
 
-<i class="bi bi-box-arrow-in-right"></i>
+        <i class="bi bi-box-arrow-in-right"></i>
 
-Login
+        Login
 
-</a>
-
-</div>
-
+    </a>
 
 </div>
 
+
 </div>
+
+</div>
+
 
 </body>
 
