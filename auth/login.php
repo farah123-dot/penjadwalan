@@ -2,17 +2,33 @@
 
 session_start();
 
-if(isset($_SESSION['login'])){
-    header("Location:index.php");
-    exit;
+if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
+
+    if ($_SESSION['role'] === 'admin') {
+
+        header("Location: /dashboard_admin.php");
+        exit;
+
+    }
+
+    if ($_SESSION['role'] === 'dosen') {
+
+        header("Location: /dashboard_dosen.php");
+        exit;
+
+    }
 }
 
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Login - SIKULIAH</title>
 
