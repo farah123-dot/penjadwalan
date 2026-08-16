@@ -2,21 +2,12 @@
 
 session_start();
 
-if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
+if (isset($_SESSION['login'])) {
 
-    if ($_SESSION['role'] === 'admin') {
+    header("Location: ../index.php");
 
-        header("Location: /dashboard_admin.php");
-        exit;
+    exit;
 
-    }
-
-    if ($_SESSION['role'] === 'dosen') {
-
-        header("Location: /dashboard_dosen.php");
-        exit;
-
-    }
 }
 
 ?>
@@ -28,7 +19,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
 
 <title>Login - SIKULIAH</title>
 
@@ -40,29 +32,60 @@ rel="stylesheet">
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
 rel="stylesheet">
 
+
 <style>
 
-body{
+body {
 
-    background:#0d6efd;
+    background: #0d6efd;
 
-    display:flex;
+    display: flex;
 
-    justify-content:center;
+    justify-content: center;
 
-    align-items:center;
+    align-items: center;
 
-    height:100vh;
+    min-height: 100vh;
+
+    padding: 20px;
 
 }
 
-.card{
 
-    width:420px;
+.card {
 
-    border:none;
+    width: 500px;
 
-    border-radius:15px;
+    border: none;
+
+    border-radius: 15px;
+
+}
+
+
+.card h2 {
+
+    font-weight: 700;
+
+}
+
+
+.form-control {
+
+    height: 48px;
+
+    border-radius: 8px;
+
+}
+
+
+.btn {
+
+    height: 48px;
+
+    border-radius: 8px;
+
+    font-weight: 500;
 
 }
 
@@ -70,113 +93,148 @@ body{
 
 </head>
 
+
 <body>
+
 
 <div class="card shadow">
 
-    <div class="card-body p-4">
 
-        <h2 class="text-center mb-4">
-
-            <i class="bi bi-mortarboard-fill"></i>
-
-            SIKULIAH
-
-        </h2>
+<div class="card-body p-4">
 
 
-        <div class="text-center mb-4">
+<!-- ===============================
+     LOGO
+================================ -->
 
-            <small class="text-muted">
+<div class="text-center mb-4">
 
-                Sistem Penjadwalan Kuliah
+    <h2>
 
-            </small>
+        <i class="bi bi-mortarboard-fill"></i>
 
-        </div>
+        SIKULIAH
 
+    </h2>
 
-        <form action="proses_login.php" method="POST">
+    <small class="text-muted">
 
+        Sistem Penjadwalan Kuliah
 
-            <div class="mb-3">
-
-                <label class="form-label">
-
-                    Username
-
-                </label>
-
-                <input
-                    type="text"
-                    name="username"
-                    class="form-control"
-                    placeholder="Masukkan username"
-                    required
-                >
-
-            </div>
-
-
-            <div class="mb-3">
-
-                <label class="form-label">
-
-                    Password
-
-                </label>
-
-                <input
-                    type="password"
-                    name="password"
-                    class="form-control"
-                    placeholder="Masukkan password"
-                    required
-                >
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="btn btn-primary w-100">
-
-                <i class="bi bi-box-arrow-in-right"></i>
-
-                Login
-
-            </button>
-
-
-        </form>
-
-
-        <div class="text-center mt-4">
-
-            <small class="text-muted">
-
-                Belum mempunyai akun?
-
-            </small>
-
-            <br>
-
-            <a
-                href="register.php"
-                class="text-decoration-none fw-semibold">
-
-                <i class="bi bi-person-plus"></i>
-
-                Daftar sebagai Dosen
-
-            </a>
-
-        </div>
-
-
-    </div>
+    </small>
 
 </div>
+
+
+
+<!-- ===============================
+     FORM LOGIN
+================================ -->
+
+<form
+    action="proses_login.php"
+    method="POST"
+    autocomplete="off"
+>
+
+
+<!-- USERNAME -->
+
+<div class="mb-3">
+
+    <label class="form-label">
+
+        Username
+
+    </label>
+
+    <input
+        type="text"
+        name="username"
+        class="form-control"
+        autocomplete="off"
+        value=""
+        required
+    >
+
+</div>
+
+
+
+<!-- PASSWORD -->
+
+<div class="mb-3">
+
+    <label class="form-label">
+
+        Password
+
+    </label>
+
+    <input
+        type="password"
+        name="password"
+        class="form-control"
+        autocomplete="new-password"
+        value=""
+        required
+    >
+
+</div>
+
+
+
+<!-- ===============================
+     BUTTON LOGIN
+================================ -->
+
+<button
+    type="submit"
+    class="btn btn-primary w-100"
+>
+
+    <i class="bi bi-box-arrow-in-right"></i>
+
+    Login
+
+</button>
+
+
+</form>
+
+
+
+<!-- ===============================
+     REGISTER
+================================ -->
+
+<div class="text-center mt-4">
+
+    <small class="text-muted d-block mb-2">
+
+        Belum mempunyai akun?
+
+    </small>
+
+
+    <a
+        href="register.php"
+        class="btn btn-primary w-100"
+    >
+
+        <i class="bi bi-person-plus"></i>
+
+        Daftar sebagai Dosen
+
+    </a>
+
+</div>
+
+
+</div>
+
+</div>
+
 
 </body>
 
