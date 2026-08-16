@@ -1,186 +1,223 @@
 <?php
+
 require_once "koneksi.php";
-require_once "auth/cek_login.php";
-
-include "layout/header.php";
-include "layout/sidebar.php";
-
-
-/* ===============================
-   FUNGSI HITUNG DATA
-================================ */
-
-function jumlahData($conn, $tabel)
-{
-    $query = mysqli_query($conn, "SELECT * FROM $tabel");
-
-    if ($query) {
-        return mysqli_num_rows($query);
-    }
-
-    return 0;
-}
-
-
-/* ===============================
-   JUMLAH DATA
-================================ */
-
-$jumlah_dosen     = jumlahData($conn, "dosen");
-$jumlah_mk        = jumlahData($conn, "mata_kuliah");
-$jumlah_kelas     = jumlahData($conn, "kelas");
-$jumlah_ruangan   = jumlahData($conn, "ruangan");
-$jumlah_jam       = jumlahData($conn, "jam_kuliah");
-$jumlah_jadwal    = jumlahData($conn, "jadwal");
-
 
 /* ===============================
    AMBIL DATA JADWAL
 ================================ */
 
-$query_jadwal = mysqli_query($conn, "
+$query = mysqli_query($conn, "
 
-SELECT 
-    jadwal.id_jadwal,
-    kelas.nama_kelas,
-    hari.nama_hari,
-    jam_kuliah.jam_mulai,
-    jam_kuliah.jam_selesai,
-    ruangan.nama_ruangan,
-    dosen.nama_dosen,
-    mata_kuliah.nama_mk
+SELECT
+    j.id_jadwal,
+    h.nama_hari,
+    jk.jam_mulai,
+    jk.jam_selesai,
+    r.nama_ruangan,
+    k.nama_kelas,
+    d.nama_dosen,
+    mk.kode_mk,
+    mk.nama_mk
 
-FROM jadwal
+FROM jadwal j
 
+JOIN hari h
+    ON j.id_hari = h.id_hari
 
-JOIN hari
-ON jadwal.id_hari = hari.id_hari
+JOIN jam_kuliah jk
+    ON j.id_jam = jk.id_jam
 
+JOIN ruangan r
+    ON j.id_ruangan = r.id_ruangan
 
-JOIN jam_kuliah
-ON jadwal.id_jam = jam_kuliah.id_jam
+JOIN dosen_mk dm
+    ON j.id_dosen_mk = dm.id
 
+JOIN dosen d
+    ON dm.id_dosen = d.id_dosen
 
-JOIN ruangan
-ON jadwal.id_ruangan = ruangan.id_ruangan
+JOIN mata_kuliah mk
+    ON dm.id_mk = mk.id_mk
 
+JOIN kelas k
+    ON dm.id_kelas = k.id_kelas
 
-JOIN dosen_mk
-ON jadwal.id_dosen_mk = dosen_mk.id
-
-
-JOIN dosen
-ON dosen_mk.id_dosen = dosen.id_dosen
-
-
-JOIN mata_kuliah
-ON dosen_mk.id_mk = mata_kuliah.id_mk
-
-
-JOIN kelas
-ON dosen_mk.id_kelas = kelas.id_kelas
-
-
-ORDER BY 
-hari.id_hari ASC,
-jam_kuliah.jam_mulai ASC
+ORDER BY
+    h.id_hari,
+    jk.jam_mulai,
+    k.nama_kelas
 
 ");
+
 ?>
 
+<!DOCTYPE html>
+<html lang="id">
 
-<div class="container-fluid">
+<head>
 
-<h3 class="mb-4">
-    Dashboard SIKULIAH
-</h3>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+
+<title>SIKULIAH - Jadwal Kuliah</title>
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+rel="stylesheet">
+
+<style>
+
+body {
+    background: #edf2f7;
+}
+
+/* NAVBAR */
+
+.navbar-custom {
+    background: white;
+    box-shadow: 0 3px 15px rgba(0,0,0,.08);
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: #0d6efd;
+}
+
+.logo i {
+    margin-right: 8px;
+}
+
+/* HERO */
+
+.hero {
+    background: #0d6efd;
+    color: white;
+    border-radius: 18px;
+    padding: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-weight: 700;
+}
+
+/* CARD */
+
+.card {
+    border: none;
+    border-radius: 15px;
+}
+
+/* TABLE */
+
+.table th {
+    vertical-align: middle;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.badge-kelas {
+    background: #0d6efd;
+    font-size: 13px;
+}
+
+</style>
+
+</head>
+
+<body>
 
 
-<!-- CARD JUMLAH DATA -->
+<!-- ===============================
+     NAVBAR
+================================ -->
 
-<div class="row">
+<nav class="navbar navbar-expand-lg navbar-custom">
 
+<div class="container">
 
-<div class="col-md-3">
-<div class="card shadow mb-3">
-<div class="card-body">
+<a class="navbar-brand logo" href="/">
 
-<h6>Data Dosen</h6>
+<i class="bi bi-mortarboard-fill"></i>
+SIKULIAH
 
-<h2>
-<?= $jumlah_dosen ?>
-</h2>
-
-</div>
-</div>
-</div>
-
-
-
-<div class="col-md-3">
-<div class="card shadow mb-3">
-<div class="card-body">
-
-<h6>Mata Kuliah</h6>
-
-<h2>
-<?= $jumlah_mk ?>
-</h2>
-
-</div>
-</div>
-</div>
-
-
-
-<div class="col-md-3">
-<div class="card shadow mb-3">
-<div class="card-body">
-
-<h6>Kelas</h6>
-
-<h2>
-<?= $jumlah_kelas ?>
-</h2>
-
-</div>
-</div>
-</div>
-
-
-
-<div class="col-md-3">
-<div class="card shadow mb-3">
-<div class="card-body">
-
-<h6>Jadwal</h6>
-
-<h2>
-<?= $jumlah_jadwal ?>
-</h2>
-
-</div>
-</div>
-</div>
-
-
-</div>
-
-
-
-<!-- TABEL JADWAL -->
-
-<div class="card shadow">
-
-<div class="card-header d-flex justify-content-between align-items-center">
-
-<h5>
-Jadwal Perkuliahan
-</h5>
-
-<a href="export_jadwal.php" class="btn btn-danger btn-sm">
-    Export PDF
 </a>
+
+
+<div class="ms-auto d-flex gap-2">
+
+<a href="/auth/login.php"
+   class="btn btn-outline-primary">
+
+<i class="bi bi-box-arrow-in-right"></i>
+Login
+
+</a>
+
+
+<a href="/auth/register.php"
+   class="btn btn-primary">
+
+<i class="bi bi-person-plus"></i>
+Register
+
+</a>
+
+</div>
+
+</div>
+
+</nav>
+
+
+
+<!-- ===============================
+     CONTENT
+================================ -->
+
+<div class="container">
+
+
+<!-- HERO -->
+
+<div class="hero text-center">
+
+<h1>
+<i class="bi bi-calendar-week"></i>
+Sistem Penjadwalan Kuliah
+</h1>
+
+<p class="mb-0">
+Informasi jadwal perkuliahan
+</p>
+
+</div>
+
+
+
+<!-- JADWAL -->
+
+<div class="card shadow mb-5">
+
+<div class="card-header bg-white">
+
+<h4 class="mb-0">
+
+<i class="bi bi-calendar3 text-primary"></i>
+
+Jadwal Perkuliahan
+
+</h4>
 
 </div>
 
@@ -189,284 +226,139 @@ Jadwal Perkuliahan
 
 <div class="table-responsive">
 
-<?php
-$daftar_warna = [
-    "#0d6efd",
-    "#198754",
-    "#dc3545",
-    "#ffc107",
-    "#6f42c1",
-    "#20c997",
-    "#fd7e14",
-    "#6610f2"
-];
+<table class="table table-bordered table-hover">
 
-$warna_mk = [];
-$index_warna = 0;
-?>
-
-<table class="table table-bordered text-center">
-
-
-<thead class="table-dark">
-
+<thead class="table-primary text-center">
 
 <tr>
 
-<th width="120">
-Hari
-</th>
+<th>No</th>
 
+<th>Hari</th>
 
-<th width="120">
-Waktu
-</th>
+<th>Jam</th>
 
+<th>Kelas</th>
 
-<?php
+<th>Kode MK</th>
 
-$data_ruangan = mysqli_query($conn,"
-SELECT * FROM ruangan
-ORDER BY id_ruangan ASC
-");
+<th>Mata Kuliah</th>
 
+<th>Dosen</th>
 
-while($ruangan=mysqli_fetch_assoc($data_ruangan)){
-
-?>
-
-<th>
-<?= $ruangan['nama_ruangan'] ?>
-</th>
-
-
-<?php } ?>
-
+<th>Ruangan</th>
 
 </tr>
-
 
 </thead>
 
 
-
 <tbody>
-
 
 <?php
 
+if(mysqli_num_rows($query) > 0){
 
-$data_hari = mysqli_query($conn,"
-SELECT * FROM hari
-ORDER BY id_hari ASC
-");
+$no = 1;
 
-
-while($hari=mysqli_fetch_assoc($data_hari)){
-
-
-$data_jam = mysqli_query($conn,"
-SELECT * FROM jam_kuliah
-ORDER BY id_jam ASC
-");
-
-
-$first=true;
-
-
-while($jam=mysqli_fetch_assoc($data_jam)){
-
+while($row = mysqli_fetch_assoc($query)){
 
 ?>
-
 
 <tr>
 
-
-<?php if($first){ ?>
-
-
-<td rowspan="<?= mysqli_num_rows(mysqli_query($conn,"SELECT * FROM jam_kuliah")) ?>"
-class="fw-bold align-middle">
-
-<?= $hari['nama_hari'] ?>
-
+<td class="text-center">
+<?= $no++; ?>
 </td>
-
-
-<?php 
-
-$first=false;
-
-} 
-
-?>
 
 
 <td>
+<?= $row['nama_hari']; ?>
+</td>
 
-<?= $jam['jam_mulai'] ?>
+
+<td class="text-center">
+
+<?= substr($row['jam_mulai'],0,5); ?>
+
 -
-<?= $jam['jam_selesai'] ?>
+
+<?= substr($row['jam_selesai'],0,5); ?>
 
 </td>
 
 
+<td class="text-center">
 
+<span class="badge badge-kelas">
+
+<?= $row['nama_kelas']; ?>
+
+</span>
+
+</td>
+
+
+<td>
+<?= $row['kode_mk']; ?>
+</td>
+
+
+<td>
+<?= $row['nama_mk']; ?>
+</td>
+
+
+<td>
+<?= $row['nama_dosen']; ?>
+</td>
+
+
+<td>
+<?= $row['nama_ruangan']; ?>
+</td>
+
+</tr>
 
 <?php
 
-
-$data_ruangan2 = mysqli_query($conn,"
-SELECT * FROM ruangan
-ORDER BY id_ruangan ASC
-");
-
-
-while($ruang=mysqli_fetch_assoc($data_ruangan2)){
-
-
-
-$jadwal=mysqli_query($conn,"
-
-
-SELECT 
-
-mata_kuliah.nama_mk,
-dosen.nama_dosen,
-kelas.nama_kelas
-
-
-FROM jadwal
-
-
-JOIN dosen_mk
-ON jadwal.id_dosen_mk=dosen_mk.id
-
-
-JOIN mata_kuliah
-ON dosen_mk.id_mk=mata_kuliah.id_mk
-
-
-JOIN dosen
-ON dosen_mk.id_dosen=dosen.id_dosen
-
-
-JOIN kelas
-ON dosen_mk.id_kelas=kelas.id_kelas
-
-
-WHERE
-
-jadwal.id_hari='$hari[id_hari]'
-
-AND
-
-jadwal.id_jam='$jam[id_jam]'
-
-AND
-
-jadwal.id_ruangan='$ruang[id_ruangan]'
-
-
-");
-
-
-
-if(mysqli_num_rows($jadwal)>0){
-
-
-$data=mysqli_fetch_assoc($jadwal);
-
-
-$nama_mk = $data['nama_mk'];
-
-if (!isset($warna_mk[$nama_mk])) {
-
-    $warna_mk[$nama_mk] = 
-    $daftar_warna[$index_warna % count($daftar_warna)];
-
-    $index_warna++;
 }
-
-$warna = $warna_mk[$nama_mk];
-
-?>
-
-<td style="
-background-color: <?= $warna ?>;
-color:white;
-text-align:center;
-">
-
-<b>
-<?= $data['nama_mk'] ?>
-</b>
-
-<br>
-
-<small>
-<?= $data['nama_dosen'] ?>
-</small>
-
-<br>
-
-<small>
-<?= $data['nama_kelas'] ?>
-</small>
-
-</td>
-
-<?php
 
 }else{
 
 ?>
 
-<td>
--
+<tr>
+
+<td colspan="8"
+    class="text-center">
+
+Belum ada jadwal perkuliahan.
+
 </td>
-
-<?php
-
-}
-
-
-}
-
-
-}
-
-
-?>
-
 
 </tr>
 
-
 <?php
-
 
 }
 
-
 ?>
-
 
 </tbody>
 
-
 </table>
 
-
 </div>
 
 </div>
 
 </div>
 
-<?php
 
-include "layout/footer.php";
+</div>
 
-?>
+
+</body>
+
+</html>
