@@ -2,6 +2,7 @@
 
 require_once "koneksi.php";
 
+
 /* ===============================
    AMBIL DATA JADWAL
 ================================ */
@@ -77,63 +78,175 @@ body {
     background: #edf2f7;
 }
 
-/* NAVBAR */
+
+/* ===============================
+   NAVBAR
+================================ */
 
 .navbar-custom {
+
     background: white;
-    box-shadow: 0 3px 15px rgba(0,0,0,.08);
+
+    box-shadow:
+        0 3px 15px rgba(0,0,0,.08);
+
 }
+
 
 .logo {
+
     font-size: 28px;
+
     font-weight: 700;
+
     color: #0d6efd;
+
+    text-decoration: none;
+
 }
+
 
 .logo i {
+
     margin-right: 8px;
+
 }
 
-/* HERO */
+
+/* ===============================
+   BUTTON LOGIN REGISTER
+================================ */
+
+.navbar-buttons {
+
+    display: flex;
+
+    gap: 10px;
+
+    position: relative;
+
+    z-index: 10;
+
+}
+
+
+.navbar-buttons .btn {
+
+    border-radius: 8px;
+
+    padding: 8px 18px;
+
+    font-weight: 500;
+
+}
+
+
+/* ===============================
+   HERO
+================================ */
 
 .hero {
+
     background: #0d6efd;
+
     color: white;
+
     border-radius: 18px;
+
     padding: 40px;
+
     margin-top: 30px;
+
     margin-bottom: 30px;
+
 }
+
 
 .hero h1 {
+
     font-weight: 700;
+
 }
 
-/* CARD */
+
+/* ===============================
+   CARD
+================================ */
 
 .card {
+
     border: none;
+
     border-radius: 15px;
+
 }
 
-/* TABLE */
+
+/* ===============================
+   TABLE
+================================ */
 
 .table th {
+
     vertical-align: middle;
+
 }
+
 
 .table td {
+
     vertical-align: middle;
+
 }
 
+
 .badge-kelas {
+
     background: #0d6efd;
+
     font-size: 13px;
+
+}
+
+
+/* ===============================
+   MOBILE
+================================ */
+
+@media (max-width: 576px) {
+
+    .logo {
+
+        font-size: 22px;
+
+    }
+
+    .navbar-buttons .btn {
+
+        padding: 7px 10px;
+
+        font-size: 14px;
+
+    }
+
+    .hero {
+
+        padding: 25px 15px;
+
+    }
+
+    .hero h1 {
+
+        font-size: 26px;
+
+    }
+
 }
 
 </style>
 
 </head>
+
 
 <body>
 
@@ -146,32 +259,42 @@ body {
 
 <div class="container">
 
-<a class="navbar-brand logo" href="/">
 
-<i class="bi bi-mortarboard-fill"></i>
-SIKULIAH
+<a class="navbar-brand logo" href="./">
+
+    <i class="bi bi-mortarboard-fill"></i>
+
+    SIKULIAH
 
 </a>
 
 
-<div class="ms-auto d-flex gap-2">
+<div class="ms-auto navbar-buttons">
 
-<a href="/auth/login.php"
+
+<!-- LOGIN -->
+
+<a href="auth/login.php"
    class="btn btn-outline-primary">
 
-<i class="bi bi-box-arrow-in-right"></i>
-Login
+    <i class="bi bi-box-arrow-in-right"></i>
+
+    Login
 
 </a>
 
 
-<a href="/auth/register.php"
+<!-- REGISTER -->
+
+<a href="auth/register.php"
    class="btn btn-primary">
 
-<i class="bi bi-person-plus"></i>
-Register
+    <i class="bi bi-person-plus"></i>
+
+    Register
 
 </a>
+
 
 </div>
 
@@ -188,36 +311,46 @@ Register
 <div class="container">
 
 
-<!-- HERO -->
+<!-- ===============================
+     HERO
+================================ -->
 
 <div class="hero text-center">
 
-<h1>
-<i class="bi bi-calendar-week"></i>
-Sistem Penjadwalan Kuliah
-</h1>
+    <h1>
 
-<p class="mb-0">
-Informasi jadwal perkuliahan
-</p>
+        <i class="bi bi-calendar-week"></i>
+
+        Sistem Penjadwalan Kuliah
+
+    </h1>
+
+    <p class="mb-0">
+
+        Informasi jadwal perkuliahan
+
+    </p>
 
 </div>
 
 
 
-<!-- JADWAL -->
+<!-- ===============================
+     JADWAL
+================================ -->
 
 <div class="card shadow mb-5">
 
+
 <div class="card-header bg-white">
 
-<h4 class="mb-0">
+    <h4 class="mb-0">
 
-<i class="bi bi-calendar3 text-primary"></i>
+        <i class="bi bi-calendar3 text-primary"></i>
 
-Jadwal Perkuliahan
+        Jadwal Perkuliahan
 
-</h4>
+    </h4>
 
 </div>
 
@@ -226,27 +359,29 @@ Jadwal Perkuliahan
 
 <div class="table-responsive">
 
+
 <table class="table table-bordered table-hover">
+
 
 <thead class="table-primary text-center">
 
 <tr>
 
-<th>No</th>
+    <th>No</th>
 
-<th>Hari</th>
+    <th>Hari</th>
 
-<th>Jam</th>
+    <th>Jam</th>
 
-<th>Kelas</th>
+    <th>Kelas</th>
 
-<th>Kode MK</th>
+    <th>Kode MK</th>
 
-<th>Mata Kuliah</th>
+    <th>Mata Kuliah</th>
 
-<th>Dosen</th>
+    <th>Dosen</th>
 
-<th>Ruangan</th>
+    <th>Ruangan</th>
 
 </tr>
 
@@ -255,89 +390,108 @@ Jadwal Perkuliahan
 
 <tbody>
 
+
 <?php
 
 if(mysqli_num_rows($query) > 0){
 
-$no = 1;
+    $no = 1;
 
-while($row = mysqli_fetch_assoc($query)){
+    while($row = mysqli_fetch_assoc($query)){
 
 ?>
 
+
 <tr>
 
+
 <td class="text-center">
-<?= $no++; ?>
+
+    <?= $no++; ?>
+
 </td>
 
 
 <td>
-<?= $row['nama_hari']; ?>
-</td>
 
-
-<td class="text-center">
-
-<?= substr($row['jam_mulai'],0,5); ?>
-
--
-
-<?= substr($row['jam_selesai'],0,5); ?>
+    <?= htmlspecialchars($row['nama_hari']); ?>
 
 </td>
 
 
 <td class="text-center">
 
-<span class="badge badge-kelas">
+    <?= substr($row['jam_mulai'],0,5); ?>
 
-<?= $row['nama_kelas']; ?>
+    -
 
-</span>
+    <?= substr($row['jam_selesai'],0,5); ?>
+
+</td>
+
+
+<td class="text-center">
+
+    <span class="badge badge-kelas">
+
+        <?= htmlspecialchars($row['nama_kelas']); ?>
+
+    </span>
 
 </td>
 
 
 <td>
-<?= $row['kode_mk']; ?>
+
+    <?= htmlspecialchars($row['kode_mk']); ?>
+
 </td>
 
 
 <td>
-<?= $row['nama_mk']; ?>
+
+    <?= htmlspecialchars($row['nama_mk']); ?>
+
 </td>
 
 
 <td>
-<?= $row['nama_dosen']; ?>
+
+    <?= htmlspecialchars($row['nama_dosen']); ?>
+
 </td>
 
 
 <td>
-<?= $row['nama_ruangan']; ?>
+
+    <?= htmlspecialchars($row['nama_ruangan']); ?>
+
 </td>
+
 
 </tr>
 
+
 <?php
 
-}
+    }
 
 }else{
 
 ?>
 
+
 <tr>
 
-<td colspan="8"
-    class="text-center">
+    <td colspan="8"
+        class="text-center">
 
-Belum ada jadwal perkuliahan.
+        Belum ada jadwal perkuliahan.
 
-</td>
+    </td>
 
 </tr>
+
 
 <?php
 
@@ -345,9 +499,11 @@ Belum ada jadwal perkuliahan.
 
 ?>
 
+
 </tbody>
 
 </table>
+
 
 </div>
 
