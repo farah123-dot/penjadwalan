@@ -179,14 +179,11 @@ $jadwalMap = [];
 
 foreach ($jadwal as $row) {
 
-    $hariId =
-        $row['id_hari'];
+    $hariId = $row['id_hari'];
 
-    $jamId =
-        $row['id_jam'];
+    $jamId = $row['id_jam'];
 
-    $ruanganId =
-        $row['id_ruangan'];
+    $ruanganId = $row['id_ruangan'];
 
 
     $jadwalMap
@@ -224,8 +221,7 @@ $warnaIndex = 0;
 
 foreach ($jadwal as $row) {
 
-    $idMk =
-        $row['id_mk'];
+    $idMk = $row['id_mk'];
 
 
     if (!isset($warnaMK[$idMk])) {
@@ -331,7 +327,7 @@ body {
 
 
 /* =========================================================
-   LOGIN REGISTER
+   BUTTON LOGIN & REGISTER
 ========================================================= */
 
 .navbar-buttons {
@@ -362,9 +358,9 @@ body {
 
 .schedule-card {
 
-    width: calc(100% - 40px);
+    width: calc(100% - 60px);
 
-    max-width: 1250px;
+    max-width: 1200px;
 
     margin: 25px auto 30px;
 
@@ -383,7 +379,7 @@ body {
 
 
 /* =========================================================
-   CARD HEADER
+   HEADER CARD
 ========================================================= */
 
 .schedule-card-header {
@@ -394,7 +390,7 @@ body {
 
     justify-content: space-between;
 
-    padding: 15px 18px;
+    padding: 13px 17px;
 
     background: #ffffff;
 
@@ -405,7 +401,7 @@ body {
 
 .page-title {
 
-    font-size: 23px;
+    font-size: 21px;
 
     font-weight: 500;
 
@@ -417,7 +413,7 @@ body {
 
 
 /* =========================================================
-   EXPORT PDF
+   BUTTON EXPORT
 ========================================================= */
 
 .btn-export {
@@ -430,11 +426,11 @@ body {
 
     border: none;
 
-    border-radius: 9px;
+    border-radius: 8px;
 
-    padding: 8px 13px;
+    padding: 7px 11px;
 
-    font-size: 15px;
+    font-size: 14px;
 
     transition: all .15s ease;
 
@@ -458,7 +454,7 @@ body {
 
 .schedule-card-body {
 
-    padding: 15px;
+    padding: 12px;
 
     overflow-x: auto;
 
@@ -466,7 +462,7 @@ body {
 
 
 /* =========================================================
-   TABLE JADWAL
+   TABLE
 ========================================================= */
 
 .schedule-table {
@@ -481,7 +477,7 @@ body {
 
 
 /* =========================================================
-   HEADER TABLE
+   TABLE HEADER
 ========================================================= */
 
 .schedule-table thead th {
@@ -496,31 +492,31 @@ body {
 
     vertical-align: middle;
 
-    font-size: 16px;
+    font-size: 14px;
 
     font-weight: 700;
 
-    padding: 10px 6px;
+    padding: 8px 5px;
 
 }
 
 
 .schedule-table thead th:nth-child(1) {
 
-    width: 115px;
+    width: 105px;
 
 }
 
 
 .schedule-table thead th:nth-child(2) {
 
-    width: 125px;
+    width: 110px;
 
 }
 
 
 /* =========================================================
-   BODY TABLE
+   TABLE BODY
 ========================================================= */
 
 .schedule-table tbody td {
@@ -531,11 +527,11 @@ body {
 
     vertical-align: middle;
 
-    height: 65px;
+    height: 55px;
 
-    font-size: 15px;
+    font-size: 13px;
 
-    padding: 6px;
+    padding: 5px;
 
 }
 
@@ -546,7 +542,7 @@ body {
 
 .day-cell {
 
-    font-size: 16px !important;
+    font-size: 14px !important;
 
     font-weight: 700;
 
@@ -561,9 +557,9 @@ body {
 
 .time-cell {
 
-    font-size: 15px !important;
+    font-size: 13px !important;
 
-    line-height: 1.5;
+    line-height: 1.4;
 
     background: #ffffff;
 
@@ -580,35 +576,39 @@ body {
 
     font-weight: 500;
 
-    padding: 8px 6px !important;
+    padding: 6px 5px !important;
 
 }
 
 
 /* =========================================================
-   MATA KULIAH
+   NAMA MATA KULIAH
 ========================================================= */
 
 .subject-name {
 
-    font-size: 16px;
+    font-size: 14px;
 
     font-weight: 700;
 
-    margin-bottom: 3px;
+    margin-bottom: 2px;
+
+    line-height: 1.2;
 
 }
 
 
 /* =========================================================
-   DOSEN
+   NAMA DOSEN
 ========================================================= */
 
 .lecturer-name {
 
-    font-size: 14px;
+    font-size: 12px;
 
-    margin-bottom: 3px;
+    margin-bottom: 2px;
+
+    line-height: 1.2;
 
 }
 
@@ -619,7 +619,9 @@ body {
 
 .class-name {
 
-    font-size: 14px;
+    font-size: 12px;
+
+    line-height: 1.2;
 
 }
 
@@ -634,7 +636,7 @@ body {
 
     color: #222222;
 
-    font-size: 15px;
+    font-size: 13px;
 
 }
 
@@ -680,21 +682,21 @@ body {
 
     .schedule-card-header {
 
-        padding: 12px;
+        padding: 11px;
 
     }
 
 
     .page-title {
 
-        font-size: 19px;
+        font-size: 18px;
 
     }
 
 
     .btn-export {
 
-        font-size: 13px;
+        font-size: 12px;
 
         padding: 6px 9px;
 
@@ -703,53 +705,53 @@ body {
 
     .schedule-card-body {
 
-        padding: 10px;
+        padding: 8px;
 
     }
 
 
     .schedule-table {
 
-        min-width: 850px;
+        min-width: 800px;
 
     }
 
 
     .schedule-table thead th {
 
-        font-size: 15px;
+        font-size: 13px;
 
-        padding: 9px 5px;
+        padding: 7px 4px;
 
     }
 
 
     .schedule-table tbody td {
 
-        font-size: 14px;
+        font-size: 12px;
 
-        height: 60px;
+        height: 50px;
 
     }
 
 
     .subject-name {
 
-        font-size: 15px;
+        font-size: 13px;
 
     }
 
 
     .lecturer-name {
 
-        font-size: 13px;
+        font-size: 11px;
 
     }
 
 
     .class-name {
 
-        font-size: 13px;
+        font-size: 11px;
 
     }
 
@@ -788,10 +790,12 @@ body {
 
 
 
-        <!-- LOGIN REGISTER -->
+        <!-- LOGIN & REGISTER -->
 
         <div class="navbar-buttons">
 
+
+            <!-- LOGIN -->
 
             <a
                 href="auth/login.php"
@@ -804,6 +808,9 @@ body {
 
             </a>
 
+
+
+            <!-- REGISTER -->
 
             <a
                 href="auth/register.php"
@@ -834,7 +841,7 @@ body {
 
 
     <!-- =====================================================
-         CARD HEADER
+         HEADER CARD
     ====================================================== -->
 
     <div class="schedule-card-header">
@@ -863,7 +870,7 @@ body {
 
 
     <!-- =====================================================
-         CARD BODY
+         BODY CARD
     ====================================================== -->
 
     <div class="schedule-card-body">
@@ -873,7 +880,7 @@ body {
 
 
             <!-- =================================================
-                 HEADER
+                 HEADER TABEL
             ================================================= -->
 
             <thead>
@@ -915,7 +922,7 @@ body {
 
 
             <!-- =================================================
-                 BODY
+                 ISI TABEL
             ================================================= -->
 
             <tbody>
@@ -1064,9 +1071,7 @@ body {
                                     >
 
 
-                                        <div
-                                            class="subject-name"
-                                        >
+                                        <div class="subject-name">
 
                                             <?= htmlspecialchars(
                                                 $data['nama_mk']
@@ -1075,9 +1080,7 @@ body {
                                         </div>
 
 
-                                        <div
-                                            class="lecturer-name"
-                                        >
+                                        <div class="lecturer-name">
 
                                             <?= htmlspecialchars(
                                                 $data['nama_dosen']
@@ -1086,9 +1089,7 @@ body {
                                         </div>
 
 
-                                        <div
-                                            class="class-name"
-                                        >
+                                        <div class="class-name">
 
                                             <?= htmlspecialchars(
                                                 $data['nama_kelas']
@@ -1103,9 +1104,7 @@ body {
                                 <?php else: ?>
 
 
-                                    <td
-                                        class="empty-cell"
-                                    >
+                                    <td class="empty-cell">
 
                                         -
 
