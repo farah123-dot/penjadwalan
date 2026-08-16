@@ -2,7 +2,7 @@
 
 session_start();
 
-require_once "koneksi.php";
+require_once "../koneksi.php";
 
 $username = $_POST['username'];
 $password = $_POST['password'];
@@ -25,15 +25,59 @@ if (mysqli_num_rows($query) > 0) {
     $_SESSION['role'] = $data['role'];
     $_SESSION['id_dosen'] = $data['id_dosen'];
 
-    header("Location: index.php");
+
+    /* ==========================
+       LOGIN ADMIN
+    ========================== */
+
+    if ($data['role'] === 'admin') {
+
+        header("Location: ../dashboard_admin.php");
+        exit;
+
+    }
+
+
+    /* ==========================
+       LOGIN DOSEN
+    ========================== */
+
+    if ($data['role'] === 'dosen') {
+
+        header("Location: ../dashboard_dosen.php");
+        exit;
+
+    }
+
+
+    /* ==========================
+       ROLE TIDAK DIKENAL
+    ========================== */
+
+    session_destroy();
+
+    echo "
+    <script>
+
+        alert('Role akun tidak dikenali.');
+
+        window.location='login.php';
+
+    </script>
+    ";
+
     exit;
+
 
 } else {
 
     echo "
     <script>
+
         alert('Username atau Password salah');
+
         window.location='login.php';
+
     </script>
     ";
 
