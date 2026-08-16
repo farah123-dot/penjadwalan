@@ -1,4 +1,3 @@
-```php
 <?php
 
 require_once "koneksi.php";
@@ -180,14 +179,20 @@ $jadwalMap = [];
 
 foreach ($jadwal as $row) {
 
-    $hariId    = $row['id_hari'];
+    $hariId =
+        $row['id_hari'];
 
-    $jamId     = $row['id_jam'];
+    $jamId =
+        $row['id_jam'];
 
-    $ruanganId = $row['id_ruangan'];
+    $ruanganId =
+        $row['id_ruangan'];
 
 
-    $jadwalMap[$hariId][$jamId][$ruanganId] = $row;
+    $jadwalMap
+        [$hariId]
+        [$jamId]
+        [$ruanganId] = $row;
 
 }
 
@@ -219,7 +224,8 @@ $warnaIndex = 0;
 
 foreach ($jadwal as $row) {
 
-    $idMk = $row['id_mk'];
+    $idMk =
+        $row['id_mk'];
 
 
     if (!isset($warnaMK[$idMk])) {
@@ -279,7 +285,7 @@ body {
 
     margin: 0;
 
-    background: #ffffff;
+    background: #f1f5f9;
 
     font-family:
         Arial,
@@ -325,7 +331,7 @@ body {
 
 
 /* =========================================================
-   LOGIN & REGISTER
+   LOGIN REGISTER
 ========================================================= */
 
 .navbar-buttons {
@@ -351,10 +357,36 @@ body {
 
 
 /* =========================================================
-   HEADER JADWAL
+   CARD JADWAL
 ========================================================= */
 
-.page-header {
+.schedule-card {
+
+    width: calc(100% - 40px);
+
+    max-width: 1250px;
+
+    margin: 25px auto 30px;
+
+    background: #ffffff;
+
+    border-radius: 15px;
+
+    border: none;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, .12);
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.schedule-card-header {
 
     display: flex;
 
@@ -362,9 +394,11 @@ body {
 
     justify-content: space-between;
 
-    padding: 10px 15px;
+    padding: 15px 18px;
 
-    border-bottom: 1px solid #e0e0e0;
+    background: #ffffff;
+
+    border-bottom: 1px solid #e1e5e9;
 
 }
 
@@ -398,11 +432,11 @@ body {
 
     border-radius: 9px;
 
-    padding: 8px 12px;
+    padding: 8px 13px;
 
     font-size: 15px;
 
-    transition: .2s ease;
+    transition: all .15s ease;
 
 }
 
@@ -413,16 +447,18 @@ body {
 
     color: #ffffff !important;
 
+    transform: translateY(-1px);
+
 }
 
 
 /* =========================================================
-   WRAPPER JADWAL
+   CARD BODY
 ========================================================= */
 
-.schedule-wrapper {
+.schedule-card-body {
 
-    padding: 12px 15px;
+    padding: 15px;
 
     overflow-x: auto;
 
@@ -436,8 +472,6 @@ body {
 .schedule-table {
 
     width: 100%;
-
-    min-width: 850px;
 
     border-collapse: collapse;
 
@@ -473,14 +507,14 @@ body {
 
 .schedule-table thead th:nth-child(1) {
 
-    width: 120px;
+    width: 115px;
 
 }
 
 
 .schedule-table thead th:nth-child(2) {
 
-    width: 120px;
+    width: 125px;
 
 }
 
@@ -552,7 +586,7 @@ body {
 
 
 /* =========================================================
-   NAMA MATA KULIAH
+   MATA KULIAH
 ========================================================= */
 
 .subject-name {
@@ -567,7 +601,7 @@ body {
 
 
 /* =========================================================
-   NAMA DOSEN
+   DOSEN
 ========================================================= */
 
 .lecturer-name {
@@ -635,9 +669,18 @@ body {
     }
 
 
-    .page-header {
+    .schedule-card {
 
-        padding: 9px 10px;
+        width: calc(100% - 20px);
+
+        margin-top: 15px;
+
+    }
+
+
+    .schedule-card-header {
+
+        padding: 12px;
 
     }
 
@@ -658,7 +701,7 @@ body {
     }
 
 
-    .schedule-wrapper {
+    .schedule-card-body {
 
         padding: 10px;
 
@@ -784,307 +827,333 @@ body {
 
 
 <!-- =========================================================
-     HEADER
+     CARD JADWAL
 ========================================================= -->
 
-<div class="page-header">
+<div class="schedule-card">
 
 
-    <h1 class="page-title">
+    <!-- =====================================================
+         CARD HEADER
+    ====================================================== -->
 
-        Jadwal Perkuliahan
-
-    </h1>
-
-
-    <a
-        href="export_jadwal.php"
-        class="btn-export"
-        target="_blank"
-    >
-
-        Export PDF
-
-    </a>
+    <div class="schedule-card-header">
 
 
-</div>
+        <h1 class="page-title">
+
+            Jadwal Perkuliahan
+
+        </h1>
 
 
+        <a
+            href="export_jadwal.php"
+            class="btn-export"
+            target="_blank"
+        >
 
-<!-- =========================================================
-     TABEL JADWAL
-========================================================= -->
+            Export PDF
 
-<div class="schedule-wrapper">
-
-
-<table class="schedule-table">
-
-
-<thead>
-
-<tr>
+        </a>
 
 
-    <th>
-
-        Hari
-
-    </th>
-
-
-    <th>
-
-        Waktu
-
-    </th>
-
-
-    <?php foreach ($ruangan as $r): ?>
-
-        <th>
-
-            <?= htmlspecialchars(
-                $r['nama_ruangan']
-            ); ?>
-
-        </th>
-
-    <?php endforeach; ?>
-
-
-</tr>
-
-</thead>
+    </div>
 
 
 
-<tbody>
+    <!-- =====================================================
+         CARD BODY
+    ====================================================== -->
+
+    <div class="schedule-card-body">
 
 
-<?php if (
-    count($hari) > 0 &&
-    count($jam) > 0
-): ?>
+        <table class="schedule-table">
 
 
-    <?php foreach ($hari as $h): ?>
+            <!-- =================================================
+                 HEADER
+            ================================================= -->
 
-
-        <?php
-
-        $hariId =
-            $h['id_hari'];
-
-        $jumlahJam =
-            count($jam);
-
-        $jamKe = 0;
-
-        ?>
-
-
-        <?php foreach ($jam as $j): ?>
-
-
-            <?php
-
-            $jamId =
-                $j['id_jam'];
-
-            $jamKe++;
-
-            ?>
-
+            <thead>
 
             <tr>
 
 
-                <!-- =====================================
-                     HARI
-                ====================================== -->
+                <th>
 
-                <?php if ($jamKe == 1): ?>
+                    Hari
 
-                    <td
-                        class="day-cell"
-                        rowspan="<?= $jumlahJam; ?>"
-                    >
-
-                        <?= htmlspecialchars(
-                            $h['nama_hari']
-                        ); ?>
-
-                    </td>
-
-                <?php endif; ?>
+                </th>
 
 
+                <th>
 
-                <!-- =====================================
-                     WAKTU
-                ====================================== -->
+                    Waktu
 
-                <td class="time-cell">
+                </th>
 
-                    <?= substr(
-                        $j['jam_mulai'],
-                        0,
-                        5
-                    ); ?>
-
-                    -
-
-                    <br>
-
-                    <?= substr(
-                        $j['jam_selesai'],
-                        0,
-                        5
-                    ); ?>
-
-                </td>
-
-
-
-                <!-- =====================================
-                     RUANGAN
-                ====================================== -->
 
                 <?php foreach ($ruangan as $r): ?>
 
+                    <th>
 
-                    <?php
+                        <?= htmlspecialchars(
+                            $r['nama_ruangan']
+                        ); ?>
 
-                    $ruanganId =
-                        $r['id_ruangan'];
-
-                    $data = null;
-
-
-                    if (
-                        isset(
-                            $jadwalMap
-                                [$hariId]
-                                [$jamId]
-                                [$ruanganId]
-                        )
-                    ) {
-
-                        $data =
-                            $jadwalMap
-                                [$hariId]
-                                [$jamId]
-                                [$ruanganId];
-
-                    }
-
-                    ?>
-
-
-                    <?php if ($data): ?>
-
-
-                        <?php
-
-                        $warnaCell =
-                            $warnaMK[
-                                $data['id_mk']
-                            ]
-                            ?? '#0d6efd';
-
-                        ?>
-
-
-                        <td
-                            class="schedule-filled"
-                            style="
-                                background:
-                                <?= $warnaCell ?>;
-                            "
-                        >
-
-
-                            <div class="subject-name">
-
-                                <?= htmlspecialchars(
-                                    $data['nama_mk']
-                                ); ?>
-
-                            </div>
-
-
-                            <div class="lecturer-name">
-
-                                <?= htmlspecialchars(
-                                    $data['nama_dosen']
-                                ); ?>
-
-                            </div>
-
-
-                            <div class="class-name">
-
-                                <?= htmlspecialchars(
-                                    $data['nama_kelas']
-                                ); ?>
-
-                            </div>
-
-
-                        </td>
-
-
-                    <?php else: ?>
-
-
-                        <td class="empty-cell">
-
-                            -
-
-                        </td>
-
-
-                    <?php endif; ?>
-
+                    </th>
 
                 <?php endforeach; ?>
 
 
             </tr>
 
-
-        <?php endforeach; ?>
-
-
-    <?php endforeach; ?>
+            </thead>
 
 
-<?php else: ?>
+
+            <!-- =================================================
+                 BODY
+            ================================================= -->
+
+            <tbody>
 
 
-    <tr>
-
-        <td
-            colspan="<?= count($ruangan) + 2; ?>"
-            class="text-center"
-        >
-
-            Belum ada data jadwal.
-
-        </td>
-
-    </tr>
+            <?php if (
+                count($hari) > 0 &&
+                count($jam) > 0
+            ): ?>
 
 
-<?php endif; ?>
+                <?php foreach ($hari as $h): ?>
 
 
-</tbody>
+                    <?php
+
+                    $hariId =
+                        $h['id_hari'];
+
+                    $jumlahJam =
+                        count($jam);
+
+                    $jamKe = 0;
+
+                    ?>
 
 
-</table>
+                    <?php foreach ($jam as $j): ?>
+
+
+                        <?php
+
+                        $jamId =
+                            $j['id_jam'];
+
+                        $jamKe++;
+
+                        ?>
+
+
+                        <tr>
+
+
+                            <!-- =================================
+                                 HARI
+                            ================================== -->
+
+                            <?php if ($jamKe == 1): ?>
+
+                                <td
+                                    class="day-cell"
+                                    rowspan="<?= $jumlahJam; ?>"
+                                >
+
+                                    <?= htmlspecialchars(
+                                        $h['nama_hari']
+                                    ); ?>
+
+                                </td>
+
+                            <?php endif; ?>
+
+
+
+                            <!-- =================================
+                                 WAKTU
+                            ================================== -->
+
+                            <td class="time-cell">
+
+                                <?= substr(
+                                    $j['jam_mulai'],
+                                    0,
+                                    5
+                                ); ?>
+
+                                -
+
+                                <br>
+
+                                <?= substr(
+                                    $j['jam_selesai'],
+                                    0,
+                                    5
+                                ); ?>
+
+                            </td>
+
+
+
+                            <!-- =================================
+                                 RUANGAN
+                            ================================== -->
+
+                            <?php foreach ($ruangan as $r): ?>
+
+
+                                <?php
+
+                                $ruanganId =
+                                    $r['id_ruangan'];
+
+                                $data = null;
+
+
+                                if (
+                                    isset(
+                                        $jadwalMap
+                                            [$hariId]
+                                            [$jamId]
+                                            [$ruanganId]
+                                    )
+                                ) {
+
+                                    $data =
+                                        $jadwalMap
+                                            [$hariId]
+                                            [$jamId]
+                                            [$ruanganId];
+
+                                }
+
+                                ?>
+
+
+                                <?php if ($data): ?>
+
+
+                                    <?php
+
+                                    $warnaCell =
+                                        $warnaMK[
+                                            $data['id_mk']
+                                        ]
+                                        ?? '#0d6efd';
+
+                                    ?>
+
+
+                                    <td
+                                        class="schedule-filled"
+                                        style="
+                                            background:
+                                            <?= $warnaCell ?>;
+                                        "
+                                    >
+
+
+                                        <div
+                                            class="subject-name"
+                                        >
+
+                                            <?= htmlspecialchars(
+                                                $data['nama_mk']
+                                            ); ?>
+
+                                        </div>
+
+
+                                        <div
+                                            class="lecturer-name"
+                                        >
+
+                                            <?= htmlspecialchars(
+                                                $data['nama_dosen']
+                                            ); ?>
+
+                                        </div>
+
+
+                                        <div
+                                            class="class-name"
+                                        >
+
+                                            <?= htmlspecialchars(
+                                                $data['nama_kelas']
+                                            ); ?>
+
+                                        </div>
+
+
+                                    </td>
+
+
+                                <?php else: ?>
+
+
+                                    <td
+                                        class="empty-cell"
+                                    >
+
+                                        -
+
+                                    </td>
+
+
+                                <?php endif; ?>
+
+
+                            <?php endforeach; ?>
+
+
+                        </tr>
+
+
+                    <?php endforeach; ?>
+
+
+                <?php endforeach; ?>
+
+
+            <?php else: ?>
+
+
+                <tr>
+
+                    <td
+                        colspan="<?= count($ruangan) + 2; ?>"
+                        class="text-center"
+                    >
+
+                        Belum ada data jadwal.
+
+                    </td>
+
+                </tr>
+
+
+            <?php endif; ?>
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
 
 
 </div>
@@ -1093,4 +1162,3 @@ body {
 </body>
 
 </html>
-```
