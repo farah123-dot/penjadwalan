@@ -95,17 +95,14 @@ Registrasi Akun Dosen
 <div class="mb-3">
 
 <label class="form-label">
-
-Nama Lengkap Dosen
-
+    Nama Lengkap Dosen
 </label>
 
 <input
-type="text"
-name="nama_dosen"
-class="form-control"
-placeholder="Masukkan nama lengkap"
-required
+    type="text"
+    name="nama_dosen"
+    class="form-control"
+    required
 >
 
 </div>
@@ -116,17 +113,14 @@ required
 <div class="mb-3">
 
 <label class="form-label">
-
-Username
-
+    Username
 </label>
 
 <input
-type="text"
-name="username"
-class="form-control"
-placeholder="Buat username"
-required
+    type="text"
+    name="username"
+    class="form-control"
+    required
 >
 
 </div>
@@ -137,17 +131,14 @@ required
 <div class="mb-3">
 
 <label class="form-label">
-
-Password
-
+    Password
 </label>
 
 <input
-type="password"
-name="password"
-class="form-control"
-placeholder="Buat password"
-required
+    type="password"
+    name="password"
+    class="form-control"
+    required
 >
 
 </div>
@@ -158,21 +149,17 @@ required
 <div class="mb-3">
 
 <label class="form-label">
-
-Konfirmasi Password
-
+    Konfirmasi Password
 </label>
 
 <input
-type="password"
-name="password_confirm"
-class="form-control"
-placeholder="Ulangi password"
-required
+    type="password"
+    name="password_confirm"
+    class="form-control"
+    required
 >
 
 </div>
-
 
 <button
 type="submit"
