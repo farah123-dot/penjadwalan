@@ -1,54 +1,235 @@
+```php
 <?php
 
 require_once "koneksi.php";
 
 
-/* ===============================
+/* =========================================================
    AMBIL DATA JADWAL
-================================ */
+========================================================= */
 
 $query = mysqli_query($conn, "
 
-SELECT
-    j.id_jadwal,
-    h.nama_hari,
-    jk.jam_mulai,
-    jk.jam_selesai,
-    r.nama_ruangan,
-    k.nama_kelas,
-    d.nama_dosen,
-    mk.kode_mk,
-    mk.nama_mk
+    SELECT
+        j.id_jadwal,
 
-FROM jadwal j
+        h.id_hari,
+        h.nama_hari,
 
-JOIN hari h
-    ON j.id_hari = h.id_hari
+        jk.id_jam,
+        jk.jam_mulai,
+        jk.jam_selesai,
 
-JOIN jam_kuliah jk
-    ON j.id_jam = jk.id_jam
+        r.id_ruangan,
+        r.nama_ruangan,
 
-JOIN ruangan r
-    ON j.id_ruangan = r.id_ruangan
+        k.id_kelas,
+        k.nama_kelas,
 
-JOIN dosen_mk dm
-    ON j.id_dosen_mk = dm.id
+        d.nama_dosen,
 
-JOIN dosen d
-    ON dm.id_dosen = d.id_dosen
+        mk.id_mk,
+        mk.kode_mk,
+        mk.nama_mk
 
-JOIN mata_kuliah mk
-    ON dm.id_mk = mk.id_mk
+    FROM jadwal j
 
-JOIN kelas k
-    ON dm.id_kelas = k.id_kelas
+    JOIN hari h
+        ON j.id_hari = h.id_hari
 
-ORDER BY
-    h.id_hari,
-    jk.jam_mulai,
-    k.nama_kelas
+    JOIN jam_kuliah jk
+        ON j.id_jam = jk.id_jam
+
+    JOIN ruangan r
+        ON j.id_ruangan = r.id_ruangan
+
+    JOIN dosen_mk dm
+        ON j.id_dosen_mk = dm.id
+
+    JOIN dosen d
+        ON dm.id_dosen = d.id_dosen
+
+    JOIN mata_kuliah mk
+        ON dm.id_mk = mk.id_mk
+
+    JOIN kelas k
+        ON dm.id_kelas = k.id_kelas
+
+    ORDER BY
+        h.id_hari ASC,
+        jk.jam_mulai ASC,
+        r.id_ruangan ASC
 
 ");
+
+
+/* =========================================================
+   SIMPAN DATA JADWAL KE ARRAY
+========================================================= */
+
+$jadwal = [];
+
+if ($query) {
+
+    while ($row = mysqli_fetch_assoc($query)) {
+
+        $jadwal[] = $row;
+
+    }
+
+}
+
+
+/* =========================================================
+   AMBIL SEMUA HARI
+========================================================= */
+
+$hari = [];
+
+$queryHari = mysqli_query($conn, "
+
+    SELECT
+        id_hari,
+        nama_hari
+
+    FROM hari
+
+    ORDER BY id_hari ASC
+
+");
+
+
+if ($queryHari) {
+
+    while ($row = mysqli_fetch_assoc($queryHari)) {
+
+        $hari[] = $row;
+
+    }
+
+}
+
+
+/* =========================================================
+   AMBIL SEMUA JAM
+========================================================= */
+
+$jam = [];
+
+$queryJam = mysqli_query($conn, "
+
+    SELECT
+        id_jam,
+        jam_mulai,
+        jam_selesai
+
+    FROM jam_kuliah
+
+    ORDER BY jam_mulai ASC
+
+");
+
+
+if ($queryJam) {
+
+    while ($row = mysqli_fetch_assoc($queryJam)) {
+
+        $jam[] = $row;
+
+    }
+
+}
+
+
+/* =========================================================
+   AMBIL SEMUA RUANGAN
+========================================================= */
+
+$ruangan = [];
+
+$queryRuangan = mysqli_query($conn, "
+
+    SELECT
+        id_ruangan,
+        nama_ruangan
+
+    FROM ruangan
+
+    ORDER BY id_ruangan ASC
+
+");
+
+
+if ($queryRuangan) {
+
+    while ($row = mysqli_fetch_assoc($queryRuangan)) {
+
+        $ruangan[] = $row;
+
+    }
+
+}
+
+
+/* =========================================================
+   BUAT INDEX JADWAL
+========================================================= */
+
+$jadwalMap = [];
+
+
+foreach ($jadwal as $row) {
+
+    $hariId    = $row['id_hari'];
+    $jamId     = $row['id_jam'];
+    $ruanganId = $row['id_ruangan'];
+
+
+    $jadwalMap[$hariId][$jamId][$ruanganId] = $row;
+
+}
+
+
+/* =========================================================
+   WARNA MATA KULIAH
+========================================================= */
+
+$warna = [
+
+    '#0d6efd',
+    '#198754',
+    '#dc3545',
+    '#6f42c1',
+    '#fd7e14',
+    '#20c997',
+    '#d63384',
+    '#0dcaf0',
+    '#6610f2',
+    '#ffc107'
+
+];
+
+
+$warnaMK = [];
+
+$warnaIndex = 0;
+
+
+foreach ($jadwal as $row) {
+
+    $idMk = $row['id_mk'];
+
+
+    if (!isset($warnaMK[$idMk])) {
+
+        $warnaMK[$idMk] =
+            $warna[$warnaIndex % count($warna)];
+
+        $warnaIndex++;
+
+    }
+
+}
 
 ?>
 
@@ -62,182 +243,378 @@ ORDER BY
 <meta name="viewport"
       content="width=device-width, initial-scale=1">
 
-<title>SIKULIAH - Jadwal Kuliah</title>
+<title>SIKULIAH - Jadwal Perkuliahan</title>
+
+
+<!-- Bootstrap -->
 
 <link
 href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 rel="stylesheet">
 
+
+<!-- Bootstrap Icons -->
+
 <link
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
 rel="stylesheet">
 
+
 <style>
 
+/* =========================================================
+   BODY
+========================================================= */
+
 body {
-    background: #edf2f7;
-}
 
+    margin: 0;
 
-/* ===============================
-   NAVBAR
-================================ */
+    background: #ffffff;
 
-.navbar-custom {
-
-    background: white;
-
-    box-shadow:
-        0 3px 15px rgba(0,0,0,.08);
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
 }
 
 
-.logo {
+/* =========================================================
+   HEADER
+========================================================= */
 
-    font-size: 28px;
+.page-header {
 
-    font-weight: 700;
+    height: 58px;
 
-    color: #0d6efd;
+    background: #ffffff;
 
-    text-decoration: none;
-
-}
-
-
-.logo i {
-
-    margin-right: 8px;
-
-}
-
-
-/* ===============================
-   BUTTON LOGIN REGISTER
-================================ */
-
-.navbar-buttons {
+    border-bottom: 1px solid #d0d0d0;
 
     display: flex;
 
-    gap: 10px;
+    align-items: center;
 
-    position: relative;
+    justify-content: space-between;
 
-    z-index: 10;
+    padding: 0 15px;
 
 }
 
 
-.navbar-buttons .btn {
+.page-title {
 
-    border-radius: 8px;
-
-    padding: 8px 18px;
+    font-size: 25px;
 
     font-weight: 500;
 
-}
+    color: #111827;
 
-
-/* ===============================
-   HERO
-================================ */
-
-.hero {
-
-    background: #0d6efd;
-
-    color: white;
-
-    border-radius: 18px;
-
-    padding: 40px;
-
-    margin-top: 30px;
-
-    margin-bottom: 30px;
+    margin: 0;
 
 }
 
 
-.hero h1 {
+/* =========================================================
+   EXPORT BUTTON
+========================================================= */
 
-    font-weight: 700;
+.btn-export {
 
-}
+    background: #dc3545;
 
+    color: #ffffff !important;
 
-/* ===============================
-   CARD
-================================ */
-
-.card {
+    text-decoration: none;
 
     border: none;
 
-    border-radius: 15px;
+    border-radius: 10px;
+
+    padding: 9px 13px;
+
+    font-size: 16px;
+
+    transition: .2s ease;
 
 }
 
 
-/* ===============================
-   TABLE
-================================ */
+.btn-export:hover {
 
-.table th {
+    background: #bb2d3b;
+
+    color: #ffffff !important;
+
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.schedule-wrapper {
+
+    padding: 20px 15px;
+
+    overflow-x: auto;
+
+}
+
+
+/* =========================================================
+   SCHEDULE TABLE
+========================================================= */
+
+.schedule-table {
+
+    width: 100%;
+
+    min-width: 950px;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+
+}
+
+
+/* =========================================================
+   HEADER TABLE
+========================================================= */
+
+.schedule-table thead th {
+
+    background: #212529;
+
+    color: #ffffff;
+
+    border: 1px solid #4b4f52;
+
+    text-align: center;
 
     vertical-align: middle;
 
+    font-size: 19px;
+
+    font-weight: 700;
+
+    padding: 14px 8px;
+
 }
 
 
-.table td {
+.schedule-table thead th:nth-child(1) {
+
+    width: 150px;
+
+}
+
+
+.schedule-table thead th:nth-child(2) {
+
+    width: 150px;
+
+}
+
+
+/* =========================================================
+   TABLE BODY
+========================================================= */
+
+.schedule-table tbody td {
+
+    border: 1px solid #d8dde2;
+
+    text-align: center;
 
     vertical-align: middle;
 
-}
+    height: 80px;
 
+    font-size: 17px;
 
-.badge-kelas {
-
-    background: #0d6efd;
-
-    font-size: 13px;
+    padding: 8px;
 
 }
 
 
-/* ===============================
+/* =========================================================
+   HARI
+========================================================= */
+
+.day-cell {
+
+    font-size: 18px !important;
+
+    font-weight: 700;
+
+    background: #ffffff;
+
+}
+
+
+/* =========================================================
+   WAKTU
+========================================================= */
+
+.time-cell {
+
+    font-size: 17px !important;
+
+    line-height: 1.7;
+
+    background: #ffffff;
+
+}
+
+
+/* =========================================================
+   JADWAL TERISI
+========================================================= */
+
+.schedule-filled {
+
+    color: #ffffff;
+
+    font-weight: 500;
+
+    padding: 12px 8px !important;
+
+}
+
+
+/* =========================================================
+   NAMA MATA KULIAH
+========================================================= */
+
+.subject-name {
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    margin-bottom: 5px;
+
+}
+
+
+/* =========================================================
+   NAMA DOSEN
+========================================================= */
+
+.lecturer-name {
+
+    font-size: 16px;
+
+    margin-bottom: 5px;
+
+}
+
+
+/* =========================================================
+   KELAS
+========================================================= */
+
+.class-name {
+
+    font-size: 16px;
+
+}
+
+
+/* =========================================================
+   KOSONG
+========================================================= */
+
+.empty-cell {
+
+    background: #ffffff;
+
+    color: #222222;
+
+    font-size: 17px;
+
+}
+
+
+/* =========================================================
    MOBILE
-================================ */
+========================================================= */
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
 
-    .logo {
+    .page-header {
 
-        font-size: 22px;
+        height: 55px;
 
     }
 
-    .navbar-buttons .btn {
+
+    .page-title {
+
+        font-size: 20px;
+
+    }
+
+
+    .btn-export {
+
+        font-size: 14px;
 
         padding: 7px 10px;
+
+    }
+
+
+    .schedule-wrapper {
+
+        padding: 15px 10px;
+
+    }
+
+
+    .schedule-table {
+
+        min-width: 900px;
+
+    }
+
+
+    .schedule-table thead th {
+
+        font-size: 16px;
+
+        padding: 11px 6px;
+
+    }
+
+
+    .schedule-table tbody td {
+
+        font-size: 15px;
+
+    }
+
+
+    .subject-name {
+
+        font-size: 16px;
+
+    }
+
+
+    .lecturer-name {
 
         font-size: 14px;
 
     }
 
-    .hero {
 
-        padding: 25px 15px;
+    .class-name {
 
-    }
-
-    .hero h1 {
-
-        font-size: 26px;
+        font-size: 14px;
 
     }
 
@@ -251,265 +628,292 @@ body {
 <body>
 
 
-<!-- ===============================
-     NAVBAR
-================================ -->
+<!-- =========================================================
+     HEADER
+========================================================= -->
 
-<nav class="navbar navbar-expand-lg navbar-custom">
-
-<div class="container">
+<div class="page-header">
 
 
-<a class="navbar-brand logo" href="./">
-
-    <i class="bi bi-mortarboard-fill"></i>
-
-    SIKULIAH
-
-</a>
-
-
-<div class="ms-auto navbar-buttons">
-
-
-<!-- LOGIN -->
-
-<a href="auth/login.php"
-   class="btn btn-outline-primary">
-
-    <i class="bi bi-box-arrow-in-right"></i>
-
-    Login
-
-</a>
-
-
-<!-- REGISTER -->
-
-<a href="auth/register.php"
-   class="btn btn-primary">
-
-    <i class="bi bi-person-plus"></i>
-
-    Register
-
-</a>
-
-
-</div>
-
-</div>
-
-</nav>
-
-
-
-<!-- ===============================
-     CONTENT
-================================ -->
-
-<div class="container">
-
-
-<!-- ===============================
-     HERO
-================================ -->
-
-<div class="hero text-center">
-
-    <h1>
-
-        <i class="bi bi-calendar-week"></i>
-
-        Sistem Penjadwalan Kuliah
-
-    </h1>
-
-    <p class="mb-0">
-
-        Informasi jadwal perkuliahan
-
-    </p>
-
-</div>
-
-
-
-<!-- ===============================
-     JADWAL
-================================ -->
-
-<div class="card shadow mb-5">
-
-
-<div class="card-header bg-white">
-
-    <h4 class="mb-0">
-
-        <i class="bi bi-calendar3 text-primary"></i>
+    <h1 class="page-title">
 
         Jadwal Perkuliahan
 
-    </h4>
+    </h1>
+
+
+    <a
+        href="export_jadwal.php"
+        class="btn-export"
+        target="_blank"
+    >
+
+        Export PDF
+
+    </a>
+
 
 </div>
 
 
-<div class="card-body">
 
-<div class="table-responsive">
+<!-- =========================================================
+     JADWAL
+========================================================= -->
+
+<div class="schedule-wrapper">
 
 
-<table class="table table-bordered table-hover">
+<table class="schedule-table">
 
 
-<thead class="table-primary text-center">
+<!-- =======================================================
+     HEADER
+======================================================= -->
+
+<thead>
 
 <tr>
 
-    <th>No</th>
+    <th>
 
-    <th>Hari</th>
+        Hari
 
-    <th>Jam</th>
+    </th>
 
-    <th>Kelas</th>
 
-    <th>Kode MK</th>
+    <th>
 
-    <th>Mata Kuliah</th>
+        Waktu
 
-    <th>Dosen</th>
+    </th>
 
-    <th>Ruangan</th>
+
+    <?php foreach ($ruangan as $r): ?>
+
+        <th>
+
+            <?= htmlspecialchars($r['nama_ruangan']); ?>
+
+        </th>
+
+    <?php endforeach; ?>
+
 
 </tr>
 
 </thead>
 
 
+
+<!-- =======================================================
+     BODY
+======================================================= -->
+
 <tbody>
 
 
-<?php
-
-if(mysqli_num_rows($query) > 0){
-
-    $no = 1;
-
-    while($row = mysqli_fetch_assoc($query)){
-
-?>
+<?php if (count($hari) > 0 && count($jam) > 0): ?>
 
 
-<tr>
+    <?php foreach ($hari as $h): ?>
 
 
-<td class="text-center">
+        <?php
 
-    <?= $no++; ?>
+        $hariId = $h['id_hari'];
 
-</td>
+        $jumlahJam = count($jam);
 
+        $jamKe = 0;
 
-<td>
-
-    <?= htmlspecialchars($row['nama_hari']); ?>
-
-</td>
+        ?>
 
 
-<td class="text-center">
-
-    <?= substr($row['jam_mulai'],0,5); ?>
-
-    -
-
-    <?= substr($row['jam_selesai'],0,5); ?>
-
-</td>
+        <?php foreach ($jam as $j): ?>
 
 
-<td class="text-center">
+            <?php
 
-    <span class="badge badge-kelas">
+            $jamId = $j['id_jam'];
 
-        <?= htmlspecialchars($row['nama_kelas']); ?>
+            $jamKe++;
 
-    </span>
-
-</td>
+            ?>
 
 
-<td>
-
-    <?= htmlspecialchars($row['kode_mk']); ?>
-
-</td>
+            <tr>
 
 
-<td>
+                <!-- =====================================
+                     HARI
+                ====================================== -->
 
-    <?= htmlspecialchars($row['nama_mk']); ?>
+                <?php if ($jamKe == 1): ?>
 
-</td>
+                    <td
+                        class="day-cell"
+                        rowspan="<?= $jumlahJam; ?>"
+                    >
 
+                        <?= htmlspecialchars($h['nama_hari']); ?>
 
-<td>
+                    </td>
 
-    <?= htmlspecialchars($row['nama_dosen']); ?>
-
-</td>
-
-
-<td>
-
-    <?= htmlspecialchars($row['nama_ruangan']); ?>
-
-</td>
+                <?php endif; ?>
 
 
-</tr>
+
+                <!-- =====================================
+                     WAKTU
+                ====================================== -->
+
+                <td class="time-cell">
+
+                    <?= substr($j['jam_mulai'], 0, 5); ?>
+
+                    -
+
+                    <br>
+
+                    <?= substr($j['jam_selesai'], 0, 5); ?>
+
+                </td>
 
 
-<?php
 
-    }
+                <!-- =====================================
+                     RUANGAN
+                ====================================== -->
 
-}else{
-
-?>
-
-
-<tr>
-
-    <td colspan="8"
-        class="text-center">
-
-        Belum ada jadwal perkuliahan.
-
-    </td>
-
-</tr>
+                <?php foreach ($ruangan as $r): ?>
 
 
-<?php
+                    <?php
 
-}
+                    $ruanganId = $r['id_ruangan'];
 
-?>
+
+                    $data = null;
+
+
+                    if (
+                        isset(
+                            $jadwalMap
+                                [$hariId]
+                                [$jamId]
+                                [$ruanganId]
+                        )
+                    ) {
+
+                        $data =
+                            $jadwalMap
+                                [$hariId]
+                                [$jamId]
+                                [$ruanganId];
+
+                    }
+
+                    ?>
+
+
+                    <?php if ($data): ?>
+
+
+                        <?php
+
+                        $warnaCell =
+                            $warnaMK[$data['id_mk']]
+                            ?? '#0d6efd';
+
+                        ?>
+
+
+                        <td
+                            class="schedule-filled"
+                            style="background: <?= $warnaCell ?>;"
+                        >
+
+
+                            <div class="subject-name">
+
+                                <?= htmlspecialchars(
+                                    $data['nama_mk']
+                                ); ?>
+
+                            </div>
+
+
+                            <div class="lecturer-name">
+
+                                <?= htmlspecialchars(
+                                    $data['nama_dosen']
+                                ); ?>
+
+                            </div>
+
+
+                            <div class="class-name">
+
+                                <?= htmlspecialchars(
+                                    $data['nama_kelas']
+                                ); ?>
+
+                            </div>
+
+
+                        </td>
+
+
+                    <?php else: ?>
+
+
+                        <td class="empty-cell">
+
+                            -
+
+                        </td>
+
+
+                    <?php endif; ?>
+
+
+                <?php endforeach; ?>
+
+
+            </tr>
+
+
+        <?php endforeach; ?>
+
+
+    <?php endforeach; ?>
+
+
+<?php else: ?>
+
+
+    <tr>
+
+        <td
+            colspan="<?= count($ruangan) + 2; ?>"
+            class="text-center"
+        >
+
+            Belum ada data jadwal.
+
+        </td>
+
+    </tr>
+
+
+<?php endif; ?>
 
 
 </tbody>
 
+
 </table>
-
-
-</div>
-
-</div>
-
-</div>
 
 
 </div>
@@ -518,3 +922,4 @@ if(mysqli_num_rows($query) > 0){
 </body>
 
 </html>
+```
