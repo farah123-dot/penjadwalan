@@ -2,33 +2,10 @@
 
 session_start();
 
-require_once "../koneksi.php";
-
-if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
-
-    if ($_SESSION['role'] === 'admin') {
-        header("Location: ../dashboard_admin.php");
-        exit;
-    }
-
-    if ($_SESSION['role'] === 'dosen') {
-        header("Location: ../dashboard_dosen.php");
-        exit;
-    }
+if (isset($_SESSION['login'])) {
+    header("Location: ../index.php");
+    exit;
 }
-
-
-/* ===============================
-   AMBIL DATA DOSEN
-================================ */
-
-$dosen = mysqli_query($conn, "
-    SELECT
-        id_dosen,
-        nama_dosen
-    FROM dosen
-    ORDER BY nama_dosen
-");
 
 ?>
 
@@ -54,29 +31,29 @@ rel="stylesheet">
 
 <style>
 
-body{
+body {
 
-    background:#0d6efd;
+    background: #0d6efd;
 
-    display:flex;
+    display: flex;
 
-    justify-content:center;
+    justify-content: center;
 
-    align-items:center;
+    align-items: center;
 
-    min-height:100vh;
+    min-height: 100vh;
 
-    padding:20px;
+    padding: 20px;
 
 }
 
-.card{
+.card {
 
-    width:450px;
+    width: 450px;
 
-    border:none;
+    border: none;
 
-    border-radius:15px;
+    border-radius: 15px;
 
 }
 
@@ -88,174 +65,153 @@ body{
 
 <div class="card shadow">
 
-    <div class="card-body p-4">
+<div class="card-body p-4">
 
-        <div class="text-center mb-4">
 
-            <h2>
+<div class="text-center mb-4">
 
-                <i class="bi bi-mortarboard-fill"></i>
+<h2>
 
-                SIKULIAH
+<i class="bi bi-mortarboard-fill"></i>
 
-            </h2>
+SIKULIAH
 
-            <small class="text-muted">
+</h2>
 
-                Registrasi Akun Dosen
+<small class="text-muted">
 
-            </small>
+Registrasi Akun Dosen
 
-        </div>
+</small>
 
+</div>
 
-        <form action="proses_register.php" method="POST">
 
+<form action="proses_register.php" method="POST">
 
-            <!-- NAMA DOSEN -->
 
-            <div class="mb-3">
+<!-- NAMA DOSEN -->
 
-                <label class="form-label">
+<div class="mb-3">
 
-                    Nama Dosen
+<label class="form-label">
 
-                </label>
+Nama Lengkap Dosen
 
-                <select
-                    name="id_dosen"
-                    class="form-select"
-                    required
-                >
+</label>
 
-                    <option value="">
+<input
+type="text"
+name="nama_dosen"
+class="form-control"
+placeholder="Masukkan nama lengkap"
+required
+>
 
-                        -- Pilih Nama Anda --
+</div>
 
-                    </option>
 
-                    <?php while($d = mysqli_fetch_assoc($dosen)){ ?>
+<!-- USERNAME -->
 
-                        <option value="<?= $d['id_dosen']; ?>">
+<div class="mb-3">
 
-                            <?= htmlspecialchars($d['nama_dosen']); ?>
+<label class="form-label">
 
-                        </option>
+Username
 
-                    <?php } ?>
+</label>
 
-                </select>
+<input
+type="text"
+name="username"
+class="form-control"
+placeholder="Buat username"
+required
+>
 
-                <small class="text-muted">
+</div>
 
-                    Pilih nama Anda sesuai dengan data dosen.
 
-                </small>
+<!-- PASSWORD -->
 
-            </div>
+<div class="mb-3">
 
+<label class="form-label">
 
-            <!-- USERNAME -->
+Password
 
-            <div class="mb-3">
+</label>
 
-                <label class="form-label">
+<input
+type="password"
+name="password"
+class="form-control"
+placeholder="Buat password"
+required
+>
 
-                    Username
+</div>
 
-                </label>
 
-                <input
-                    type="text"
-                    name="username"
-                    class="form-control"
-                    placeholder="Buat username"
-                    required
-                >
+<!-- KONFIRMASI PASSWORD -->
 
-            </div>
+<div class="mb-3">
 
+<label class="form-label">
 
-            <!-- PASSWORD -->
+Konfirmasi Password
 
-            <div class="mb-3">
+</label>
 
-                <label class="form-label">
+<input
+type="password"
+name="password_confirm"
+class="form-control"
+placeholder="Ulangi password"
+required
+>
 
-                    Password
+</div>
 
-                </label>
 
-                <input
-                    type="password"
-                    name="password"
-                    class="form-control"
-                    placeholder="Buat password"
-                    required
-                >
+<button
+type="submit"
+class="btn btn-primary w-100">
 
-            </div>
+<i class="bi bi-person-plus"></i>
 
+Daftar sebagai Dosen
 
-            <!-- KONFIRMASI -->
+</button>
 
-            <div class="mb-3">
 
-                <label class="form-label">
+</form>
 
-                    Konfirmasi Password
 
-                </label>
+<div class="text-center mt-4">
 
-                <input
-                    type="password"
-                    name="password_confirm"
-                    class="form-control"
-                    placeholder="Ulangi password"
-                    required
-                >
+<small class="text-muted">
 
-            </div>
+Sudah mempunyai akun?
 
+</small>
 
-            <button
-                type="submit"
-                class="btn btn-primary w-100">
+<br>
 
-                <i class="bi bi-person-plus"></i>
+<a
+href="login.php"
+class="text-decoration-none fw-semibold">
 
-                Daftar sebagai Dosen
+<i class="bi bi-box-arrow-in-right"></i>
 
-            </button>
+Login
 
+</a>
 
-        </form>
+</div>
 
 
-        <div class="text-center mt-4">
-
-            <small class="text-muted">
-
-                Sudah mempunyai akun?
-
-            </small>
-
-            <br>
-
-            <a
-                href="login.php"
-                class="text-decoration-none fw-semibold">
-
-                <i class="bi bi-box-arrow-in-right"></i>
-
-                Login
-
-            </a>
-
-        </div>
-
-
-    </div>
+</div>
 
 </div>
 
