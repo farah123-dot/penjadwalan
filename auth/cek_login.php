@@ -2,10 +2,9 @@
 
 session_start();
 
-if(!isset($_SESSION['login'])){
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
-    header("Location: login.php");
+    header("Location: /auth/login.php");
 
     exit;
-
 }
