@@ -1,4 +1,3 @@
-```php
 <?php
 
 require_once "koneksi.php";
@@ -1392,17 +1391,6 @@ body {
 
 </main>
 
-
-
-<footer class="footer">
-
-    SIKULIAH &copy; <?= date('Y'); ?> —
-    Sistem Penjadwalan Kuliah
-
-</footer>
-
-
 </body>
 
 </html>
-```
