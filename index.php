@@ -1,3 +1,4 @@
+```php
 <?php
 
 require_once "koneksi.php";
@@ -265,6 +266,9 @@ body {
         Arial,
         Helvetica,
         sans-serif;
+
+    overflow-x: auto;
+    overflow-y: auto;
 
 }
 
@@ -628,15 +632,60 @@ body {
 
 /* =========================================================
    TABLE WRAPPER
+   BISA SCROLL KANAN-KIRI + ATAS-BAWAH
 ========================================================= */
 
 .table-wrapper {
 
     width: 100%;
 
+    max-height: 70vh;
+
     overflow-x: auto;
 
+    overflow-y: auto;
+
     padding: 15px;
+
+    -webkit-overflow-scrolling: touch;
+
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.table-wrapper::-webkit-scrollbar {
+
+    width: 10px;
+
+    height: 10px;
+
+}
+
+
+.table-wrapper::-webkit-scrollbar-track {
+
+    background: #f1f3f5;
+
+    border-radius: 10px;
+
+}
+
+
+.table-wrapper::-webkit-scrollbar-thumb {
+
+    background: #adb5bd;
+
+    border-radius: 10px;
+
+}
+
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+
+    background: #6c757d;
 
 }
 
@@ -649,7 +698,7 @@ body {
 
     width: 100%;
 
-    min-width: 900px;
+    min-width: 1100px;
 
     border-collapse: collapse;
 
@@ -659,6 +708,12 @@ body {
 
 
 .schedule-table th {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 10;
 
     background: #212529;
 
@@ -925,7 +980,16 @@ body {
 
     .table-wrapper {
 
+        max-height: 65vh;
+
         padding: 10px;
+
+    }
+
+
+    .schedule-table {
+
+        min-width: 1000px;
 
     }
 
@@ -1324,3 +1388,4 @@ body {
 </body>
 
 </html>
+```
