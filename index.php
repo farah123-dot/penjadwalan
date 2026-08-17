@@ -1,3 +1,4 @@
+```php
 <?php
 
 require_once "koneksi.php";
@@ -80,7 +81,7 @@ if ($query) {
 
 
 /* =========================================================
-   AMBIL SEMUA HARI
+   AMBIL DATA HARI
 ========================================================= */
 
 $hari = [];
@@ -97,7 +98,6 @@ $queryHari = mysqli_query($conn, "
 
 ");
 
-
 if ($queryHari) {
 
     while ($row = mysqli_fetch_assoc($queryHari)) {
@@ -110,7 +110,7 @@ if ($queryHari) {
 
 
 /* =========================================================
-   AMBIL SEMUA JAM / SESI
+   AMBIL DATA JAM / SESI
 ========================================================= */
 
 $jam = [];
@@ -128,7 +128,6 @@ $queryJam = mysqli_query($conn, "
 
 ");
 
-
 if ($queryJam) {
 
     while ($row = mysqli_fetch_assoc($queryJam)) {
@@ -141,7 +140,7 @@ if ($queryJam) {
 
 
 /* =========================================================
-   AMBIL SEMUA RUANGAN
+   AMBIL DATA RUANGAN
 ========================================================= */
 
 $ruangan = [];
@@ -157,7 +156,6 @@ $queryRuangan = mysqli_query($conn, "
     ORDER BY id_ruangan ASC
 
 ");
-
 
 if ($queryRuangan) {
 
@@ -176,15 +174,11 @@ if ($queryRuangan) {
 
 $jadwalMap = [];
 
-
 foreach ($jadwal as $row) {
 
     $hariId = $row['id_hari'];
-
     $jamId = $row['id_jam'];
-
     $ruanganId = $row['id_ruangan'];
-
 
     $jadwalMap[$hariId][$jamId][$ruanganId] = $row;
 
@@ -206,20 +200,16 @@ $warna = [
     '#d63384',
     '#0dcaf0',
     '#6610f2',
-    '#ffc107'
+    '#e0a800'
 
 ];
 
-
 $warnaMK = [];
-
 $warnaIndex = 0;
-
 
 foreach ($jadwal as $row) {
 
     $idMk = $row['id_mk'];
-
 
     if (!isset($warnaMK[$idMk])) {
 
@@ -247,7 +237,7 @@ foreach ($jadwal as $row) {
 <meta name="viewport"
       content="width=device-width, initial-scale=1">
 
-<title>SIKULIAH - Jadwal Perkuliahan</title>
+<title>SIKULIAH - Sistem Penjadwalan Kuliah</title>
 
 
 <style>
@@ -260,17 +250,15 @@ foreach ($jadwal as $row) {
     box-sizing: border-box;
 }
 
-
 html {
     scroll-behavior: smooth;
 }
-
 
 body {
 
     margin: 0;
 
-    background: #f1f5f9;
+    background: #f4f7fb;
 
     color: #111827;
 
@@ -286,18 +274,18 @@ body {
    NAVBAR
 ========================================================= */
 
-.navbar-custom {
+.navbar {
 
     width: 100%;
 
-    min-height: 64px;
+    height: 76px;
 
     background: #ffffff;
 
     border-bottom: 1px solid #e5e7eb;
 
     box-shadow:
-        0 2px 10px rgba(0,0,0,.05);
+        0 2px 12px rgba(0,0,0,.06);
 
     display: flex;
 
@@ -309,6 +297,10 @@ body {
 .navbar-inner {
 
     width: 100%;
+
+    max-width: 1350px;
+
+    margin: auto;
 
     padding: 0 25px;
 
@@ -322,56 +314,73 @@ body {
 
 
 /* =========================================================
-   LOGO
+   IDENTITAS LOGO
 ========================================================= */
 
-.logo {
+.brand {
 
-    color: #0d6efd;
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
 
     text-decoration: none;
-
-    font-size: 27px;
-
-    font-weight: 700;
-
-    letter-spacing: .2px;
 
 }
 
 
-.logo-icon {
+.brand-logo {
 
-    display: inline-flex;
+    width: 48px;
 
-    width: 34px;
+    height: 48px;
 
-    height: 34px;
+    object-fit: contain;
 
-    margin-right: 7px;
+}
 
-    align-items: center;
 
-    justify-content: center;
+.brand-text {
 
-    background: #0d6efd;
+    display: flex;
 
-    color: #ffffff;
+    flex-direction: column;
 
-    border-radius: 8px;
+    line-height: 1.1;
 
-    font-size: 18px;
+}
 
-    vertical-align: middle;
+
+.brand-name {
+
+    color: #0d6efd;
+
+    font-size: 25px;
+
+    font-weight: 700;
+
+    letter-spacing: .3px;
+
+}
+
+
+.brand-subtitle {
+
+    color: #64748b;
+
+    font-size: 11px;
+
+    margin-top: 4px;
 
 }
 
 
 /* =========================================================
-   NAVBAR BUTTON
+   NAV BUTTON
 ========================================================= */
 
-.navbar-buttons {
+.nav-buttons {
 
     display: flex;
 
@@ -382,23 +391,23 @@ body {
 }
 
 
-.nav-button {
+.nav-btn {
 
-    min-width: 92px;
+    min-width: 95px;
 
     height: 40px;
 
-    padding: 0 17px;
+    padding: 0 18px;
 
     border-radius: 8px;
-
-    text-decoration: none;
 
     display: inline-flex;
 
     align-items: center;
 
     justify-content: center;
+
+    text-decoration: none;
 
     font-size: 14px;
 
@@ -409,7 +418,7 @@ body {
 }
 
 
-.login-button {
+.btn-login {
 
     background: #ffffff;
 
@@ -420,7 +429,7 @@ body {
 }
 
 
-.login-button:hover {
+.btn-login:hover {
 
     background: #0d6efd;
 
@@ -431,7 +440,7 @@ body {
 }
 
 
-.register-button {
+.btn-register {
 
     background: #0d6efd;
 
@@ -445,7 +454,7 @@ body {
 }
 
 
-.register-button:hover {
+.btn-register:hover {
 
     background: #0b5ed7;
 
@@ -459,7 +468,7 @@ body {
 }
 
 
-.register-button:active {
+.btn-register:active {
 
     transform: translateY(2px);
 
@@ -470,75 +479,84 @@ body {
 
 
 /* =========================================================
-   MAIN
+   MAIN CONTAINER
 ========================================================= */
 
-.main-container {
+.container {
 
     width: calc(100% - 60px);
 
-    max-width: 1250px;
+    max-width: 1350px;
 
-    margin: 0 auto;
+    margin: auto;
 
 }
 
 
 /* =========================================================
-   INTRO
+   HERO
 ========================================================= */
 
-.intro {
+.hero {
 
-    padding: 30px 0 10px;
+    margin-top: 30px;
+
+    padding: 38px 30px;
+
+    background: #0d6efd;
+
+    border-radius: 18px;
+
+    color: #ffffff;
+
+    text-align: center;
+
+    box-shadow:
+        0 10px 25px rgba(13,110,253,.18);
 
 }
 
 
-.intro-title {
+.hero h1 {
 
     margin: 0;
 
-    font-size: 28px;
+    font-size: 34px;
 
     font-weight: 700;
-
-    color: #111827;
 
 }
 
 
-.intro-text {
+.hero p {
 
-    margin: 8px 0 0;
+    margin: 10px 0 0;
 
-    color: #64748b;
+    font-size: 16px;
 
-    font-size: 15px;
+    opacity: .92;
 
 }
 
 
 /* =========================================================
-   SCHEDULE CARD
+   JADWAL CARD
 ========================================================= */
 
 .schedule-card {
 
-    width: 100%;
+    margin-top: 30px;
 
-    height: 650px;
-
-    margin: 15px 0 35px;
+    margin-bottom: 35px;
 
     background: #ffffff;
 
-    border-radius: 15px;
-
     border: 1px solid #e5e7eb;
 
+    border-radius: 15px;
+
     box-shadow:
-        0 10px 30px rgba(0,0,0,.08);
+        0 8px 25px rgba(0,0,0,.07);
 
     overflow: hidden;
 
@@ -549,11 +567,11 @@ body {
    CARD HEADER
 ========================================================= */
 
-.schedule-card-header {
+.schedule-header {
 
-    min-height: 60px;
+    min-height: 64px;
 
-    padding: 12px 17px;
+    padding: 12px 18px;
 
     display: flex;
 
@@ -561,31 +579,27 @@ body {
 
     justify-content: space-between;
 
-    background: #ffffff;
-
     border-bottom: 1px solid #e5e7eb;
 
 }
 
 
-.page-title {
+.schedule-title {
 
     margin: 0;
 
-    font-size: 20px;
+    font-size: 21px;
 
     font-weight: 600;
-
-    color: #111827;
 
 }
 
 
-/* =========================================================
-   EXPORT BUTTON
-========================================================= */
+.export-btn {
 
-.btn-export {
+    padding: 9px 15px;
+
+    border-radius: 8px;
 
     background: #dc3545;
 
@@ -593,22 +607,16 @@ body {
 
     text-decoration: none;
 
-    border: none;
-
-    border-radius: 8px;
-
-    padding: 8px 13px;
-
-    font-size: 14px;
+    font-size: 13px;
 
     font-weight: 600;
 
-    transition: all .15s ease;
+    transition: .15s;
 
 }
 
 
-.btn-export:hover {
+.export-btn:hover {
 
     background: #bb2d3b;
 
@@ -620,54 +628,16 @@ body {
 
 
 /* =========================================================
-   TABLE AREA
+   TABLE WRAPPER
 ========================================================= */
 
-.schedule-card-body {
+.table-wrapper {
 
-    height: calc(100% - 60px);
+    width: 100%;
 
-    padding: 12px;
+    overflow-x: auto;
 
-    overflow: auto;
-
-}
-
-
-/* =========================================================
-   SCROLLBAR
-========================================================= */
-
-.schedule-card-body::-webkit-scrollbar {
-
-    width: 9px;
-
-    height: 9px;
-
-}
-
-
-.schedule-card-body::-webkit-scrollbar-track {
-
-    background: #f1f1f1;
-
-    border-radius: 10px;
-
-}
-
-
-.schedule-card-body::-webkit-scrollbar-thumb {
-
-    background: #b8b8b8;
-
-    border-radius: 10px;
-
-}
-
-
-.schedule-card-body::-webkit-scrollbar-thumb:hover {
-
-    background: #888888;
+    padding: 15px;
 
 }
 
@@ -689,7 +659,7 @@ body {
 }
 
 
-.schedule-table thead th {
+.schedule-table th {
 
     background: #212529;
 
@@ -697,46 +667,44 @@ body {
 
     border: 1px solid #4b4f52;
 
+    padding: 11px 6px;
+
+    font-size: 13px;
+
     text-align: center;
 
     vertical-align: middle;
 
-    font-size: 14px;
-
-    font-weight: 700;
-
-    padding: 9px 5px;
-
 }
 
 
-.schedule-table thead th:nth-child(1) {
+.schedule-table th:first-child {
 
     width: 105px;
 
 }
 
 
-.schedule-table thead th:nth-child(2) {
+.schedule-table th:nth-child(2) {
 
     width: 110px;
 
 }
 
 
-.schedule-table tbody td {
+.schedule-table td {
 
     border: 1px solid #d8dde2;
+
+    padding: 6px;
+
+    height: 58px;
 
     text-align: center;
 
     vertical-align: middle;
 
-    height: 55px;
-
     font-size: 13px;
-
-    padding: 5px;
 
 }
 
@@ -748,79 +716,75 @@ body {
 }
 
 
+/* =========================================================
+   CELL
+========================================================= */
+
 .day-cell {
 
-    font-size: 14px !important;
+    background: #ffffff;
 
     font-weight: 700;
 
-    background: #ffffff;
+    font-size: 14px !important;
 
 }
 
 
 .time-cell {
 
-    font-size: 13px !important;
-
-    line-height: 1.4;
-
     background: #ffffff;
+
+    line-height: 1.5;
 
 }
 
 
-.schedule-filled {
+.schedule-cell {
 
     color: #ffffff;
 
     font-weight: 500;
 
-    padding: 6px 5px !important;
-
 }
 
 
-.subject-name {
+.subject {
 
-    font-size: 14px;
+    font-size: 13px;
 
     font-weight: 700;
 
-    margin-bottom: 2px;
-
-    line-height: 1.2;
+    line-height: 1.25;
 
 }
 
 
-.lecturer-name {
+.lecturer {
 
-    font-size: 12px;
+    font-size: 11px;
 
-    margin-bottom: 2px;
+    margin-top: 3px;
 
-    line-height: 1.2;
-
-}
-
-
-.class-name {
-
-    font-size: 12px;
-
-    line-height: 1.2;
+    line-height: 1.25;
 
 }
 
 
-.empty-cell {
+.class {
+
+    font-size: 11px;
+
+    margin-top: 2px;
+
+}
+
+
+.empty {
+
+    color: #6b7280;
 
     background: #ffffff;
-
-    color: #222222;
-
-    font-size: 13px;
 
 }
 
@@ -831,9 +795,9 @@ body {
 
 .footer {
 
-    text-align: center;
-
     padding: 0 20px 25px;
+
+    text-align: center;
 
     color: #64748b;
 
@@ -843,44 +807,58 @@ body {
 
 
 /* =========================================================
-   MOBILE
+   RESPONSIVE
 ========================================================= */
 
 @media (max-width: 768px) {
 
+    .navbar {
+
+        height: auto;
+
+        min-height: 70px;
+
+    }
+
+
     .navbar-inner {
 
-        padding: 0 15px;
+        padding: 10px 15px;
 
     }
 
 
-    .logo {
+    .brand-logo {
 
-        font-size: 21px;
+        width: 40px;
 
-    }
-
-
-    .logo-icon {
-
-        width: 29px;
-
-        height: 29px;
-
-        font-size: 15px;
+        height: 40px;
 
     }
 
 
-    .navbar-buttons {
+    .brand-name {
+
+        font-size: 20px;
+
+    }
+
+
+    .brand-subtitle {
+
+        font-size: 9px;
+
+    }
+
+
+    .nav-buttons {
 
         gap: 5px;
 
     }
 
 
-    .nav-button {
+    .nav-btn {
 
         min-width: auto;
 
@@ -893,119 +871,62 @@ body {
     }
 
 
-    .main-container {
+    .container {
 
         width: calc(100% - 20px);
 
     }
 
 
-    .intro {
+    .hero {
 
-        padding-top: 20px;
+        margin-top: 20px;
 
-    }
-
-
-    .intro-title {
-
-        font-size: 23px;
+        padding: 28px 18px;
 
     }
 
 
-    .intro-text {
+    .hero h1 {
+
+        font-size: 25px;
+
+    }
+
+
+    .hero p {
 
         font-size: 14px;
 
     }
 
 
-    .schedule-card {
-
-        height: 600px;
-
-        margin-top: 12px;
-
-    }
-
-
-    .schedule-card-header {
-
-        min-height: 55px;
+    .schedule-header {
 
         padding: 10px;
 
     }
 
 
-    .page-title {
+    .schedule-title {
 
         font-size: 18px;
 
     }
 
 
-    .btn-export {
+    .export-btn {
+
+        padding: 8px 10px;
 
         font-size: 12px;
 
-        padding: 7px 9px;
-
     }
 
 
-    .schedule-card-body {
+    .table-wrapper {
 
-        height: calc(100% - 55px);
-
-        padding: 8px;
-
-    }
-
-
-    .schedule-table {
-
-        min-width: 800px;
-
-    }
-
-
-    .schedule-table thead th {
-
-        font-size: 13px;
-
-        padding: 7px 4px;
-
-    }
-
-
-    .schedule-table tbody td {
-
-        font-size: 12px;
-
-        height: 50px;
-
-    }
-
-
-    .subject-name {
-
-        font-size: 13px;
-
-    }
-
-
-    .lecturer-name {
-
-        font-size: 11px;
-
-    }
-
-
-    .class-name {
-
-        font-size: 11px;
+        padding: 10px;
 
     }
 
@@ -1023,45 +944,54 @@ body {
      NAVBAR
 ========================================================= -->
 
-<header class="navbar-custom">
+<header class="navbar">
 
     <div class="navbar-inner">
 
 
         <a
-            href="./"
-            class="logo"
+            href="index.php"
+            class="brand"
         >
 
-            <span class="logo-icon">S</span>
+            <img
+                src="assets/logo-tif.png"
+                alt="Logo Teknik Informatika Universitas Trunojoyo Madura"
+                class="brand-logo"
+            >
 
-            SIKULIAH
+
+            <div class="brand-text">
+
+                <span class="brand-name">
+                    SIKULIAH
+                </span>
+
+                <span class="brand-subtitle">
+                    Sistem Penjadwalan Kuliah
+                </span>
+
+            </div>
 
         </a>
 
 
-        <div class="navbar-buttons">
-
+        <div class="nav-buttons">
 
             <a
                 href="auth/login.php"
-                class="nav-button login-button"
+                class="nav-btn btn-login"
             >
-
                 Login
-
             </a>
 
 
             <a
                 href="auth/register.php"
-                class="nav-button register-button"
+                class="nav-btn btn-register"
             >
-
                 Register
-
             </a>
-
 
         </div>
 
@@ -1073,25 +1003,22 @@ body {
 
 
 <!-- =========================================================
-     MAIN CONTENT
+     CONTENT
 ========================================================= -->
 
-<main class="main-container">
+<main class="container">
 
 
-    <section class="intro">
+    <!-- HERO -->
 
-        <h1 class="intro-title">
+    <section class="hero">
 
+        <h1>
             Sistem Penjadwalan Kuliah
-
         </h1>
 
-
-        <p class="intro-text">
-
-            Informasi jadwal perkuliahan yang dapat dilihat oleh mahasiswa dan dosen.
-
+        <p>
+            Informasi jadwal perkuliahan Teknik Informatika
         </p>
 
     </section>
@@ -1105,32 +1032,25 @@ body {
     <section class="schedule-card">
 
 
-        <div class="schedule-card-header">
+        <div class="schedule-header">
 
-
-            <h2 class="page-title">
-
+            <h2 class="schedule-title">
                 Jadwal Perkuliahan
-
             </h2>
 
 
             <a
                 href="export_jadwal.php"
-                class="btn-export"
+                class="export-btn"
                 target="_blank"
             >
-
                 Export PDF
-
             </a>
-
 
         </div>
 
 
-
-        <div class="schedule-card-body">
+        <div class="table-wrapper">
 
 
             <table class="schedule-table">
@@ -1165,7 +1085,6 @@ body {
                 </tr>
 
                 </thead>
-
 
 
                 <tbody>
@@ -1225,7 +1144,6 @@ body {
                                 <?php endif; ?>
 
 
-
                                 <td class="time-cell">
 
                                     <?= substr(
@@ -1236,8 +1154,6 @@ body {
 
                                     -
 
-                                    <br>
-
                                     <?= substr(
                                         $j['jam_selesai'],
                                         0,
@@ -1245,7 +1161,6 @@ body {
                                     ); ?>
 
                                 </td>
-
 
 
                                 <?php foreach ($ruangan as $r): ?>
@@ -1294,7 +1209,7 @@ body {
 
 
                                         <td
-                                            class="schedule-filled"
+                                            class="schedule-cell"
                                             style="
                                                 background-color:
                                                 <?= htmlspecialchars(
@@ -1303,7 +1218,7 @@ body {
                                             "
                                         >
 
-                                            <div class="subject-name">
+                                            <div class="subject">
 
                                                 <?= htmlspecialchars(
                                                     $data['nama_mk']
@@ -1312,7 +1227,7 @@ body {
                                             </div>
 
 
-                                            <div class="lecturer-name">
+                                            <div class="lecturer">
 
                                                 <?= htmlspecialchars(
                                                     $data['nama_dosen']
@@ -1321,7 +1236,7 @@ body {
                                             </div>
 
 
-                                            <div class="class-name">
+                                            <div class="class">
 
                                                 <?= htmlspecialchars(
                                                     $data['nama_kelas']
@@ -1335,7 +1250,7 @@ body {
                                     <?php else: ?>
 
 
-                                        <td class="empty-cell">
+                                        <td class="empty">
 
                                             -
 
@@ -1364,10 +1279,10 @@ body {
 
                         <td
                             colspan="<?= count($ruangan) + 2; ?>"
-                            class="empty-cell"
+                            class="empty"
                         >
 
-                            Belum ada data jadwal.
+                            Belum ada jadwal perkuliahan.
 
                         </td>
 
@@ -1385,12 +1300,29 @@ body {
 
         </div>
 
-
     </section>
 
 
 </main>
 
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+    SIKULIAH &copy; <?= date('Y'); ?>
+
+    <br>
+
+    Teknik Informatika — Universitas Trunojoyo Madura
+
+</footer>
+
+
 </body>
 
 </html>
+```
