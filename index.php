@@ -1,4 +1,3 @@
-```php
 <?php
 
 require_once "koneksi.php";
@@ -1325,4 +1324,3 @@ body {
 </body>
 
 </html>
-```
