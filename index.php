@@ -1265,52 +1265,12 @@ body {
             </div>
 
 
-            <!-- =========================
-                 LEGEND SEMESTER
-            ========================= -->
-
-            <div class="legend">
-
-                <?php foreach (
-                    $warna_semester
-                    as $semester => $warna
-                ) { ?>
-
-                    <div class="legend-item">
-
-                        <span
-                            class="legend-color"
-                            style="
-                                background:
-                                <?= $warna ?>;
-                            "
-                        ></span>
-
-                        Semester <?= $semester ?>
-
-                    </div>
-
-                <?php } ?>
-
-            </div>
-
-
         </div>
 
     </div>
 
 
 </div>
-
-
-
-<div class="footer">
-
-    SIKULIAH &copy;
-    <?= date('Y'); ?>
-
-</div>
-
 
 </body>
 
