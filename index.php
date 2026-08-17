@@ -955,7 +955,7 @@ body {
         >
 
             <img
-                src="assets/logo-tif.png"
+                src="assets/logo_tif.png"
                 alt="Logo Teknik Informatika Universitas Trunojoyo Madura"
                 class="brand-logo"
             >
