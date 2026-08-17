@@ -18,7 +18,8 @@ SELECT
     k.nama_kelas,
     d.nama_dosen,
     mk.kode_mk,
-    mk.nama_mk
+    mk.nama_mk,
+    mk.semester
 
 FROM jadwal j
 
@@ -50,6 +51,24 @@ ORDER BY
 
 ");
 
+
+/* ===============================
+   WARNA BERDASARKAN SEMESTER
+================================ */
+
+$warna_semester = [
+
+    1 => "#0d6efd", // Biru
+    2 => "#198754", // Hijau
+    3 => "#ffc107", // Kuning
+    4 => "#dc3545", // Merah
+    5 => "#6f42c1", // Ungu
+    6 => "#20c997", // Cyan
+    7 => "#fd7e14", // Orange
+    8 => "#d63384"  // Pink
+
+];
+
 ?>
 
 <!DOCTYPE html>
@@ -75,6 +94,7 @@ ORDER BY
 * {
     box-sizing: border-box;
 }
+
 
 body {
 
@@ -405,7 +425,8 @@ body {
 
 
 /* =========================
-   HEADER
+   HEADER ATAS
+   HARI + WAKTU + RUANGAN
 ========================= */
 
 .jadwal-table thead th {
@@ -416,7 +437,7 @@ body {
 
     z-index: 30;
 
-    background: #0d6efd;
+    background: #000000;
 
     color: #ffffff;
 
@@ -428,7 +449,7 @@ body {
 
     white-space: nowrap;
 
-    border: 1px solid #0a58ca;
+    border: 1px solid #333333;
 
 }
 
@@ -482,13 +503,13 @@ body {
 
 
 /* =========================
-   HEADER HARI + WAKTU
+   HEADER HARI & WAKTU
 ========================= */
 
 .jadwal-table thead .kolom-hari,
 .jadwal-table thead .kolom-waktu {
 
-    background: #0d6efd;
+    background: #000000;
 
     color: #ffffff;
 
@@ -554,11 +575,26 @@ body {
 
 .jadwal-terisi {
 
-    background: #0d6efd !important;
-
     color: #ffffff;
 
     min-width: 180px !important;
+
+    font-weight: 500;
+
+    transition: .2s;
+
+}
+
+
+/* =========================
+   HOVER JADWAL
+========================= */
+
+.jadwal-terisi:hover {
+
+    filter: brightness(90%);
+
+    transform: scale(1.01);
 
 }
 
@@ -591,29 +627,13 @@ body {
 
 
 /* =========================
-   HOVER
+   HOVER BARIS
 ========================= */
-
-.jadwal-table tbody tr:hover td {
-
-    background: #f5f9ff;
-
-}
-
 
 .jadwal-table tbody tr:hover .kolom-hari,
 .jadwal-table tbody tr:hover .kolom-waktu {
 
     background: #f5f9ff;
-
-}
-
-
-.jadwal-table tbody tr:hover .jadwal-terisi {
-
-    background: #0d6efd !important;
-
-    color: #ffffff;
 
 }
 
@@ -640,7 +660,7 @@ body {
 
 .jadwal-wrapper::-webkit-scrollbar-thumb {
 
-    background: #0d6efd;
+    background: #777777;
 
     border-radius: 10px;
 
@@ -649,7 +669,56 @@ body {
 
 .jadwal-wrapper::-webkit-scrollbar-thumb:hover {
 
-    background: #0b5ed7;
+    background: #444444;
+
+}
+
+
+/* =========================
+   LEGEND SEMESTER
+========================= */
+
+.legend {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 20px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #eeeeee;
+
+}
+
+
+.legend-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: 13px;
+
+    color: #555555;
+
+}
+
+
+.legend-color {
+
+    width: 16px;
+
+    height: 16px;
+
+    border-radius: 4px;
+
+    display: inline-block;
 
 }
 
@@ -1039,6 +1108,7 @@ body {
                                         SELECT
 
                                             mata_kuliah.nama_mk,
+                                            mata_kuliah.semester,
                                             dosen.nama_dosen,
                                             kelas.nama_kelas
 
@@ -1091,10 +1161,39 @@ body {
                                             $jadwal
                                         );
 
+
+                                    $semester =
+                                        (int)$data['semester'];
+
+
+                                    if (
+                                        isset(
+                                            $warna_semester[
+                                                $semester
+                                            ]
+                                        )
+                                    ) {
+
+                                        $warna =
+                                            $warna_semester[
+                                                $semester
+                                            ];
+
+                                    } else {
+
+                                        $warna =
+                                            "#6c757d";
+
+                                    }
+
                             ?>
 
                                     <td
                                         class="jadwal-terisi"
+                                        style="
+                                            background-color:
+                                            <?= $warna ?>;
+                                        "
                                     >
 
                                         <strong>
@@ -1164,6 +1263,37 @@ body {
                 </table>
 
             </div>
+
+
+            <!-- =========================
+                 LEGEND SEMESTER
+            ========================= -->
+
+            <div class="legend">
+
+                <?php foreach (
+                    $warna_semester
+                    as $semester => $warna
+                ) { ?>
+
+                    <div class="legend-item">
+
+                        <span
+                            class="legend-color"
+                            style="
+                                background:
+                                <?= $warna ?>;
+                            "
+                        ></span>
+
+                        Semester <?= $semester ?>
+
+                    </div>
+
+                <?php } ?>
+
+            </div>
+
 
         </div>
 
