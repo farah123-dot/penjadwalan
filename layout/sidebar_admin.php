@@ -1,63 +1,9 @@
 <?php
 
-/*
-==================================================
-SIDEBAR ADMIN
-==================================================
-*/
-
-/*
-|--------------------------------------------------------------------------
-| BASE URL PROJECT
-|--------------------------------------------------------------------------
-| GANTI "penjadwalan-kuliah" jika nama folder project
-| kamu berbeda.
-*/
-
-$base_url = "/penjadwalan-kuliah";
-
-
-/*
-==================================================
-HALAMAN AKTIF
-==================================================
-*/
-
-$current_page = basename($_SERVER['PHP_SELF']);
+$current_page   = basename($_SERVER['PHP_SELF']);
 $current_folder = basename(dirname($_SERVER['PHP_SELF']));
 
-
-/*
-==================================================
-TENTUKAN MENU AKTIF
-==================================================
-*/
-
-$menu_aktif = $current_folder;
-
-
-/*
-==================================================
-KHUSUS DASHBOARD ADMIN
-==================================================
-*/
-
-$is_dashboard_admin = ($current_page == 'dashboard_admin.php');
-
-
-/*
-==================================================
-KHUSUS HALAMAN ROOT
-==================================================
-*/
-
-$is_root_index = (
-    $current_page == 'index.php'
-    && $current_folder == basename($_SERVER['DOCUMENT_ROOT'] . $_SERVER['PHP_SELF'])
-);
-
 ?>
-
 
 <style>
 
@@ -71,7 +17,6 @@ $is_root_index = (
     min-height: 100vh;
 
     background: #1e293b;
-
     color: white;
 
     position: fixed;
@@ -83,26 +28,21 @@ $is_root_index = (
 
     display: flex;
     flex-direction: column;
-
 }
 
 
-/* =========================================
-   HEADER SIDEBAR
-========================================= */
+/* HEADER */
 
 .sidebar-admin-header {
 
     height: 70px;
 
     display: flex;
-
     align-items: center;
 
     padding: 0 20px;
 
     border-bottom: 1px solid #334155;
-
 }
 
 .sidebar-admin-header h4 {
@@ -114,13 +54,10 @@ $is_root_index = (
     font-weight: 700;
 
     color: white;
-
 }
 
 
-/* =========================================
-   MENU
-========================================= */
+/* MENU */
 
 .sidebar-admin-menu {
 
@@ -129,7 +66,6 @@ $is_root_index = (
     flex: 1;
 
     overflow-y: auto;
-
 }
 
 .sidebar-admin-menu a {
@@ -152,8 +88,7 @@ $is_root_index = (
 
     font-size: 14px;
 
-    transition: 0.2s ease;
-
+    transition: 0.2s;
 }
 
 .sidebar-admin-menu a:hover {
@@ -161,7 +96,6 @@ $is_root_index = (
     background: #334155;
 
     color: white;
-
 }
 
 .sidebar-admin-menu a.active {
@@ -169,13 +103,10 @@ $is_root_index = (
     background: #2563eb;
 
     color: white;
-
 }
 
 
-/* =========================================
-   ICON
-========================================= */
+/* ICON */
 
 .sidebar-admin-menu i {
 
@@ -184,13 +115,10 @@ $is_root_index = (
     text-align: center;
 
     font-size: 16px;
-
 }
 
 
-/* =========================================
-   JUDUL MENU
-========================================= */
+/* JUDUL */
 
 .sidebar-admin-title {
 
@@ -203,20 +131,16 @@ $is_root_index = (
     padding: 15px 14px 7px;
 
     text-transform: uppercase;
-
 }
 
 
-/* =========================================
-   FOOTER
-========================================= */
+/* FOOTER */
 
 .sidebar-admin-footer {
 
     padding: 10px;
 
     border-top: 1px solid #334155;
-
 }
 
 .sidebar-admin-footer a {
@@ -236,9 +160,6 @@ $is_root_index = (
     border-radius: 8px;
 
     font-size: 14px;
-
-    transition: 0.2s ease;
-
 }
 
 .sidebar-admin-footer a:hover {
@@ -246,39 +167,31 @@ $is_root_index = (
     background: #450a0a;
 
     color: #fecaca;
-
 }
 
 
-/* =========================================
-   MAIN CONTENT
-========================================= */
+/* MAIN */
 
 .main-content {
 
     margin-left: 250px;
 
     min-height: 100vh;
-
 }
 
 
-/* =========================================
-   RESPONSIVE
-========================================= */
+/* RESPONSIVE */
 
 @media (max-width: 768px) {
 
     .sidebar-admin {
 
         width: 220px;
-
     }
 
     .main-content {
 
         margin-left: 220px;
-
     }
 
 }
@@ -286,16 +199,10 @@ $is_root_index = (
 </style>
 
 
-<!-- =========================================
-     SIDEBAR ADMIN
-========================================= -->
-
 <div class="sidebar-admin">
 
 
-    <!-- =====================================
-         HEADER
-    ====================================== -->
+    <!-- HEADER -->
 
     <div class="sidebar-admin-header">
 
@@ -306,20 +213,18 @@ $is_root_index = (
     </div>
 
 
-    <!-- =====================================
-         MENU
-    ====================================== -->
+    <!-- MENU -->
 
     <div class="sidebar-admin-menu">
 
 
         <!-- =================================
-             DASHBOARD
+             DASHBOARD ADMIN
         ================================== -->
 
         <a
-            href="<?= $base_url; ?>/dashboard_admin.php"
-            class="<?= $is_dashboard_admin ? 'active' : ''; ?>"
+            href="../dashboard_admin.php"
+            class="<?= ($current_page == 'dashboard_admin.php') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-speedometer2"></i>
@@ -342,13 +247,11 @@ $is_root_index = (
         </div>
 
 
-        <!-- =================================
-             DATA DOSEN
-        ================================== -->
+        <!-- DOSEN -->
 
         <a
-            href="<?= $base_url; ?>/dosen/index.php"
-            class="<?= $menu_aktif == 'dosen' ? 'active' : ''; ?>"
+            href="../dosen/index.php"
+            class="<?= ($current_folder == 'dosen') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-person-badge"></i>
@@ -360,13 +263,11 @@ $is_root_index = (
         </a>
 
 
-        <!-- =================================
-             MATA KULIAH
-        ================================== -->
+        <!-- MATA KULIAH -->
 
         <a
-            href="<?= $base_url; ?>/mata_kuliah/index.php"
-            class="<?= $menu_aktif == 'mata_kuliah' ? 'active' : ''; ?>"
+            href="../mata_kuliah/index.php"
+            class="<?= ($current_folder == 'mata_kuliah') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-book"></i>
@@ -378,13 +279,11 @@ $is_root_index = (
         </a>
 
 
-        <!-- =================================
-             KELAS
-        ================================== -->
+        <!-- KELAS -->
 
         <a
-            href="<?= $base_url; ?>/kelas/index.php"
-            class="<?= $menu_aktif == 'kelas' ? 'active' : ''; ?>"
+            href="../kelas/index.php"
+            class="<?= ($current_folder == 'kelas') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-people"></i>
@@ -396,13 +295,11 @@ $is_root_index = (
         </a>
 
 
-        <!-- =================================
-             KELAS DIBUKA
-        ================================== -->
+        <!-- KELAS DIBUKA -->
 
         <a
-            href="<?= $base_url; ?>/kelas_dibuka/index.php"
-            class="<?= $menu_aktif == 'kelas_dibuka' ? 'active' : ''; ?>"
+            href="../kelas_dibuka/index.php"
+            class="<?= ($current_folder == 'kelas_dibuka') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-journal-check"></i>
@@ -414,13 +311,11 @@ $is_root_index = (
         </a>
 
 
-        <!-- =================================
-             RUANGAN
-        ================================== -->
+        <!-- RUANGAN -->
 
         <a
-            href="<?= $base_url; ?>/ruangan/index.php"
-            class="<?= $menu_aktif == 'ruangan' ? 'active' : ''; ?>"
+            href="../ruangan/index.php"
+            class="<?= ($current_folder == 'ruangan') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-building"></i>
@@ -432,13 +327,11 @@ $is_root_index = (
         </a>
 
 
-        <!-- =================================
-             HARI
-        ================================== -->
+        <!-- HARI -->
 
         <a
-            href="<?= $base_url; ?>/hari/index.php"
-            class="<?= $menu_aktif == 'hari' ? 'active' : ''; ?>"
+            href="../hari/index.php"
+            class="<?= ($current_folder == 'hari') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-calendar"></i>
@@ -450,13 +343,11 @@ $is_root_index = (
         </a>
 
 
-        <!-- =================================
-             JAM / SESI
-        ================================== -->
+        <!-- JAM -->
 
         <a
-            href="<?= $base_url; ?>/jam_kuliah/index.php"
-            class="<?= $menu_aktif == 'jam_kuliah' ? 'active' : ''; ?>"
+            href="../jam_kuliah/index.php"
+            class="<?= ($current_folder == 'jam_kuliah') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-clock"></i>
@@ -479,13 +370,11 @@ $is_root_index = (
         </div>
 
 
-        <!-- =================================
-             JADWAL KULIAH
-        ================================== -->
+        <!-- JADWAL -->
 
         <a
-            href="<?= $base_url; ?>/jadwal/index.php"
-            class="<?= $menu_aktif == 'jadwal' ? 'active' : ''; ?>"
+            href="../jadwal/index.php"
+            class="<?= ($current_folder == 'jadwal') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-calendar-week"></i>
@@ -500,14 +389,14 @@ $is_root_index = (
     </div>
 
 
-    <!-- =====================================
+    <!-- =================================
          LOGOUT
-    ====================================== -->
+    ================================== -->
 
     <div class="sidebar-admin-footer">
 
         <a
-            href="<?= $base_url; ?>/auth/logout.php"
+            href="../auth/logout.php"
             onclick="return confirm('Yakin ingin logout?')"
         >
 
@@ -524,9 +413,5 @@ $is_root_index = (
 
 </div>
 
-
-<!-- =========================================
-     MAIN CONTENT
-========================================= -->
 
 <div class="main-content">
