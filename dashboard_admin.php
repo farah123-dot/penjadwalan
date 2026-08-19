@@ -139,29 +139,6 @@ $index_warna = 0;
     box-sizing: border-box;
 }
 
-
-/* ===============================
-   JUDUL
-================================ */
-
-.dashboard-title {
-    margin-bottom: 25px;
-}
-
-.dashboard-title h2 {
-    margin: 0;
-    font-size: 26px;
-    font-weight: 700;
-    color: #1e293b;
-}
-
-.dashboard-title p {
-    margin-top: 6px;
-    color: #64748b;
-    font-size: 14px;
-}
-
-
 /* ===============================
    CARD
 ================================ */
