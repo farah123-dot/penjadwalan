@@ -4,7 +4,7 @@ require_once "koneksi.php";
 require_once "auth/cek_login.php";
 
 include "layout/header.php";
-include "layout/sidebar.php";
+include "layout/sidebar_admin.php";
 
 
 /* ===============================
@@ -867,10 +867,3 @@ $index_warna = 0;
 
 
 </div>
-
-
-<?php
-
-include "layout/footer.php";
-
-?>
