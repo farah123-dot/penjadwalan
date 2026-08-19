@@ -843,7 +843,7 @@ body {
         <a href="index.php" class="logo">
 
             <img
-                src="assets/logo.png"
+                src="assets/logo_tif.png"
                 alt="Logo SIKULIAH"
             >
 
