@@ -251,7 +251,7 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
     <div class="sidebar-admin-header">
 
         <h4>
-            📚 Admin Penjadwalan
+            📚 Admin
         </h4>
 
     </div>
@@ -269,7 +269,7 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         ================================== -->
 
         <a
-            href="<?= ($current_folder == 'layout') ? 'index.php' : '../index.php'; ?>"
+            href="<?= ($current_folder == 'layout') ? 'dashboard_admin.php' : '../dashboard_admin.php'; ?>"
             class="<?= ($current_page == 'index.php' && $current_folder != 'jadwal') ? 'active' : ''; ?>"
         >
 
