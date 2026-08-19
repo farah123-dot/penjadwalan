@@ -6,10 +6,58 @@ SIDEBAR ADMIN
 ==================================================
 */
 
+/*
+|--------------------------------------------------------------------------
+| BASE URL PROJECT
+|--------------------------------------------------------------------------
+| GANTI "penjadwalan-kuliah" jika nama folder project
+| kamu berbeda.
+*/
+
+$base_url = "/penjadwalan-kuliah";
+
+
+/*
+==================================================
+HALAMAN AKTIF
+==================================================
+*/
+
 $current_page = basename($_SERVER['PHP_SELF']);
 $current_folder = basename(dirname($_SERVER['PHP_SELF']));
 
+
+/*
+==================================================
+TENTUKAN MENU AKTIF
+==================================================
+*/
+
+$menu_aktif = $current_folder;
+
+
+/*
+==================================================
+KHUSUS DASHBOARD ADMIN
+==================================================
+*/
+
+$is_dashboard_admin = ($current_page == 'dashboard_admin.php');
+
+
+/*
+==================================================
+KHUSUS HALAMAN ROOT
+==================================================
+*/
+
+$is_root_index = (
+    $current_page == 'index.php'
+    && $current_folder == basename($_SERVER['DOCUMENT_ROOT'] . $_SERVER['PHP_SELF'])
+);
+
 ?>
+
 
 <style>
 
@@ -23,6 +71,7 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
     min-height: 100vh;
 
     background: #1e293b;
+
     color: white;
 
     position: fixed;
@@ -269,8 +318,8 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         ================================== -->
 
         <a
-            href="<?= ($current_folder == 'layout') ? 'dashboard_admin.php' : '../dashboard_admin.php'; ?>"
-            class="<?= ($current_page == 'index.php' && $current_folder != 'jadwal') ? 'active' : ''; ?>"
+            href="<?= $base_url; ?>/dashboard_admin.php"
+            class="<?= $is_dashboard_admin ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-speedometer2"></i>
@@ -293,11 +342,13 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </div>
 
 
-        <!-- DATA DOSEN -->
+        <!-- =================================
+             DATA DOSEN
+        ================================== -->
 
         <a
-            href="<?= ($current_folder == 'dosen') ? 'index.php' : '../dosen/index.php'; ?>"
-            class="<?= ($current_folder == 'dosen') ? 'active' : ''; ?>"
+            href="<?= $base_url; ?>/dosen/index.php"
+            class="<?= $menu_aktif == 'dosen' ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-person-badge"></i>
@@ -309,11 +360,13 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </a>
 
 
-        <!-- MATA KULIAH -->
+        <!-- =================================
+             MATA KULIAH
+        ================================== -->
 
         <a
-            href="<?= ($current_folder == 'mata_kuliah') ? 'index.php' : '../mata_kuliah/index.php'; ?>"
-            class="<?= ($current_folder == 'mata_kuliah') ? 'active' : ''; ?>"
+            href="<?= $base_url; ?>/mata_kuliah/index.php"
+            class="<?= $menu_aktif == 'mata_kuliah' ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-book"></i>
@@ -325,27 +378,31 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </a>
 
 
-        <!-- KELAS -->
+        <!-- =================================
+             KELAS
+        ================================== -->
 
         <a
-            href="<?= ($current_folder == 'kelas') ? 'index.php' : '../kelas/index.php'; ?>"
-            class="<?= ($current_folder == 'kelas') ? 'active' : ''; ?>"
+            href="<?= $base_url; ?>/kelas/index.php"
+            class="<?= $menu_aktif == 'kelas' ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-people"></i>
 
             <span>
-                Kelas
+                Data Kelas
             </span>
 
         </a>
 
 
-        <!-- KELAS DIBUKA -->
+        <!-- =================================
+             KELAS DIBUKA
+        ================================== -->
 
         <a
-            href="<?= ($current_folder == 'kelas_dibuka') ? 'index.php' : '../kelas_dibuka/index.php'; ?>"
-            class="<?= ($current_folder == 'kelas_dibuka') ? 'active' : ''; ?>"
+            href="<?= $base_url; ?>/kelas_dibuka/index.php"
+            class="<?= $menu_aktif == 'kelas_dibuka' ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-journal-check"></i>
@@ -357,11 +414,13 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </a>
 
 
-        <!-- RUANGAN -->
+        <!-- =================================
+             RUANGAN
+        ================================== -->
 
         <a
-            href="<?= ($current_folder == 'ruangan') ? 'index.php' : '../ruangan/index.php'; ?>"
-            class="<?= ($current_folder == 'ruangan') ? 'active' : ''; ?>"
+            href="<?= $base_url; ?>/ruangan/index.php"
+            class="<?= $menu_aktif == 'ruangan' ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-building"></i>
@@ -373,11 +432,13 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </a>
 
 
-        <!-- HARI -->
+        <!-- =================================
+             HARI
+        ================================== -->
 
         <a
-            href="<?= ($current_folder == 'hari') ? 'index.php' : '../hari/index.php'; ?>"
-            class="<?= ($current_folder == 'hari') ? 'active' : ''; ?>"
+            href="<?= $base_url; ?>/hari/index.php"
+            class="<?= $menu_aktif == 'hari' ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-calendar"></i>
@@ -389,11 +450,13 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </a>
 
 
-        <!-- SESI / JAM -->
+        <!-- =================================
+             JAM / SESI
+        ================================== -->
 
         <a
-            href="<?= ($current_folder == 'jam_kuliah') ? 'index.php' : '../jam_kuliah/index.php'; ?>"
-            class="<?= ($current_folder == 'jam_kuliah') ? 'active' : ''; ?>"
+            href="<?= $base_url; ?>/jam_kuliah/index.php"
+            class="<?= $menu_aktif == 'jam_kuliah' ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-clock"></i>
@@ -416,11 +479,13 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </div>
 
 
-        <!-- JADWAL KULIAH -->
+        <!-- =================================
+             JADWAL KULIAH
+        ================================== -->
 
         <a
-            href="<?= ($current_folder == 'jadwal') ? 'index.php' : '../jadwal/index.php'; ?>"
-            class="<?= ($current_folder == 'jadwal') ? 'active' : ''; ?>"
+            href="<?= $base_url; ?>/jadwal/index.php"
+            class="<?= $menu_aktif == 'jadwal' ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-calendar-week"></i>
@@ -442,7 +507,7 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
     <div class="sidebar-admin-footer">
 
         <a
-            href="../auth/logout.php"
+            href="<?= $base_url; ?>/auth/logout.php"
             onclick="return confirm('Yakin ingin logout?')"
         >
 
