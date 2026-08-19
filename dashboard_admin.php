@@ -372,24 +372,6 @@ $index_warna = 0;
 
 <div class="dashboard-container">
 
-
-    <!-- ===============================
-         JUDUL
-    ================================ -->
-
-    <div class="dashboard-title">
-
-        <h2>
-            Dashboard SIKULIAH
-        </h2>
-
-        <p>
-            Sistem Informasi Penjadwalan Perkuliahan
-        </p>
-
-    </div>
-
-
     <!-- ===============================
          CARD STATISTIK
     ================================ -->
