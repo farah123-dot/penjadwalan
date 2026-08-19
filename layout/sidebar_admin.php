@@ -1,7 +1,88 @@
 <?php
 
+/*
+==================================================
+SIDEBAR ADMIN
+==================================================
+*/
+
 $current_page   = basename($_SERVER['PHP_SELF']);
 $current_folder = basename(dirname($_SERVER['PHP_SELF']));
+
+
+/*
+==================================================
+CEK APAKAH SEDANG DI ROOT PROJECT
+==================================================
+
+Dashboard admin berada di:
+
+dashboard_admin.php
+
+Sedangkan menu lain berada di folder:
+
+dosen/
+mata_kuliah/
+kelas/
+kelas_dibuka/
+ruangan/
+hari/
+jam_kuliah/
+jadwal/
+
+*/
+
+$folder_admin = [
+    'dosen',
+    'mata_kuliah',
+    'kelas',
+    'kelas_dibuka',
+    'ruangan',
+    'hari',
+    'jam_kuliah',
+    'jadwal'
+];
+
+$is_root = !in_array($current_folder, $folder_admin);
+
+
+/*
+==================================================
+FUNGSI URL
+==================================================
+*/
+
+function admin_url($folder, $page = 'index.php')
+{
+    global $is_root;
+
+    if ($is_root) {
+
+        return $folder . "/" . $page;
+
+    } else {
+
+        return "../" . $folder . "/" . $page;
+
+    }
+}
+
+
+/*
+==================================================
+URL DASHBOARD
+==================================================
+*/
+
+if ($is_root) {
+
+    $dashboard_url = "dashboard_admin.php";
+
+} else {
+
+    $dashboard_url = "../dashboard_admin.php";
+
+}
 
 ?>
 
@@ -14,35 +95,44 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
 .sidebar-admin {
 
     width: 250px;
+
     min-height: 100vh;
 
     background: #1e293b;
+
     color: white;
 
     position: fixed;
 
     top: 0;
+
     left: 0;
 
     z-index: 1000;
 
     display: flex;
+
     flex-direction: column;
+
 }
 
 
-/* HEADER */
+/* =========================================
+   HEADER
+========================================= */
 
 .sidebar-admin-header {
 
     height: 70px;
 
     display: flex;
+
     align-items: center;
 
     padding: 0 20px;
 
     border-bottom: 1px solid #334155;
+
 }
 
 .sidebar-admin-header h4 {
@@ -54,10 +144,13 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
     font-weight: 700;
 
     color: white;
+
 }
 
 
-/* MENU */
+/* =========================================
+   MENU
+========================================= */
 
 .sidebar-admin-menu {
 
@@ -66,6 +159,7 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
     flex: 1;
 
     overflow-y: auto;
+
 }
 
 .sidebar-admin-menu a {
@@ -88,7 +182,8 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
 
     font-size: 14px;
 
-    transition: 0.2s;
+    transition: 0.2s ease;
+
 }
 
 .sidebar-admin-menu a:hover {
@@ -96,6 +191,7 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
     background: #334155;
 
     color: white;
+
 }
 
 .sidebar-admin-menu a.active {
@@ -103,10 +199,13 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
     background: #2563eb;
 
     color: white;
+
 }
 
 
-/* ICON */
+/* =========================================
+   ICON
+========================================= */
 
 .sidebar-admin-menu i {
 
@@ -115,10 +214,13 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
     text-align: center;
 
     font-size: 16px;
+
 }
 
 
-/* JUDUL */
+/* =========================================
+   JUDUL
+========================================= */
 
 .sidebar-admin-title {
 
@@ -131,16 +233,20 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
     padding: 15px 14px 7px;
 
     text-transform: uppercase;
+
 }
 
 
-/* FOOTER */
+/* =========================================
+   FOOTER
+========================================= */
 
 .sidebar-admin-footer {
 
     padding: 10px;
 
     border-top: 1px solid #334155;
+
 }
 
 .sidebar-admin-footer a {
@@ -160,6 +266,9 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
     border-radius: 8px;
 
     font-size: 14px;
+
+    transition: 0.2s ease;
+
 }
 
 .sidebar-admin-footer a:hover {
@@ -167,31 +276,39 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
     background: #450a0a;
 
     color: #fecaca;
+
 }
 
 
-/* MAIN */
+/* =========================================
+   MAIN CONTENT
+========================================= */
 
 .main-content {
 
     margin-left: 250px;
 
     min-height: 100vh;
+
 }
 
 
-/* RESPONSIVE */
+/* =========================================
+   RESPONSIVE
+========================================= */
 
 @media (max-width: 768px) {
 
     .sidebar-admin {
 
         width: 220px;
+
     }
 
     .main-content {
 
         margin-left: 220px;
+
     }
 
 }
@@ -199,10 +316,16 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
 </style>
 
 
+<!-- =========================================
+     SIDEBAR ADMIN
+========================================= -->
+
 <div class="sidebar-admin">
 
 
-    <!-- HEADER -->
+    <!-- =====================================
+         HEADER
+    ====================================== -->
 
     <div class="sidebar-admin-header">
 
@@ -213,17 +336,19 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
     </div>
 
 
-    <!-- MENU -->
+    <!-- =====================================
+         MENU
+    ====================================== -->
 
     <div class="sidebar-admin-menu">
 
 
         <!-- =================================
-             DASHBOARD ADMIN
+             DASHBOARD
         ================================== -->
 
         <a
-            href="../dashboard_admin.php"
+            href="<?= $dashboard_url; ?>"
             class="<?= ($current_page == 'dashboard_admin.php') ? 'active' : ''; ?>"
         >
 
@@ -247,10 +372,12 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </div>
 
 
-        <!-- DOSEN -->
+        <!-- =================================
+             DOSEN
+        ================================== -->
 
         <a
-            href="../dosen/index.php"
+            href="<?= admin_url('dosen'); ?>"
             class="<?= ($current_folder == 'dosen') ? 'active' : ''; ?>"
         >
 
@@ -263,10 +390,12 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </a>
 
 
-        <!-- MATA KULIAH -->
+        <!-- =================================
+             MATA KULIAH
+        ================================== -->
 
         <a
-            href="../mata_kuliah/index.php"
+            href="<?= admin_url('mata_kuliah'); ?>"
             class="<?= ($current_folder == 'mata_kuliah') ? 'active' : ''; ?>"
         >
 
@@ -279,26 +408,30 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </a>
 
 
-        <!-- KELAS -->
+        <!-- =================================
+             KELAS
+        ================================== -->
 
         <a
-            href="../kelas/index.php"
+            href="<?= admin_url('kelas'); ?>"
             class="<?= ($current_folder == 'kelas') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-people"></i>
 
             <span>
-                Data Kelas
+                Kelas
             </span>
 
         </a>
 
 
-        <!-- KELAS DIBUKA -->
+        <!-- =================================
+             KELAS DIBUKA
+        ================================== -->
 
         <a
-            href="../kelas_dibuka/index.php"
+            href="<?= admin_url('kelas_dibuka'); ?>"
             class="<?= ($current_folder == 'kelas_dibuka') ? 'active' : ''; ?>"
         >
 
@@ -311,10 +444,12 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </a>
 
 
-        <!-- RUANGAN -->
+        <!-- =================================
+             RUANGAN
+        ================================== -->
 
         <a
-            href="../ruangan/index.php"
+            href="<?= admin_url('ruangan'); ?>"
             class="<?= ($current_folder == 'ruangan') ? 'active' : ''; ?>"
         >
 
@@ -327,10 +462,12 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </a>
 
 
-        <!-- HARI -->
+        <!-- =================================
+             HARI
+        ================================== -->
 
         <a
-            href="../hari/index.php"
+            href="<?= admin_url('hari'); ?>"
             class="<?= ($current_folder == 'hari') ? 'active' : ''; ?>"
         >
 
@@ -343,10 +480,12 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </a>
 
 
-        <!-- JAM -->
+        <!-- =================================
+             SESI / JAM KULIAH
+        ================================== -->
 
         <a
-            href="../jam_kuliah/index.php"
+            href="<?= admin_url('jam_kuliah'); ?>"
             class="<?= ($current_folder == 'jam_kuliah') ? 'active' : ''; ?>"
         >
 
@@ -370,10 +509,8 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
         </div>
 
 
-        <!-- JADWAL -->
-
         <a
-            href="../jadwal/index.php"
+            href="<?= admin_url('jadwal'); ?>"
             class="<?= ($current_folder == 'jadwal') ? 'active' : ''; ?>"
         >
 
@@ -389,16 +526,27 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
     </div>
 
 
-    <!-- =================================
+    <!-- =====================================
          LOGOUT
-    ================================== -->
+    ====================================== -->
 
     <div class="sidebar-admin-footer">
 
-        <a
-            href="../auth/logout.php"
-            onclick="return confirm('Yakin ingin logout?')"
-        >
+        <?php if ($is_root) { ?>
+
+            <a
+                href="auth/logout.php"
+                onclick="return confirm('Yakin ingin logout?')"
+            >
+
+        <?php } else { ?>
+
+            <a
+                href="../auth/logout.php"
+                onclick="return confirm('Yakin ingin logout?')"
+            >
+
+        <?php } ?>
 
             <i class="bi bi-box-arrow-right"></i>
 
@@ -413,5 +561,9 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
 
 </div>
 
+
+<!-- =========================================
+     MAIN CONTENT
+========================================= -->
 
 <div class="main-content">
