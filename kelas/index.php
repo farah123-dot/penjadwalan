@@ -4,7 +4,7 @@ require_once __DIR__ . "/../koneksi.php";
 require_once "../auth/cek_login.php";
 
 include "../layout/header.php";
-include "../layout/sidebar.php";
+include "../layout/sidebar_admin.php";
 
 $query = mysqli_query($conn, "SELECT * FROM kelas ORDER BY id_kelas ASC");
 
