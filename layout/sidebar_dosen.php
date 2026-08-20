@@ -12,44 +12,15 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
 
 /*
 ==================================================
-DAFTAR FOLDER DOSEN
-==================================================
-*/
-
-$folder_dosen = [
-    'dosen_jadwal'
-];
-
-
-/*
-==================================================
 CEK ROOT PROJECT
 ==================================================
 */
 
+$folder_dosen = [
+    'jadwal'
+];
+
 $is_root = !in_array($current_folder, $folder_dosen);
-
-
-/*
-==================================================
-FUNGSI URL DOSEN
-==================================================
-*/
-
-function dosen_url($folder, $page = 'index.php')
-{
-    global $is_root;
-
-    if ($is_root) {
-
-        return $folder . "/" . $page;
-
-    } else {
-
-        return "../" . $folder . "/" . $page;
-
-    }
-}
 
 
 /*
@@ -68,6 +39,23 @@ if ($is_root) {
 
 }
 
+
+/*
+==================================================
+URL JADWAL
+==================================================
+*/
+
+if ($is_root) {
+
+    $jadwal_url = "jadwal/";
+
+} else {
+
+    $jadwal_url = "../jadwal/";
+
+}
+
 ?>
 
 <style>
@@ -79,23 +67,19 @@ if ($is_root) {
 .sidebar-dosen {
 
     width: 250px;
-
     min-height: 100vh;
 
-    background: #0f172a;
-
+    background: #1e293b;
     color: white;
 
     position: fixed;
 
     top: 0;
-
     left: 0;
 
     z-index: 1000;
 
     display: flex;
-
     flex-direction: column;
 
 }
@@ -172,7 +156,7 @@ if ($is_root) {
 
 .sidebar-dosen-menu a:hover {
 
-    background: #1e293b;
+    background: #334155;
 
     color: white;
 
@@ -268,7 +252,7 @@ if ($is_root) {
    MAIN CONTENT
 ========================================= */
 
-.main-content {
+.main-content-dosen {
 
     margin-left: 250px;
 
@@ -289,7 +273,7 @@ if ($is_root) {
 
     }
 
-    .main-content {
+    .main-content-dosen {
 
         margin-left: 220px;
 
@@ -356,34 +340,15 @@ if ($is_root) {
         </div>
 
 
-        <!-- JADWAL SAYA -->
-
         <a
-            href="<?= dosen_url('dosen_jadwal'); ?>"
-            class="<?= ($current_folder == 'dosen_jadwal') ? 'active' : ''; ?>"
+            href="<?= $jadwal_url; ?>"
+            class="<?= ($current_folder == 'jadwal') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-calendar-week"></i>
 
             <span>
-                Jadwal Saya
-            </span>
-
-        </a>
-
-
-        <!-- =================================
-             BUAT JADWAL
-        ================================== -->
-
-        <a
-            href="<?= dosen_url('dosen_jadwal', 'tambah.php'); ?>"
-        >
-
-            <i class="bi bi-plus-circle"></i>
-
-            <span>
-                Buat Jadwal
+                Jadwal Kuliah
             </span>
 
         </a>
@@ -432,4 +397,4 @@ if ($is_root) {
      MAIN CONTENT
 ========================================= -->
 
-<div class="main-content">
+<div class="main-content-dosen">
