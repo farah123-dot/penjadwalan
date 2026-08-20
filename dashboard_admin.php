@@ -983,10 +983,3 @@ $index_warna = 0;
 
 
 </div>
-
-
-<?php
-
-include "layout/footer.php";
-
-?>
