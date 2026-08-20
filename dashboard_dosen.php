@@ -9,17 +9,17 @@ include "layout/sidebar_dosen.php";
 
 /*
 ==================================================
-AMBIL ID DOSEN DARI LOGIN
+TIMEZONE
 ==================================================
 */
 
+date_default_timezone_set('Asia/Jakarta');
+
+
 /*
-   Sesuaikan dengan session login kamu.
-
-   Kalau saat login kamu menyimpan:
-   $_SESSION['id_dosen']
-
-   maka kode ini langsung bisa digunakan.
+==================================================
+AMBIL ID DOSEN DARI SESSION
+==================================================
 */
 
 $id_dosen = $_SESSION['id_dosen'] ?? 0;
@@ -27,35 +27,37 @@ $id_dosen = $_SESSION['id_dosen'] ?? 0;
 
 /*
 ==================================================
-DATA DOSEN
+AMBIL DATA DOSEN
 ==================================================
 */
 
-$data_dosen = null;
+$nama_dosen = "Dosen";
 
 if ($id_dosen != 0) {
 
     $query_dosen = mysqli_query($conn, "
+
         SELECT
             id_dosen,
             nama_dosen
+
         FROM dosen
+
         WHERE id_dosen = '$id_dosen'
+
         LIMIT 1
+
     ");
 
-    $data_dosen = mysqli_fetch_assoc($query_dosen);
+    if ($query_dosen && mysqli_num_rows($query_dosen) > 0) {
+
+        $data_dosen = mysqli_fetch_assoc($query_dosen);
+
+        $nama_dosen = $data_dosen['nama_dosen'];
+
+    }
 
 }
-
-
-/*
-==================================================
-NAMA DOSEN
-==================================================
-*/
-
-$nama_dosen = $data_dosen['nama_dosen'] ?? 'Dosen';
 
 
 /*
@@ -83,9 +85,9 @@ if ($id_dosen != 0) {
 
     if ($query_jumlah) {
 
-        $hasil = mysqli_fetch_assoc($query_jumlah);
+        $hasil_jumlah = mysqli_fetch_assoc($query_jumlah);
 
-        $jumlah_jadwal = $hasil['total'];
+        $jumlah_jadwal = $hasil_jumlah['total'];
 
     }
 
@@ -94,66 +96,85 @@ if ($id_dosen != 0) {
 
 /*
 ==================================================
-JADWAL DOSEN
+DAFTAR WARNA MATA KULIAH
 ==================================================
 */
 
-$query_jadwal = mysqli_query($conn, "
+$daftar_warna = [
 
-    SELECT
+    "#2563eb",
+    "#16a34a",
+    "#dc2626",
+    "#ca8a04",
+    "#7c3aed",
+    "#0891b2",
+    "#ea580c",
+    "#9333ea"
 
-        j.id_jadwal,
+];
 
-        h.nama_hari,
+$warna_mk = [];
 
-        jk.jam_mulai,
+$index_warna = 0;
 
-        jk.jam_selesai,
 
-        r.nama_ruangan,
+/*
+==================================================
+AMBIL DATA RUANGAN
+==================================================
+*/
 
-        k.nama_kelas,
+$data_ruangan = mysqli_query($conn, "
 
-        mk.kode_mk,
+    SELECT *
 
-        mk.nama_mk
+    FROM ruangan
 
-    FROM jadwal j
+    ORDER BY id_ruangan ASC
 
-    JOIN hari h
-        ON j.id_hari = h.id_hari
+");
 
-    JOIN jam_kuliah jk
-        ON j.id_jam = jk.id_jam
 
-    JOIN ruangan r
-        ON j.id_ruangan = r.id_ruangan
+/*
+==================================================
+AMBIL DATA HARI
+==================================================
+*/
 
-    JOIN dosen_mk dm
-        ON j.id_dosen_mk = dm.id
+$data_hari = mysqli_query($conn, "
 
-    JOIN kelas k
-        ON dm.id_kelas = k.id_kelas
+    SELECT *
 
-    JOIN mata_kuliah mk
-        ON dm.id_mk = mk.id_mk
+    FROM hari
 
-    WHERE dm.id_dosen = '$id_dosen'
+    ORDER BY id_hari ASC
 
-    ORDER BY
-        h.id_hari ASC,
-        jk.jam_mulai ASC
+");
+
+
+/*
+==================================================
+AMBIL DATA JAM
+==================================================
+*/
+
+$data_jam = mysqli_query($conn, "
+
+    SELECT *
+
+    FROM jam_kuliah
+
+    ORDER BY id_jam ASC
 
 ");
 
 ?>
 
-
 <style>
 
-/* =========================================
+/* ==================================================
    DASHBOARD DOSEN
-========================================= */
+================================================== */
 
 .dashboard-dosen {
 
@@ -166,9 +187,9 @@ $query_jadwal = mysqli_query($conn, "
 }
 
 
-/* =========================================
+/* ==================================================
    HEADER
-========================================= */
+================================================== */
 
 .dashboard-dosen-header {
 
@@ -199,39 +220,45 @@ $query_jadwal = mysqli_query($conn, "
 }
 
 
-/* =========================================
+/* ==================================================
    CARD
-========================================= */
+================================================== */
+
+.dashboard-dosen-card {
+
+    display: grid;
+
+    grid-template-columns: 300px;
+
+    margin-bottom: 25px;
+
+}
 
 .dosen-card {
 
-    background: white;
-
-    border: 1px solid #e5e7eb;
+    background: #ffffff;
 
     border-radius: 14px;
 
-    padding: 22px;
+    padding: 20px;
 
     box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+
+    border: 1px solid #e5e7eb;
 
     display: flex;
 
     align-items: center;
 
-    gap: 18px;
-
-    margin-bottom: 25px;
-
-    max-width: 350px;
+    gap: 15px;
 
 }
 
 .dosen-card-icon {
 
-    width: 55px;
+    width: 52px;
 
-    height: 55px;
+    height: 52px;
 
     border-radius: 12px;
 
@@ -245,56 +272,77 @@ $query_jadwal = mysqli_query($conn, "
 
     justify-content: center;
 
-    font-size: 25px;
+    font-size: 23px;
+
+    flex-shrink: 0;
+
+}
+
+.dosen-card-content {
+
+    min-width: 0;
 
 }
 
 .dosen-card-label {
 
+    font-size: 13px;
+
     color: #64748b;
 
-    font-size: 13px;
+    margin-bottom: 4px;
 
 }
 
 .dosen-card-number {
 
-    color: #1e293b;
-
     font-size: 25px;
 
     font-weight: 700;
 
+    color: #1e293b;
+
 }
 
 
-/* =========================================
-   JADWAL
-========================================= */
+/* ==================================================
+   JADWAL BOX
+================================================== */
 
-.jadwal-dosen-box {
+.schedule-box-dosen {
 
-    background: white;
-
-    border: 1px solid #e5e7eb;
+    background: #ffffff;
 
     border-radius: 14px;
 
     box-shadow: 0 4px 15px rgba(0,0,0,0.07);
 
+    border: 1px solid #e5e7eb;
+
     overflow: hidden;
 
 }
 
-.jadwal-dosen-header {
+
+/* ==================================================
+   HEADER JADWAL
+================================================== */
+
+.schedule-header-dosen {
 
     padding: 18px 20px;
 
     border-bottom: 1px solid #e5e7eb;
 
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
 }
 
-.jadwal-dosen-header h3 {
+.schedule-header-dosen h3 {
 
     margin: 0;
 
@@ -304,7 +352,12 @@ $query_jadwal = mysqli_query($conn, "
 
 }
 
-.jadwal-dosen-body {
+
+/* ==================================================
+   BODY JADWAL
+================================================== */
+
+.schedule-body-dosen {
 
     padding: 20px;
 
@@ -312,49 +365,129 @@ $query_jadwal = mysqli_query($conn, "
 
 }
 
-.jadwal-dosen-table {
+
+/* ==================================================
+   TABLE JADWAL
+================================================== */
+
+.schedule-table-dosen {
 
     width: 100%;
 
     border-collapse: collapse;
 
-    min-width: 800px;
+    min-width: 900px;
 
     font-size: 13px;
 
 }
 
-.jadwal-dosen-table th {
+.schedule-table-dosen th {
 
     background: #1e293b;
 
     color: white;
 
-    padding: 12px;
+    padding: 12px 10px;
 
     border: 1px solid #334155;
 
+    white-space: nowrap;
+
 }
 
-.jadwal-dosen-table td {
-
-    padding: 11px;
+.schedule-table-dosen td {
 
     border: 1px solid #e5e7eb;
 
+    padding: 10px;
+
     text-align: center;
+
+    vertical-align: middle;
 
 }
 
-.jadwal-dosen-table tbody tr:hover {
+
+/* ==================================================
+   HARI
+================================================== */
+
+.schedule-table-dosen .hari {
 
     background: #f8fafc;
 
+    font-weight: 700;
+
+    color: #334155;
+
+    min-width: 100px;
+
 }
 
-.tidak-ada {
 
-    text-align: center;
+/* ==================================================
+   JAM
+================================================== */
+
+.schedule-table-dosen .jam {
+
+    background: #f8fafc;
+
+    white-space: nowrap;
+
+    font-weight: 500;
+
+    min-width: 120px;
+
+}
+
+
+/* ==================================================
+   JADWAL CELL
+================================================== */
+
+.jadwal-cell-dosen {
+
+    color: white;
+
+    border-radius: 5px;
+
+    padding: 8px !important;
+
+}
+
+.jadwal-cell-dosen b {
+
+    font-size: 12px;
+
+}
+
+.jadwal-cell-dosen small {
+
+    font-size: 11px;
+
+}
+
+
+/* ==================================================
+   CELL KOSONG
+================================================== */
+
+.cell-kosong-dosen {
+
+    color: #94a3b8;
+
+    background: #ffffff;
+
+}
+
+
+/* ==================================================
+   PESAN BELUM ADA JADWAL
+================================================== */
+
+.belum-ada-jadwal {
 
     padding: 30px !important;
 
@@ -363,9 +496,9 @@ $query_jadwal = mysqli_query($conn, "
 }
 
 
-/* =========================================
+/* ==================================================
    RESPONSIVE
-========================================= */
+================================================== */
 
 @media (max-width: 768px) {
 
@@ -381,6 +514,16 @@ $query_jadwal = mysqli_query($conn, "
 
     }
 
+    .schedule-header-dosen {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 10px;
+
+    }
+
 }
 
 </style>
@@ -389,178 +532,542 @@ $query_jadwal = mysqli_query($conn, "
 <div class="dashboard-dosen">
 
 
-    <!-- =====================================
+    <!-- ==================================================
          HEADER
-    ====================================== -->
+    ================================================== -->
 
     <div class="dashboard-dosen-header">
 
         <h2>
+
             Dashboard Dosen
+
         </h2>
 
         <p>
-            Selamat datang, <strong><?= htmlspecialchars($nama_dosen); ?></strong>.
-            Berikut jadwal perkuliahan Anda.
+
+            Selamat datang,
+
+            <strong>
+
+                <?= htmlspecialchars($nama_dosen); ?>
+
+            </strong>
+
         </p>
 
     </div>
 
 
-    <!-- =====================================
-         CARD JUMLAH JADWAL
-    ====================================== -->
+    <!-- ==================================================
+         CARD
+    ================================================== -->
 
-    <div class="dosen-card">
+    <div class="dashboard-dosen-card">
 
-        <div class="dosen-card-icon">
 
-            📅
+        <div class="dosen-card">
 
-        </div>
 
-        <div>
+            <div class="dosen-card-icon">
 
-            <div class="dosen-card-label">
-
-                Jumlah Jadwal Mengajar
+                📅
 
             </div>
 
-            <div class="dosen-card-number">
 
-                <?= $jumlah_jadwal; ?>
+            <div class="dosen-card-content">
+
+                <div class="dosen-card-label">
+
+                    Jumlah Jadwal Mengajar
+
+                </div>
+
+
+                <div class="dosen-card-number">
+
+                    <?= $jumlah_jadwal; ?>
+
+                </div>
 
             </div>
 
+
         </div>
+
 
     </div>
 
 
-    <!-- =====================================
-         JADWAL DOSEN
-    ====================================== -->
+    <!-- ==================================================
+         JADWAL PERKULIAHAN
+    ================================================== -->
 
-    <div class="jadwal-dosen-box">
+    <div class="schedule-box-dosen">
 
 
-        <div class="jadwal-dosen-header">
+        <div class="schedule-header-dosen">
 
             <h3>
 
-                Jadwal Perkuliahan Saya
+                Jadwal Perkuliahan
 
             </h3>
 
         </div>
 
 
-        <div class="jadwal-dosen-body">
+        <div class="schedule-body-dosen">
 
 
-            <table class="jadwal-dosen-table">
+            <table class="schedule-table-dosen">
 
+
+                <!-- ==================================================
+                     HEADER TABLE
+                ================================================== -->
 
                 <thead>
 
                     <tr>
 
-                        <th>No</th>
 
-                        <th>Hari</th>
+                        <th width="120">
 
-                        <th>Jam</th>
+                            Hari
 
-                        <th>Kelas</th>
+                        </th>
 
-                        <th>Kode MK</th>
 
-                        <th>Mata Kuliah</th>
+                        <th width="120">
 
-                        <th>Ruangan</th>
+                            Waktu
+
+                        </th>
+
+
+                        <?php
+
+                        /*
+                        ==============================================
+                        HEADER RUANGAN
+                        ==============================================
+                        */
+
+                        if ($data_ruangan) {
+
+                            while ($ruang_header = mysqli_fetch_assoc($data_ruangan)) {
+
+                        ?>
+
+                            <th>
+
+                                <?= htmlspecialchars(
+                                    $ruang_header['nama_ruangan']
+                                ); ?>
+
+                            </th>
+
+                        <?php
+
+                            }
+
+                        }
+
+                        ?>
 
                     </tr>
 
                 </thead>
 
 
+                <!-- ==================================================
+                     BODY TABLE
+                ================================================== -->
+
                 <tbody>
 
-                    <?php
 
-                    if ($query_jadwal && mysqli_num_rows($query_jadwal) > 0) {
+                <?php
 
-                        $no = 1;
 
-                        while ($row = mysqli_fetch_assoc($query_jadwal)) {
+                /*
+                ======================================================
+                CEK APAKAH DOSEN PUNYA JADWAL
+                ======================================================
+                */
 
-                    ?>
+                if ($jumlah_jadwal == 0) {
 
-                            <tr>
+                ?>
 
-                                <td>
-                                    <?= $no++; ?>
-                                </td>
+                    <tr>
 
-                                <td>
-                                    <?= htmlspecialchars($row['nama_hari']); ?>
-                                </td>
+                        <td
+                            colspan="100"
+                            class="belum-ada-jadwal"
+                        >
 
-                                <td>
+                            Belum ada jadwal mengajar untuk Anda.
 
-                                    <?= substr($row['jam_mulai'], 0, 5); ?>
+                        </td>
 
-                                    -
+                    </tr>
 
-                                    <?= substr($row['jam_selesai'], 0, 5); ?>
+                <?php
 
-                                </td>
+                } else {
 
-                                <td>
-                                    <?= htmlspecialchars($row['nama_kelas']); ?>
-                                </td>
 
-                                <td>
-                                    <?= htmlspecialchars($row['kode_mk']); ?>
-                                </td>
+                    /*
+                    ==================================================
+                    LOOP HARI
+                    ==================================================
+                    */
 
-                                <td>
-                                    <?= htmlspecialchars($row['nama_mk']); ?>
-                                </td>
+                    if ($data_hari) {
 
-                                <td>
-                                    <?= htmlspecialchars($row['nama_ruangan']); ?>
-                                </td>
+                        while ($hari = mysqli_fetch_assoc($data_hari)) {
 
-                            </tr>
 
-                    <?php
+                            /*
+                            ==========================================
+                            AMBIL JAM UNTUK SETIAP HARI
+                            ==========================================
+                            */
+
+                            $data_jam_hari = mysqli_query($conn, "
+
+                                SELECT *
+
+                                FROM jam_kuliah
+
+                                ORDER BY id_jam ASC
+
+                            ");
+
+
+                            $jumlah_jam_hari = mysqli_num_rows(
+                                $data_jam_hari
+                            );
+
+
+                            $first = true;
+
+
+                            /*
+                            ==========================================
+                            LOOP JAM
+                            ==========================================
+                            */
+
+                            while ($jam = mysqli_fetch_assoc(
+                                $data_jam_hari
+                            )) {
+
+                ?>
+
+                                <tr>
+
+
+                                    <?php
+
+                                    /*
+                                    ==================================
+                                    NAMA HARI
+                                    ==================================
+                                    */
+
+                                    if ($first) {
+
+                                    ?>
+
+                                        <td
+
+                                            rowspan="<?= $jumlah_jam_hari; ?>"
+
+                                            class="hari"
+
+                                        >
+
+                                            <?= htmlspecialchars(
+                                                $hari['nama_hari']
+                                            ); ?>
+
+                                        </td>
+
+                                    <?php
+
+                                        $first = false;
+
+                                    }
+
+                                    ?>
+
+
+                                    <!-- ==============================
+                                         JAM
+                                    =============================== -->
+
+                                    <td class="jam">
+
+                                        <?= htmlspecialchars(
+                                            substr(
+                                                $jam['jam_mulai'],
+                                                0,
+                                                5
+                                            )
+                                        ); ?>
+
+                                        -
+
+                                        <?= htmlspecialchars(
+                                            substr(
+                                                $jam['jam_selesai'],
+                                                0,
+                                                5
+                                            )
+                                        ); ?>
+
+                                    </td>
+
+
+                                    <?php
+
+
+                                    /*
+                                    ==================================
+                                    RUANGAN
+                                    ==================================
+                                    */
+
+                                    $data_ruangan2 = mysqli_query(
+                                        $conn,
+                                        "
+
+                                        SELECT *
+
+                                        FROM ruangan
+
+                                        ORDER BY id_ruangan ASC
+
+                                        "
+                                    );
+
+
+                                    while (
+                                        $ruang = mysqli_fetch_assoc(
+                                            $data_ruangan2
+                                        )
+                                    ) {
+
+
+                                        $id_hari =
+                                            $hari['id_hari'];
+
+                                        $id_jam =
+                                            $jam['id_jam'];
+
+                                        $id_ruangan =
+                                            $ruang['id_ruangan'];
+
+
+                                        /*
+                                        ==================================
+                                        CARI JADWAL DOSEN
+                                        ==================================
+                                        */
+
+                                        $query_jadwal = mysqli_query(
+                                            $conn,
+                                            "
+
+                                            SELECT
+
+                                                mk.nama_mk,
+
+                                                mk.kode_mk,
+
+                                                k.nama_kelas,
+
+                                                d.nama_dosen
+
+                                            FROM jadwal j
+
+                                            JOIN dosen_mk dm
+
+                                                ON j.id_dosen_mk = dm.id
+
+                                            JOIN mata_kuliah mk
+
+                                                ON dm.id_mk = mk.id_mk
+
+                                            JOIN kelas k
+
+                                                ON dm.id_kelas = k.id_kelas
+
+                                            JOIN dosen d
+
+                                                ON dm.id_dosen = d.id_dosen
+
+                                            WHERE
+
+                                                j.id_hari = '$id_hari'
+
+                                                AND j.id_jam = '$id_jam'
+
+                                                AND j.id_ruangan = '$id_ruangan'
+
+                                                AND dm.id_dosen = '$id_dosen'
+
+                                            LIMIT 1
+
+                                            "
+                                        );
+
+
+                                        /*
+                                        ==================================
+                                        ADA JADWAL
+                                        ==================================
+                                        */
+
+                                        if (
+                                            $query_jadwal &&
+                                            mysqli_num_rows(
+                                                $query_jadwal
+                                            ) > 0
+                                        ) {
+
+
+                                            $data = mysqli_fetch_assoc(
+                                                $query_jadwal
+                                            );
+
+
+                                            $nama_mk =
+                                                $data['nama_mk'];
+
+
+                                            /*
+                                            ==================================
+                                            WARNA MATA KULIAH
+                                            ==================================
+                                            */
+
+                                            if (
+                                                !isset(
+                                                    $warna_mk[$nama_mk]
+                                                )
+                                            ) {
+
+                                                $warna_mk[$nama_mk] =
+
+                                                    $daftar_warna[
+                                                        $index_warna %
+                                                        count(
+                                                            $daftar_warna
+                                                        )
+                                                    ];
+
+                                                $index_warna++;
+
+                                            }
+
+
+                                            $warna =
+                                                $warna_mk[$nama_mk];
+
+                                    ?>
+
+                                            <td
+
+                                                class="jadwal-cell-dosen"
+
+                                                style="
+                                                    background-color:
+                                                    <?= $warna; ?>;
+                                                "
+
+                                            >
+
+                                                <b>
+
+                                                    <?= htmlspecialchars(
+                                                        $data['nama_mk']
+                                                    ); ?>
+
+                                                </b>
+
+
+                                                <br>
+
+
+                                                <small>
+
+                                                    <?= htmlspecialchars(
+                                                        $data['kode_mk']
+                                                    ); ?>
+
+                                                </small>
+
+
+                                                <br>
+
+
+                                                <small>
+
+                                                    Kelas:
+
+                                                    <?= htmlspecialchars(
+                                                        $data['nama_kelas']
+                                                    ); ?>
+
+                                                </small>
+
+
+                                            </td>
+
+
+                                    <?php
+
+                                        } else {
+
+                                    ?>
+
+
+                                            <td class="cell-kosong-dosen">
+
+                                                -
+
+                                            </td>
+
+
+                                    <?php
+
+                                        }
+
+                                    }
+
+
+                                    ?>
+
+                                </tr>
+
+
+                <?php
+
+                            }
 
                         }
 
-                    } else {
-
-                    ?>
-
-                        <tr>
-
-                            <td
-                                colspan="7"
-                                class="tidak-ada"
-                            >
-
-                                Belum ada jadwal mengajar.
-
-                            </td>
-
-                        </tr>
-
-                    <?php
-
                     }
 
-                    ?>
+                }
+
+                ?>
+
 
                 </tbody>
 
@@ -569,6 +1076,7 @@ $query_jadwal = mysqli_query($conn, "
 
 
         </div>
+
 
     </div>
 
