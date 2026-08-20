@@ -12,7 +12,7 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
 
 /*
 ==================================================
-CEK POSISI HALAMAN
+DAFTAR FOLDER ADMIN
 ==================================================
 */
 
@@ -27,7 +27,14 @@ $folder_admin = [
     'jadwal'
 ];
 
-$is_root = ($current_folder === basename(__DIR__));
+
+/*
+==================================================
+CEK ROOT PROJECT
+==================================================
+*/
+
+$is_root = !in_array($current_folder, $folder_admin);
 
 
 /*
@@ -41,10 +48,14 @@ function admin_url($folder)
     global $is_root;
 
     if ($is_root) {
-        return $folder . "/index.php";
-    }
 
-    return "../" . $folder . "/index.php";
+        return $folder . "/index.php";
+
+    } else {
+
+        return "../" . $folder . "/index.php";
+
+    }
 }
 
 
@@ -64,24 +75,8 @@ if ($is_root) {
 
 }
 
-
-/*
-==================================================
-URL LOGOUT
-==================================================
-*/
-
-if ($is_root) {
-
-    $logout_url = "auth/logout.php";
-
-} else {
-
-    $logout_url = "../auth/logout.php";
-
-}
-
 ?>
+
 
 <style>
 
@@ -370,7 +365,7 @@ if ($is_root) {
 
 
         <!-- =================================
-             DATA DOSEN
+             DOSEN
         ================================== -->
 
         <a
@@ -501,7 +496,7 @@ if ($is_root) {
 
         <div class="sidebar-admin-title">
 
-            Penjadwalan
+            Jadwal
 
         </div>
 
@@ -529,10 +524,21 @@ if ($is_root) {
 
     <div class="sidebar-admin-footer">
 
-        <a
-            href="<?= $logout_url; ?>"
-            onclick="return confirm('Yakin ingin logout?')"
-        >
+        <?php if ($is_root) { ?>
+
+            <a
+                href="auth/logout.php"
+                onclick="return confirm('Yakin ingin logout?')"
+            >
+
+        <?php } else { ?>
+
+            <a
+                href="../auth/logout.php"
+                onclick="return confirm('Yakin ingin logout?')"
+            >
+
+        <?php } ?>
 
             <i class="bi bi-box-arrow-right"></i>
 
