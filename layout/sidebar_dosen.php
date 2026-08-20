@@ -12,76 +12,34 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
 
 /*
 ==================================================
-CEK ROOT PROJECT
+CEK ROOT
 ==================================================
 */
 
 $folder_dosen = [
-    'jadwal'
+    'jadwal_dosen'
 ];
-
-
-/*
-==================================================
-TENTUKAN POSISI
-==================================================
-*/
 
 $is_root = !in_array($current_folder, $folder_dosen);
 
 
 /*
 ==================================================
-FUNGSI URL
-==================================================
-*/
-
-function dosen_url($folder, $page = 'index.php')
-{
-    global $is_root;
-
-    if ($is_root) {
-
-        return $folder . "/" . $page;
-
-    } else {
-
-        return "../" . $folder . "/" . $page;
-
-    }
-}
-
-
-/*
-==================================================
-URL DASHBOARD
+URL
 ==================================================
 */
 
 if ($is_root) {
 
     $dashboard_url = "dashboard_dosen.php";
+    $jadwal_url    = "jadwal_dosen/index.php";
+    $logout_url    = "auth/logout.php";
 
 } else {
 
     $dashboard_url = "../dashboard_dosen.php";
-
-}
-
-
-/*
-==================================================
-URL LOGOUT
-==================================================
-*/
-
-if ($is_root) {
-
-    $logout_url = "auth/logout.php";
-
-} else {
-
-    $logout_url = "../auth/logout.php";
+    $jadwal_url    = "../jadwal_dosen/index.php";
+    $logout_url    = "../auth/logout.php";
 
 }
 
@@ -96,25 +54,20 @@ if ($is_root) {
 .sidebar-dosen {
 
     width: 250px;
-
     min-height: 100vh;
 
     background: #1e293b;
-
     color: white;
 
     position: fixed;
 
     top: 0;
-
     left: 0;
 
     z-index: 1000;
 
     display: flex;
-
     flex-direction: column;
-
 }
 
 
@@ -127,7 +80,6 @@ if ($is_root) {
     height: 70px;
 
     display: flex;
-
     align-items: center;
 
     padding: 0 20px;
@@ -135,7 +87,6 @@ if ($is_root) {
     border-bottom: 1px solid #334155;
 
 }
-
 
 .sidebar-dosen-header h4 {
 
@@ -164,7 +115,6 @@ if ($is_root) {
 
 }
 
-
 .sidebar-dosen-menu a {
 
     display: flex;
@@ -189,20 +139,16 @@ if ($is_root) {
 
 }
 
-
 .sidebar-dosen-menu a:hover {
 
     background: #334155;
-
     color: white;
 
 }
 
-
 .sidebar-dosen-menu a.active {
 
     background: #2563eb;
-
     color: white;
 
 }
@@ -224,7 +170,7 @@ if ($is_root) {
 
 
 /* =========================================
-   JUDUL MENU
+   JUDUL
 ========================================= */
 
 .sidebar-dosen-title {
@@ -254,7 +200,6 @@ if ($is_root) {
 
 }
 
-
 .sidebar-dosen-footer a {
 
     display: flex;
@@ -277,11 +222,9 @@ if ($is_root) {
 
 }
 
-
 .sidebar-dosen-footer a:hover {
 
     background: #450a0a;
-
     color: #fecaca;
 
 }
@@ -312,7 +255,6 @@ if ($is_root) {
 
     }
 
-
     .main-content {
 
         margin-left: 220px;
@@ -331,9 +273,7 @@ if ($is_root) {
 <div class="sidebar-dosen">
 
 
-    <!-- =====================================
-         HEADER
-    ====================================== -->
+    <!-- HEADER -->
 
     <div class="sidebar-dosen-header">
 
@@ -344,16 +284,12 @@ if ($is_root) {
     </div>
 
 
-    <!-- =====================================
-         MENU
-    ====================================== -->
+    <!-- MENU -->
 
     <div class="sidebar-dosen-menu">
 
 
-        <!-- =================================
-             DASHBOARD
-        ================================== -->
+        <!-- DASHBOARD -->
 
         <a
             href="<?= $dashboard_url; ?>"
@@ -369,9 +305,7 @@ if ($is_root) {
         </a>
 
 
-        <!-- =================================
-             JADWAL
-        ================================== -->
+        <!-- JADWAL -->
 
         <div class="sidebar-dosen-title">
 
@@ -381,8 +315,8 @@ if ($is_root) {
 
 
         <a
-            href="<?= dosen_url('jadwal'); ?>"
-            class="<?= ($current_folder == 'jadwal') ? 'active' : ''; ?>"
+            href="<?= $jadwal_url; ?>"
+            class="<?= ($current_folder == 'jadwal_dosen') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-calendar-week"></i>
@@ -397,9 +331,7 @@ if ($is_root) {
     </div>
 
 
-    <!-- =====================================
-         LOGOUT
-    ====================================== -->
+    <!-- LOGOUT -->
 
     <div class="sidebar-dosen-footer">
 
@@ -422,8 +354,6 @@ if ($is_root) {
 </div>
 
 
-<!-- =========================================
-     MAIN CONTENT
-========================================= -->
+<!-- MAIN CONTENT -->
 
 <div class="main-content">
