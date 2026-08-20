@@ -20,12 +20,41 @@ $folder_dosen = [
     'jadwal'
 ];
 
+
+/*
+==================================================
+TENTUKAN POSISI
+==================================================
+*/
+
 $is_root = !in_array($current_folder, $folder_dosen);
 
 
 /*
 ==================================================
-URL DASHBOARD DOSEN
+FUNGSI URL
+==================================================
+*/
+
+function dosen_url($folder, $page = 'index.php')
+{
+    global $is_root;
+
+    if ($is_root) {
+
+        return $folder . "/" . $page;
+
+    } else {
+
+        return "../" . $folder . "/" . $page;
+
+    }
+}
+
+
+/*
+==================================================
+URL DASHBOARD
 ==================================================
 */
 
@@ -42,17 +71,17 @@ if ($is_root) {
 
 /*
 ==================================================
-URL JADWAL
+URL LOGOUT
 ==================================================
 */
 
 if ($is_root) {
 
-    $jadwal_url = "jadwal/";
+    $logout_url = "auth/logout.php";
 
 } else {
 
-    $jadwal_url = "../jadwal/";
+    $logout_url = "../auth/logout.php";
 
 }
 
@@ -67,19 +96,23 @@ if ($is_root) {
 .sidebar-dosen {
 
     width: 250px;
+
     min-height: 100vh;
 
     background: #1e293b;
+
     color: white;
 
     position: fixed;
 
     top: 0;
+
     left: 0;
 
     z-index: 1000;
 
     display: flex;
+
     flex-direction: column;
 
 }
@@ -102,6 +135,7 @@ if ($is_root) {
     border-bottom: 1px solid #334155;
 
 }
+
 
 .sidebar-dosen-header h4 {
 
@@ -130,6 +164,7 @@ if ($is_root) {
 
 }
 
+
 .sidebar-dosen-menu a {
 
     display: flex;
@@ -154,6 +189,7 @@ if ($is_root) {
 
 }
 
+
 .sidebar-dosen-menu a:hover {
 
     background: #334155;
@@ -161,6 +197,7 @@ if ($is_root) {
     color: white;
 
 }
+
 
 .sidebar-dosen-menu a.active {
 
@@ -217,6 +254,7 @@ if ($is_root) {
 
 }
 
+
 .sidebar-dosen-footer a {
 
     display: flex;
@@ -239,6 +277,7 @@ if ($is_root) {
 
 }
 
+
 .sidebar-dosen-footer a:hover {
 
     background: #450a0a;
@@ -252,7 +291,7 @@ if ($is_root) {
    MAIN CONTENT
 ========================================= */
 
-.main-content-dosen {
+.main-content {
 
     margin-left: 250px;
 
@@ -273,7 +312,8 @@ if ($is_root) {
 
     }
 
-    .main-content-dosen {
+
+    .main-content {
 
         margin-left: 220px;
 
@@ -341,14 +381,14 @@ if ($is_root) {
 
 
         <a
-            href="<?= $jadwal_url; ?>"
+            href="<?= dosen_url('jadwal'); ?>"
             class="<?= ($current_folder == 'jadwal') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-calendar-week"></i>
 
             <span>
-                Jadwal Kuliah
+                Jadwal Saya
             </span>
 
         </a>
@@ -363,21 +403,10 @@ if ($is_root) {
 
     <div class="sidebar-dosen-footer">
 
-        <?php if ($is_root) { ?>
-
-            <a
-                href="auth/logout.php"
-                onclick="return confirm('Yakin ingin logout?')"
-            >
-
-        <?php } else { ?>
-
-            <a
-                href="../auth/logout.php"
-                onclick="return confirm('Yakin ingin logout?')"
-            >
-
-        <?php } ?>
+        <a
+            href="<?= $logout_url; ?>"
+            onclick="return confirm('Yakin ingin logout?')"
+        >
 
             <i class="bi bi-box-arrow-right"></i>
 
@@ -397,4 +426,4 @@ if ($is_root) {
      MAIN CONTENT
 ========================================= -->
 
-<div class="main-content-dosen">
+<div class="main-content">
