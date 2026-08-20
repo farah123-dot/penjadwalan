@@ -8,7 +8,6 @@ include "../layout/sidebar_admin.php";
 
 ?>
 
-
 <div class="container-fluid">
 
     <div class="card shadow">
@@ -17,7 +16,7 @@ include "../layout/sidebar_admin.php";
              HEADER
         ========================================== -->
 
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <div class="card-header bg-primary text-white">
 
             <h4 class="mb-0">
 
@@ -26,17 +25,6 @@ include "../layout/sidebar_admin.php";
                 Jadwal Kuliah
 
             </h4>
-
-
-            <!-- ADMIN HANYA MELIHAT JADWAL -->
-
-            <span class="badge bg-light text-primary">
-
-                <i class="bi bi-eye"></i>
-
-                Mode Lihat
-
-            </span>
 
         </div>
 
@@ -175,7 +163,7 @@ include "../layout/sidebar_admin.php";
 
                     /*
                     ==========================================
-                    CEK DATA
+                    TAMPILKAN DATA
                     ==========================================
                     */
 
@@ -189,7 +177,6 @@ include "../layout/sidebar_admin.php";
                     ?>
 
                         <tr>
-
 
                             <!-- NO -->
 
@@ -282,7 +269,6 @@ include "../layout/sidebar_admin.php";
 
                             </td>
 
-
                         </tr>
 
 
@@ -294,8 +280,9 @@ include "../layout/sidebar_admin.php";
 
                     ?>
 
-
-                        <!-- TIDAK ADA DATA -->
+                        <!-- =================================
+                             BELUM ADA DATA
+                        ================================== -->
 
                         <tr>
 
@@ -311,7 +298,6 @@ include "../layout/sidebar_admin.php";
                             </td>
 
                         </tr>
-
 
                     <?php
 
