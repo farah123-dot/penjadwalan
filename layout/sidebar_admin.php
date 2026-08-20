@@ -23,7 +23,7 @@ $folder_admin = [
     'kelas_dibuka',
     'ruangan',
     'hari',
-    'jam_kuliah',
+    'jam',
     'jadwal'
 ];
 
@@ -39,22 +39,18 @@ $is_root = !in_array($current_folder, $folder_admin);
 
 /*
 ==================================================
-FUNGSI URL ADMIN
+FUNGSI URL MENU
 ==================================================
 */
 
-function admin_url($folder)
+function admin_url($folder, $page = 'index.php')
 {
     global $is_root;
 
     if ($is_root) {
-
-        return $folder . "/index.php";
-
+        return $folder . "/" . $page;
     } else {
-
-        return "../" . $folder . "/index.php";
-
+        return "../" . $folder . "/" . $page;
     }
 }
 
@@ -77,7 +73,6 @@ if ($is_root) {
 
 ?>
 
-
 <style>
 
 /* =========================================
@@ -87,25 +82,20 @@ if ($is_root) {
 .sidebar-admin {
 
     width: 250px;
-
     min-height: 100vh;
 
     background: #1e293b;
-
     color: white;
 
     position: fixed;
 
     top: 0;
-
     left: 0;
 
     z-index: 1000;
 
     display: flex;
-
     flex-direction: column;
-
 }
 
 
@@ -118,13 +108,11 @@ if ($is_root) {
     height: 70px;
 
     display: flex;
-
     align-items: center;
 
     padding: 0 20px;
 
     border-bottom: 1px solid #334155;
-
 }
 
 .sidebar-admin-header h4 {
@@ -136,7 +124,6 @@ if ($is_root) {
     font-weight: 700;
 
     color: white;
-
 }
 
 
@@ -151,7 +138,6 @@ if ($is_root) {
     flex: 1;
 
     overflow-y: auto;
-
 }
 
 .sidebar-admin-menu a {
@@ -175,7 +161,6 @@ if ($is_root) {
     font-size: 14px;
 
     transition: 0.2s ease;
-
 }
 
 .sidebar-admin-menu a:hover {
@@ -183,7 +168,6 @@ if ($is_root) {
     background: #334155;
 
     color: white;
-
 }
 
 .sidebar-admin-menu a.active {
@@ -191,7 +175,6 @@ if ($is_root) {
     background: #2563eb;
 
     color: white;
-
 }
 
 
@@ -206,7 +189,6 @@ if ($is_root) {
     text-align: center;
 
     font-size: 16px;
-
 }
 
 
@@ -225,7 +207,6 @@ if ($is_root) {
     padding: 15px 14px 7px;
 
     text-transform: uppercase;
-
 }
 
 
@@ -238,7 +219,6 @@ if ($is_root) {
     padding: 10px;
 
     border-top: 1px solid #334155;
-
 }
 
 .sidebar-admin-footer a {
@@ -260,7 +240,6 @@ if ($is_root) {
     font-size: 14px;
 
     transition: 0.2s ease;
-
 }
 
 .sidebar-admin-footer a:hover {
@@ -268,7 +247,6 @@ if ($is_root) {
     background: #450a0a;
 
     color: #fecaca;
-
 }
 
 
@@ -281,7 +259,6 @@ if ($is_root) {
     margin-left: 250px;
 
     min-height: 100vh;
-
 }
 
 
@@ -315,9 +292,7 @@ if ($is_root) {
 <div class="sidebar-admin">
 
 
-    <!-- =====================================
-         HEADER
-    ====================================== -->
+    <!-- HEADER -->
 
     <div class="sidebar-admin-header">
 
@@ -328,9 +303,7 @@ if ($is_root) {
     </div>
 
 
-    <!-- =====================================
-         MENU
-    ====================================== -->
+    <!-- MENU -->
 
     <div class="sidebar-admin-menu">
 
@@ -364,9 +337,7 @@ if ($is_root) {
         </div>
 
 
-        <!-- =================================
-             DOSEN
-        ================================== -->
+        <!-- DOSEN -->
 
         <a
             href="<?= admin_url('dosen'); ?>"
@@ -382,9 +353,7 @@ if ($is_root) {
         </a>
 
 
-        <!-- =================================
-             MATA KULIAH
-        ================================== -->
+        <!-- MATA KULIAH -->
 
         <a
             href="<?= admin_url('mata_kuliah'); ?>"
@@ -400,9 +369,7 @@ if ($is_root) {
         </a>
 
 
-        <!-- =================================
-             KELAS
-        ================================== -->
+        <!-- KELAS -->
 
         <a
             href="<?= admin_url('kelas'); ?>"
@@ -418,9 +385,7 @@ if ($is_root) {
         </a>
 
 
-        <!-- =================================
-             KELAS DIBUKA
-        ================================== -->
+        <!-- KELAS DIBUKA -->
 
         <a
             href="<?= admin_url('kelas_dibuka'); ?>"
@@ -436,9 +401,7 @@ if ($is_root) {
         </a>
 
 
-        <!-- =================================
-             RUANGAN
-        ================================== -->
+        <!-- RUANGAN -->
 
         <a
             href="<?= admin_url('ruangan'); ?>"
@@ -454,9 +417,7 @@ if ($is_root) {
         </a>
 
 
-        <!-- =================================
-             HARI
-        ================================== -->
+        <!-- HARI -->
 
         <a
             href="<?= admin_url('hari'); ?>"
@@ -473,12 +434,12 @@ if ($is_root) {
 
 
         <!-- =================================
-             SESI / JAM KULIAH
+             JAM KULIAH
         ================================== -->
 
         <a
-            href="<?= admin_url('jam_kuliah'); ?>"
-            class="<?= ($current_folder == 'jam_kuliah') ? 'active' : ''; ?>"
+            href="<?= admin_url('jam'); ?>"
+            class="<?= ($current_folder == 'jam') ? 'active' : ''; ?>"
         >
 
             <i class="bi bi-clock"></i>
@@ -549,7 +510,6 @@ if ($is_root) {
         </a>
 
     </div>
-
 
 </div>
 
