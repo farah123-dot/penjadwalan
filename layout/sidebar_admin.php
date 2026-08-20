@@ -12,24 +12,8 @@ $current_folder = basename(dirname($_SERVER['PHP_SELF']));
 
 /*
 ==================================================
-CEK APAKAH SEDANG DI ROOT PROJECT
+CEK POSISI HALAMAN
 ==================================================
-
-Dashboard admin berada di:
-
-dashboard_admin.php
-
-Sedangkan menu lain berada di folder:
-
-dosen/
-mata_kuliah/
-kelas/
-kelas_dibuka/
-ruangan/
-hari/
-jam_kuliah/
-jadwal/
-
 */
 
 $folder_admin = [
@@ -43,28 +27,24 @@ $folder_admin = [
     'jadwal'
 ];
 
-$is_root = !in_array($current_folder, $folder_admin);
+$is_root = ($current_folder === basename(__DIR__));
 
 
 /*
 ==================================================
-FUNGSI URL
+FUNGSI URL ADMIN
 ==================================================
 */
 
-function admin_url($folder, $page = 'index.php')
+function admin_url($folder)
 {
     global $is_root;
 
     if ($is_root) {
-
-        return $folder . "/" . $page;
-
-    } else {
-
-        return "../" . $folder . "/" . $page;
-
+        return $folder . "/index.php";
     }
+
+    return "../" . $folder . "/index.php";
 }
 
 
@@ -81,6 +61,23 @@ if ($is_root) {
 } else {
 
     $dashboard_url = "../dashboard_admin.php";
+
+}
+
+
+/*
+==================================================
+URL LOGOUT
+==================================================
+*/
+
+if ($is_root) {
+
+    $logout_url = "auth/logout.php";
+
+} else {
+
+    $logout_url = "../auth/logout.php";
 
 }
 
@@ -219,7 +216,7 @@ if ($is_root) {
 
 
 /* =========================================
-   JUDUL
+   JUDUL MENU
 ========================================= */
 
 .sidebar-admin-title {
@@ -373,7 +370,7 @@ if ($is_root) {
 
 
         <!-- =================================
-             DOSEN
+             DATA DOSEN
         ================================== -->
 
         <a
@@ -504,7 +501,7 @@ if ($is_root) {
 
         <div class="sidebar-admin-title">
 
-            Jadwal
+            Penjadwalan
 
         </div>
 
@@ -532,21 +529,10 @@ if ($is_root) {
 
     <div class="sidebar-admin-footer">
 
-        <?php if ($is_root) { ?>
-
-            <a
-                href="auth/logout.php"
-                onclick="return confirm('Yakin ingin logout?')"
-            >
-
-        <?php } else { ?>
-
-            <a
-                href="../auth/logout.php"
-                onclick="return confirm('Yakin ingin logout?')"
-            >
-
-        <?php } ?>
+        <a
+            href="<?= $logout_url; ?>"
+            onclick="return confirm('Yakin ingin logout?')"
+        >
 
             <i class="bi bi-box-arrow-right"></i>
 
